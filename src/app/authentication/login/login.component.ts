@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 import { env } from 'src/environments/environment';
 
 @Component({
@@ -13,7 +14,7 @@ export class LoginComponent {
   user: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient, private cookie: CookieService) {}
+  constructor(private http: HttpClient, private cookie: CookieService, private toastr: ToastrService) {}
 
   login(user: string, password: string) {
     this.http.post(
@@ -25,7 +26,7 @@ export class LoginComponent {
         location.pathname = '/user/perfil'
       },
       error: (error) => {
-        console.error(error)
+        this.toastr.error(error.error, 'Erro!');
       }
     });
   }

@@ -22,10 +22,11 @@ import { UserComponent } from './user/user.component';
 import { PresentationComponent } from './presentation/presentation.component';
 import { SchedulesComponent } from './user/schedules/schedules.component';
 import { DoctorComponent } from './doctor/doctor.component';
-import { PerfilComponent } from './user/perfil/perfil.component';
+import { PerfilComponent } from './shared/perfil/perfil.component';
 import { ManagementComponent } from './doctor/management/management.component';
 import { PrescriptionsComponent } from './user/prescriptions/prescriptions.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { InterceptorModule } from './interceptors/interceptor.module';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
       preventDuplicates: true,
     }),
     PdfViewerModule,
+    InterceptorModule
   ],
   providers: [
     CookieService

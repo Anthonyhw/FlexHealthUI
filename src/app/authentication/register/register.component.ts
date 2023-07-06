@@ -4,7 +4,7 @@ import { ValidatorField } from '../../../helpers/validatorField'
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { env } from 'src/environments/environment';
-import { Register } from 'src/models/register.model';
+import { User } from 'src/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -156,12 +156,13 @@ export class RegisterComponent {
   }
 
   onSubmit() {
+    debugger
     if (this.form.invalid) {
       this.toastr.error('Verifique os campos preenchidos.', 'Erro');
       return;
     }
 
-    const register = new Register({
+    const register = new User({
       userName: this.f.email.value,
       nome: this.f.nome.value,
       genero: this.f.genero.value,
@@ -185,8 +186,6 @@ export class RegisterComponent {
             this.toastr.error('Este Cpf já foi utilizado para cadastro!', 'Erro!');
           else if (error.error.includes('RG'))
             this.toastr.error('Este Rg já foi utilizado para cadastro!', 'Erro!');
-        
-            
       }
     })
   }

@@ -7,7 +7,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { PresentationComponent } from './presentation/presentation.component';
 import { SchedulesComponent } from './user/schedules/schedules.component';
 import { DoctorComponent } from './doctor/doctor.component';
-import { PerfilComponent } from './user/perfil/perfil.component';
+import { PerfilComponent } from './shared/perfil/perfil.component';
 import { ManagementComponent } from './doctor/management/management.component';
 import { PrescriptionsComponent } from './user/prescriptions/prescriptions.component';
 
