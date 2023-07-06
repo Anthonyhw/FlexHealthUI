@@ -1,0 +1,35 @@
+*{
+    font-family: 'Roboto', sans-serif;
+    font-weight:bold;
+    text-align: center;
+    
+}
+
+#FlexHealth {
+    font-size:40px;
+    font-family: 'Courgette', cursive;
+}
+
+.navbar {
+    max-height: 78px;
+}
+
+.item {
+    margin-left: 15px;
+}
+
+#options {
+    margin-left: -42px;
+}
+@media (max-width: 990px) {
+    #options {
+        margin-left: 0;
+    }
+  }
+
+  a {
+    color: white;
+  }
+  .ditem {
+    color:black
+  }

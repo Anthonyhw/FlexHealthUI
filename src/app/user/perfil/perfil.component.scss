@@ -1,0 +1,21 @@
+.margem {
+    padding-top: 78px;
+}
+
+.showpassword {
+    position: absolute;
+    margin-left: 18%;
+    margin-top: -25px;
+}
+
+@media (max-width: 800px) {
+    .margem {
+      padding-top: 900px;
+    }
+
+    .showpassword {
+        position: absolute;
+        margin-left: 60%;
+        margin-top: -25px;
+    }
+}

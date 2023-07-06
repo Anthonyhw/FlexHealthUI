@@ -1,0 +1,205 @@
+<div class="container-fluid vh-100 d-flex margem align-items-center">
+    <div class="">
+        <div class="container-fluid p-2  ">
+            <div class="row">
+                <div class="col align-items-center  ">
+                    <div class="row  ">
+                        <div class="col   p-3">
+                            <div class="row border m-0 bg-light bg-gradient rounded d-flex align-items-center ">
+                                <div class="col">
+                                    <div class="row information">Jorge Anfisa</div>
+                                    <div class="row information">CRM: 123456/SP</div>
+                                    <div class="row information">Especialidade: Cardiologia</div>
+                                    <br>
+                                    <div class="row information">Consultório 1</div>
+                                    <div class="row information">Rua do Consultório 1 - 1560</div>
+                                    <div class="row information">Bairro x - 01001-001</div>
+                                    <div class="row information">Telefone: (11) 91234-5678</div>
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <img width="220px" class="img-fluid"
+                                        src="https://goadmedia.com.br/wp-content/uploads/2015/11/c%C3%B3pia-de-GustavoReis3x4-354x450.jpg"
+                                        alt="">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row border rounded bg-light bg-gradient d-flex justify-content-center">
+                                <h2 class="d-flex h-100 align-items-center justify-content-center mb-3">Escolha uma data
+                                    / Range de
+                                    Datas</h2>
+                                <br>
+                                <div class="pr-3 pb-3 pe-3 w-auto">
+                                    <bs-daterangepicker-inline (bsValueChange)="changeValue($event)" [minDate]="today"
+                                        [daysDisabled]="weekDays">
+                                    </bs-daterangepicker-inline>
+                                </div>
+                                <h5 class="d-flex justify-content-center">Desabilitar dias da Semana</h5>
+                                <div class="btn-group px-5 pb-3" role="group" aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
+                                        value="0" [checked]="true" (change)="changeWeekDays($event, 0)">
+                                    <label class="btn btn-outline-primary border" for="btncheck1">Domingo</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
+                                        [checked]="true" value="1" (change)="changeWeekDays($event, 1)">
+                                    <label class="btn btn-outline-primary border" for="btncheck2">Segunda</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off"
+                                        [checked]="true" value="2" (change)="changeWeekDays($event, 2)">
+                                    <label class="btn btn-outline-primary border" for="btncheck3">Terça</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off"
+                                        [checked]="true" value="3" (change)="changeWeekDays($event, 3)">
+                                    <label class="btn btn-outline-primary border" for="btncheck4">Quarta</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off"
+                                        [checked]="true" value="4" (change)="changeWeekDays($event, 4)">
+                                    <label class="btn btn-outline-primary border" for="btncheck5">Quinta</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off"
+                                        [checked]="true" value="5" (change)="changeWeekDays($event, 5)">
+                                    <label class="btn btn-outline-primary border" for="btncheck6">Sexta</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off"
+                                        [checked]="true" value="6" (change)="changeWeekDays($event, 6)">
+                                    <label class="btn btn-outline-primary border" for="btncheck7">Sábado</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mx-1 d-flex align-items-center ">
+                    <div class="row bg-white bg-gradient rounded">
+                        <h4 class="d-flex justify-content-center pt-2">Horários</h4>
+                        <div class="h-100">
+                            <div class="row p-3 d-flex align-items-center justify-content-center">
+                                <div class="row border rounded d-flex align-items-center justify-content-center p-3">
+                                    <div class="col-6">
+                                        <label class="d-flex justify-content-center">Adicionar um horário
+                                            específico</label>
+                                        <timepicker class="d-flex justify-content-center" [showMeridian]="false"
+                                            [(ngModel)]="specificHour">
+                                        </timepicker>
+                                    </div>
+                                    <div class="col-4">
+                                        <label>Valor da Consulta</label>
+                                        <input type="text" (blur)="CurrencyFormat(specificValue, '')"
+                                            [(ngModel)]="specificValue" class="form-control ">
+                                    </div>
+                                    <div class="row">
+                                        <button (click)="AddHour(specificHour, specificValue)" type="button"
+                                            class="btn btn-primary">
+                                            Adicionar Horário
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row border mt-3 rounded d-flex align-items-center p-3">
+                                    <label class="d-flex justify-content-center">Adicionar um Range de
+                                        horários</label>
+                                    <div class="row">
+                                        <div class="col border rounded">
+                                            <timepicker class="d-flex justify-content-center" [(ngModel)]="initialHour"
+                                                [showMeridian]="false">
+                                            </timepicker>
+                                        </div>
+                                        <div class="col border rounded">
+                                            <timepicker class="d-flex justify-content-center" [(ngModel)]="finalHour"
+                                                [showMeridian]="false">
+                                            </timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2 d-flex align-items-end">
+                                        <div class="col">
+                                            <label>Intervalo (min)
+                                                <br>entre marcações</label>
+                                            <input type="text" [(ngModel)]="interval" class="form-control">
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Valor da Consulta</label>
+                                            <input type="text" (blur)="CurrencyFormat(rangeValue, 'range')"
+                                                [(ngModel)]="rangeValue" class="form-control ">
+                                        </div>
+                                        <div class="col d-flex align-items-end">
+                                            <button (click)="AddHourRange(initialHour, finalHour, interval, rangeValue)"
+                                                type="button" class="btn btn-primary">
+                                                Adicionar Horários
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex" *ngIf="dates">
+                    <div class="row border bg-light bg-gradient rounded p-3 h-100 w-100">
+
+                        <div class="border rounded mt-2 p-0 ">
+                            <h3 class="d-flex justify-content-center text-align-center bg-secondary rounded-top p-3 ">
+                                Agenda
+                            </h3>
+                            <div class="col d-flex justify-content-around bg-secondary ">
+                                <button type="button" (click)="rewindDate()" class="btn fa fa-arrow-left"
+                                    [ngStyle]="{'color' : currentDate == 0 ? 'black' : 'white'}"></button>
+                                <h3 *ngIf="dates.length > 0" class="">{{date.Day.toLocaleDateString()}}</h3>
+                                <button type="button" (click)="advanceDate()" class="btn fa fa-arrow-right"
+                                    [ngStyle]="{'color' : currentDate == dates.length-1 ? 'black' : 'white'}"></button>
+                            </div>
+                            <div class="border p-3 m-3" [ngClass]=" date.Schedules.length <= 24 ? 'h-25' : '' ">
+                                <div class="row">
+                                    <h5 class="d-flex justify-content-center">Horários</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex justify-content-center flex-wrap">
+                                        <h2 *ngIf="date.Schedules.length <= 0">Adicione um Horário</h2>
+                                        <button (click)="chooseHour(horario.hour)"
+                                            *ngFor="let horario of date.Schedules" type="button"
+                                            class="btn btn-primary m-1">
+                                            {{horario.hour.getHours() < 10 ? '0' + horario.hour.getHours() :
+                                                horario.hour.getHours()}}:{{horario.hour.getMinutes() < 10 ? '0' +
+                                                horario.hour.getMinutes() : horario.hour.getMinutes()}} </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 m-3" *ngIf="currentHour">
+                                <div class="row">
+                                    <div class="col d-flex align-items-end">
+                                        <div class="col">
+                                            <label class="d-flex justify-content-center">Horário</label>
+                                            <timepicker class="d-flex justify-content-center" [(ngModel)]="currentHour"
+                                                [showMeridian]="false">
+                                            </timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col pt-1">
+                                        <label>Valor da Consulta</label>
+                                        <input type="text" (blur)="CurrencyFormat(currentValue, 'edit')"
+                                            [(ngModel)]="currentValue" class="form-control">
+                                    </div>
+                                    <div class="col d-flex align-items-center pt-4">
+                                        <button (click)="editSchedule(currentHour, currentValue) " type="button"
+                                            class="col btn btn-warning">
+                                            Editar
+                                        </button>
+                                    </div>
+                                    <div class="col d-flex align-items-center pt-4">
+                                        <button (click)="removeSchedule(currentHour)" type="button"
+                                            class="col btn btn-danger">
+                                            Remover
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 m-3">
+                                <div class="row">
+                                    <button type="button" class="col btn btn-success">
+                                        Confirmar Agenda
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

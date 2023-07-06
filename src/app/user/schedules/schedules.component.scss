@@ -1,0 +1,38 @@
+.margem {
+    padding-top: 178px;
+    padding-bottom: 100px;
+}
+
+accordion-group {
+    margin-top: 10px;
+    text-decoration: none;
+
+    ::ng-deep {
+        div {
+            &>div.panel-heading.card-header.panel-enabled {
+                background-color: rgb(7, 131, 255); // change the background of every accordion heading
+                
+                .btn-link {
+                    text-decoration: none;
+                    color: rgb(250, 250, 250); // change the accordion heading buttons style
+                }
+            }
+
+            &>div.panel-collapse.collapse.in.show>div {
+                background-color: hsla(207, 100%, 50%, 0.1); // change the expanded content style
+            }
+        }
+    }
+}
+
+.information {
+    font-size: large;
+    font-weight: bold;
+    margin-left: 1px;
+}
+
+.background-container{
+    background-image: url(../../../assets/clinica.jpg); 
+    background-size: 100%;
+    justify-content: center;
+}

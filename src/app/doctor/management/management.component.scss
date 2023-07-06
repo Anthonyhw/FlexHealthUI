@@ -1,0 +1,21 @@
+.margem {
+    padding-top: 78px;
+;
+}
+
+h3 {
+    color: white;
+    margin-bottom: 0;
+}
+
+.information {
+    font-size: large;
+    font-weight: bold;
+    margin-left: 1px;
+}
+
+@media (max-width: 913px) {
+    .margem {
+        padding-top: 1200px;
+    }
+  }

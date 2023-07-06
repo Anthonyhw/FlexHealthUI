@@ -1,0 +1,209 @@
+<div class=" vh-100 d-flex align-items-center background-container">
+
+	<div class="bg-white rounded p-5 my-2 border">
+		<div class="row">
+			<h3 class="text-center">Cadastre-se</h3>
+			<div class="col-md-8">
+				<form class="p-1" style="width: 700px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+					<div class="row ">
+						<div class="form-group col-md-6">
+							<label for="nome">Nome</label>
+							<input formControlName="nome" type="text" class="form-control"
+								[ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}" id="nome">
+							<div *ngIf="f.nome.errors?.required" class="invalid-feedback">
+								Nome é obrigatório.
+							</div>
+							<div *ngIf="f.nome.errors?.checkName" class="invalid-feedback">
+								Insira seu nome completo.
+							</div>
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="email">Email</label>
+							<input formControlName="email" type="email" class="form-control"
+								[ngClass]="{'is-invalid': f.email.errors && f.email.touched}" id="input Email4"
+								placeholder="Email">
+							<div *ngIf="f.email.errors?.required" class="invalid-feedback">
+								E-mail é obrigatório.
+							</div>
+							<div *ngIf="f.email.errors?.email" class="invalid-feedback">
+								Insira um e-mail válido.
+							</div>
+						</div>
+					</div>
+
+					<br>
+
+					<div class="row">
+						<div class="form-group col-md-3">
+							<label for="rg">RG</label>
+							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control" maxlength="12"
+								[ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
+							<div *ngIf="f.rg.errors?.required" class="invalid-feedback">
+								RG é obrigatório.
+							</div>
+							<div *ngIf="f.rg.errors?.minlength" class="invalid-feedback">
+								Insira um RG válido.
+							</div>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="cpf">CPF</label>
+							<input (keyup)="formatCpf($event)" formControlName="cpf" type="text" class="form-control" maxlength="14"
+								[ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
+							<div *ngIf="f.cpf.errors?.required" class="invalid-feedback">
+								CPF é obrigatório.
+							</div>
+							<div *ngIf="f.cpf.errors?.minlength" class="invalid-feedback">
+								Insira um CPF válido.
+							</div>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="nascimento">Data de Nascimento</label>
+							<input type="text" formControlName="nascimento" placeholder="01/01/2001" maxlength="8"
+								class="form-control"
+								[ngClass]="{'is-invalid': f.nascimento.errors && f.nascimento.touched}"
+								[bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly bsDatepicker>
+							<div *ngIf="f.nascimento.errors?.required" class="invalid-feedback">
+								Data de nascimento é obrigatório.
+							</div>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="genero">Gênero</label>
+							<select formControlName="genero" class="form-select" aria-label=""
+								[ngClass]="{'is-invalid': f.genero.errors && f.genero.touched}">
+								<option value="Masculino">Masculino</option>
+								<option value="Feminino">Feminino</option>
+							</select>
+							<div *ngIf="f.genero.errors?.required" class="invalid-feedback">
+								Gênero é obrigatório.
+							</div>
+						</div>
+					</div>
+
+					<br>
+
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="telefone">Telefone</label>
+							<input (keyup)="formatPhone($event)" formControlName="telefone" type="text" class="form-control" maxlength="15"
+								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone"
+								placeholder="(11) 91234-5678">
+							<div *ngIf="f.telefone.errors?.required" class="invalid-feedback">
+								Telefone é obrigatório.
+							</div>
+							<div *ngIf="f.telefone.errors?.minlength" class="invalid-feedback">
+								Insira um Telefone válido.
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="senha">Senha</label>
+							<input formControlName="senha" type="{{ showPassword ? 'text' : 'password' }}"
+								class="form-control" [ngClass]="{'is-invalid': f.senha.errors && f.senha.touched}"
+								id="senha">
+							<label [ngClass]="{ 'fa-eye-slash' : showPassword, 'fa-eye' : !showPassword }"
+								(click)="togglePasswordVisibility()" class="fa showpassword"></label>
+							<div *ngIf="f.senha.errors?.required" class="invalid-feedback">
+								Senha é obrigatório.
+							</div>
+							<div *ngIf="f.senha.errors?.minlength" class="invalid-feedback">
+								A senha deve conter no mínimo 8 caracteres.
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="confirmasenha">Confirme a Senha</label>
+							<input formControlName="confirmasenha"
+								type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control"
+								[ngClass]="{'is-invalid': f.confirmasenha.errors && f.confirmasenha.touched}"
+								id="confirmaSenha">
+							<label [ngClass]="{ 'fa-eye-slash': showConfirmPassword,  'fa-eye' : !showConfirmPassword }"
+								(click)="toggleConfirmPasswordVisibility()" class="fa fa-eye showpassword"></label>
+							<div *ngIf="f.confirmasenha.errors?.required" class="invalid-feedback">
+								Confirme a senha.
+							</div>
+							<div *ngIf="f.confirmasenha.errors?.mustMatch" class="invalid-feedback">
+								As senhas não são iguais.
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="cep">CEP</label>
+							<div class="row">
+								<input formControlName="cep" type="text" class="col ms-2 form-control"
+									[ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" id="cep">
+								<span (click)="searchAddress(f.cep.value)"
+									class="col-2 btn btn-success mx-2"><span class="fa fa-search"></span></span>
+								<div *ngIf="f.cep.errors?.required" class="invalid-feedback">
+									CEP é obrigatório.
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="endereco">Endereço</label>
+							<input formControlName="endereco" type="text" class="form-control"
+								[ngClass]="{'is-invalid': f.endereco.errors && f.endereco.touched}" id="endereco">
+							<div *ngIf="f.endereco.errors?.required" class="invalid-feedback">
+								Endereço é obrigatório.
+							</div>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="numero">Número</label>
+							<input formControlName="numero" type="text" class="form-control"
+								[ngClass]="{'is-invalid': f.numero.errors && f.numero.touched}" id="numero">
+							<div *ngIf="f.numero.errors?.required" class="invalid-feedback">
+								Número é obrigatório.
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="cidade">Cidade</label>
+							<input formControlName="cidade" type="text" class="form-control"
+								[ngClass]="{'is-invalid': f.cidade.errors && f.cidade.touched}" id="cidade">
+							<div *ngIf="f.cidade.errors?.required" class="invalid-feedback">
+								Cidade é obrigatório.
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="estado">Estado</label>
+							<input formControlName="estado" type="text" class="form-control"
+								[ngClass]="{'is-invalid': f.estado.errors && f.estado.touched}" id="estado">
+							<div *ngIf="f.estado.errors?.required" class="invalid-feedback">
+								Estado é obrigatório.
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="complemento">Complemento</label>
+							<input formControlName="complemento" type="text" class="form-control" id="complemento">
+						</div>
+					</div>
+					<br>
+					<div class="form-group">
+						<div class="form-check">
+							<input formControlName="termos" class="form-check-input " type="checkbox" id="gridCheck">
+							<label class="form-check-label" for="gridCheck">
+								Li e aceito os <a href="">Termos de uso</a>
+							</label>
+							<div *ngIf="f.termos.errors?.required">
+								Você deve aceitar os termos de uso.
+							</div>
+						</div>
+					</div>
+					<br>
+					<button type="submit" class="btn btn-primary">Cadastrar</button>
+				</form>
+			</div>
+
+			<div class="col-md-4 img-fluid d-lg-block d-none d-flex align-items-center"><img
+					src="../../../../assets/doctor_consultation_02.png" width="406px" alt=""></div>
+		</div>
+
+
+	</div>
+
+</div>
