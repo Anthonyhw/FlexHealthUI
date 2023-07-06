@@ -186,6 +186,7 @@ export class RegisterComponent {
           else if (error.error.includes('RG'))
             this.toastr.error('Este Rg já foi utilizado para cadastro!', 'Erro!');
         
+            
       }
     })
   }
