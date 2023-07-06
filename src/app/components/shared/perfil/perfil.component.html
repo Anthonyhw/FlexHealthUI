@@ -31,12 +31,12 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label>Nome</label>
-                                <input [ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}" formControlName="nome" type="text" class="form-control"/>
+                                <input [ngClass]="{'is-invalid': f.nome.errors}" formControlName="nome" type="text" class="form-control"/>
 
                             </div>
                             <div class="form-group col-sm-6">
                                 <label>E-mail</label>
-                                <input [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email" type="text" class="form-control"/>
+                                <input [ngClass]="{'is-invalid': f.email.errors}" formControlName="email" type="text" class="form-control"/>
                             </div>
                         </div>
                     </div>
@@ -44,20 +44,20 @@
                         <div class="row">
                             <div class="form-group col-sm-3">
                                 <label>RG</label>
-                                <input [ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" formControlName="rg" (keyup)="formatRg($event)" type="text" class="form-control" maxlength="12"/>
+                                <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg" (keyup)="formatRg($event)" type="text" class="form-control" maxlength="12"/>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>CPF</label>
-                                <input [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" formControlName="cpf" (keyup)="formatCpf($event)" type="text" class="form-control" maxlength="14"/>
+                                <input [ngClass]="{'is-invalid': f.cpf.errors}" formControlName="cpf" (keyup)="formatCpf($event)" type="text" class="form-control" maxlength="14"/>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>Data de Nascimento</label>
-                                <input [ngClass]="{'is-invalid': f.nascimento.errors && f.nascimento.touched}" formControlName="nascimento" maxlength="8"
+                                <input [ngClass]="{'is-invalid': f.nascimento.errors}" formControlName="nascimento" maxlength="8"
 								class="form-control" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker >
                             </div>
                             <div class="form-group col-sm-3">
                                 <label for="genero">Gênero</label>
-                                <select [ngClass]="{'is-invalid': f.genero.errors && f.genero.touched}" formControlName="genero" class="form-select" aria-label="">
+                                <select [ngClass]="{'is-invalid': f.genero.errors}" formControlName="genero" class="form-select" aria-label="">
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
                                 </select>
@@ -66,18 +66,18 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="telefone">Telefone</label>
-                                <input [ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" formControlName="telefone" (keyup)="formatPhone($event)" type="text" class="form-control" id="telefone" maxlength="15">
+                                <input [ngClass]="{'is-invalid': f.telefone.errors}" formControlName="telefone" (keyup)="formatPhone($event)" type="text" class="form-control" id="telefone" maxlength="15">
                             </div>
                             <form [formGroup]="password" class="col-md-8">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="senha">Senha</label>
-                                        <input [ngClass]="{'is-invalid': password.get('senha').errors && password.get('senha').touched}" formControlName="senha"  type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="senha">
+                                        <input [ngClass]="{'is-invalid': password.get('senha').errors}" formControlName="senha"  type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="senha">
                                         <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash' : showPassword, 'fa-eye' : !showPassword }" (click)="togglePasswordVisibility()" class="fa fa-eye showpassword"></label>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="confirmasenha">Confirme a Senha</label>
-                                        <input [ngClass]="{'is-invalid': password.get('confirmasenha').errors && password.get('confirmasenha').touched}" formControlName="confirmasenha" type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control" id="confirmaSenha">
+                                        <input [ngClass]="{'is-invalid': password.get('confirmasenha').errors}" formControlName="confirmasenha" type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control" id="confirmaSenha">
                                         <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash': showConfirmPassword,  'fa-eye' : !showConfirmPassword }" (click)="toggleConfirmPasswordVisibility()" class="fa fa-eye showpassword"></label>
                                     </div>
                                 </div>
@@ -89,32 +89,32 @@
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP</label>
                                 <div class="d-flex">
-                                    <input [ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" formControlName="cep" type="text" class="form-control" id="cep">
+                                    <input [ngClass]="{'is-invalid': f.cep.errors}" formControlName="cep" type="text" class="form-control" id="cep">
                                     <button (click)="searchAddress(form.get('cep').value)" [disabled]="disabledEdit" class="btn btn-success mx-2 fa fa-search"></button>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="endereco">Endereço</label>
-                                <input [ngClass]="{'is-invalid': f.endereco.errors && f.endereco.touched}" formControlName="endereco" type="text" class="form-control" id="endereco">
+                                <input [ngClass]="{'is-invalid': f.endereco.errors}" formControlName="endereco" type="text" class="form-control" id="endereco">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="numero">Número</label>
-                                <input [ngClass]="{'is-invalid': f.numero.errors && f.numero.touched}" formControlName="numero" type="text" class="form-control" id="numero">
+                                <input [ngClass]="{'is-invalid': f.numero.errors}" formControlName="numero" type="text" class="form-control" id="numero">
                             </div>
                         </div>
             
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="cidade">Cidade</label>
-                                <input [ngClass]="{'is-invalid': f.cidade.errors && f.cidade.touched}" formControlName="cidade" type="text" class="form-control" id="cidade">
+                                <input [ngClass]="{'is-invalid': f.cidade.errors}" formControlName="cidade" type="text" class="form-control" id="cidade">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="estado">Estado</label>
-                                <input [ngClass]="{'is-invalid': f.estado.errors && f.estado.touched}" formControlName="estado" type="text" class="form-control" id="estado">
+                                <input [ngClass]="{'is-invalid': f.estado.errors}" formControlName="estado" type="text" class="form-control" id="estado">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="complemento">Complemento</label>
-                                <input [ngClass]="{'is-invalid': f.complemento.errors && f.complemento.touched}" formControlName="complemento" type="text" class="form-control" id="complemento">
+                                <input [ngClass]="{'is-invalid': f.complemento.errors}" formControlName="complemento" type="text" class="form-control" id="complemento">
                             </div>
                         </div>
                         <br><br>

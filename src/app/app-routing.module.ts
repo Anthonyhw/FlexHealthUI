@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UserComponent } from './user/user.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
-import { PresentationComponent } from './presentation/presentation.component';
-import { SchedulesComponent } from './user/schedules/schedules.component';
-import { DoctorComponent } from './doctor/doctor.component';
-import { PerfilComponent } from './shared/perfil/perfil.component';
-import { ManagementComponent } from './doctor/management/management.component';
-import { PrescriptionsComponent } from './user/prescriptions/prescriptions.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { RegisterComponent } from './components/authentication/register/register.component';
+import { PresentationComponent } from './components/presentation/presentation.component';
+import { SchedulesComponent } from './components/user/schedules/schedules.component';
+import { DoctorComponent } from './components/doctor/doctor.component';
+import { PerfilComponent } from './components/shared/perfil/perfil.component';
+import { ManagementComponent } from './components/doctor/management/management.component';
+import { PrescriptionsComponent } from './components/user/prescriptions/prescriptions.component';
 
 const routes: Routes = [
   {path: '', component: PresentationComponent},

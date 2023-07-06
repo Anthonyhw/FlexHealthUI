@@ -4,7 +4,7 @@ import { ValidatorField } from '../../../helpers/validatorField'
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { env } from 'src/environments/environment';
-import { User } from 'src/models/user.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-register',
