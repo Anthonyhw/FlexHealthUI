@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorField } from 'src/app/helpers/validatorField';
+import { UpdateUser } from 'src/app/models/updateuser.model';
+import { User } from 'src/app/models/user.model';
 import { env } from 'src/environments/environment';
-import { ValidatorField } from 'src/helpers/validatorField';
-import { UpdateUser } from 'src/models/updateuser.model';
-import { User } from 'src/models/user.model';
+
 
 @Component({
   selector: 'app-perfil',

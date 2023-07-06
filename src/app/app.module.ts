@@ -14,17 +14,17 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 
-import { HeaderComponent } from './shared/header/header.component';
+import { HeaderComponent } from './components/shared/header/header.component';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './authentication/register/register.component';
-import { UserComponent } from './user/user.component';
-import { PresentationComponent } from './presentation/presentation.component';
-import { SchedulesComponent } from './user/schedules/schedules.component';
-import { DoctorComponent } from './doctor/doctor.component';
-import { PerfilComponent } from './shared/perfil/perfil.component';
-import { ManagementComponent } from './doctor/management/management.component';
-import { PrescriptionsComponent } from './user/prescriptions/prescriptions.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { RegisterComponent } from './components/authentication/register/register.component';
+import { UserComponent } from './components/user/user.component';
+import { PresentationComponent } from './components/presentation/presentation.component';
+import { SchedulesComponent } from './components/user/schedules/schedules.component';
+import { DoctorComponent } from './components/doctor/doctor.component';
+import { PerfilComponent } from './components/shared/perfil/perfil.component';
+import { ManagementComponent } from './components/doctor/management/management.component';
+import { PrescriptionsComponent } from './components/user/prescriptions/prescriptions.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InterceptorModule } from './interceptors/interceptor.module';
 
