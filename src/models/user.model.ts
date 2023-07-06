@@ -1,4 +1,4 @@
-export class Register {
+export class User {
     userName: string
     nome: string
     genero: string
@@ -10,7 +10,7 @@ export class Register {
     email: string
     password: string
 
-    constructor(data?: Partial<Register>) {
+    constructor(data?: Partial<User>) {
         if (data) {
           Object.assign(this, data);
         }

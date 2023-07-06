@@ -1,0 +1,137 @@
+<div class="container-fluid d-flex vh-100 justify-content-center align-items-center margem">
+    <div class="card border rounded p-3 w-75 ">
+        <form [formGroup]="form" >
+            <br>
+            <div class="row p-3">
+                <div class="form-group card-header col-12 d-flex align-items-end justify-content-between border-bottom">
+                    <h3 class="ms-4">Perfil</h3>
+                    <button (click)="toggledisabledEdit()" class="btn btn-success  border rounded p-1 mb-2">Editar <label class="fa fa-edit"></label></button>
+                </div>
+                <div class="col-lg-4 pt-1 d-flex align-items-center">
+                    <div class="container-fluid ">
+                        <div class="card mb-3">
+                            <div class="card-header"></div>
+                            <div class="d-flex align-self-center pt-3">
+                                <a>
+                                    <img
+                                    src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+                                    name="aboutme" width="120" height="120" class="rounded-circle">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="h5 text-bold text-center pb-1">{{f.nome.value}}</div>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="form-row">
+                        
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label>Nome</label>
+                                <input [ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}" formControlName="nome" type="text" class="form-control"/>
+
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>E-mail</label>
+                                <input [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email" type="text" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label>RG</label>
+                                <input [ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" formControlName="rg" (keyup)="formatRg($event)" type="text" class="form-control" maxlength="12"/>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>CPF</label>
+                                <input [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" formControlName="cpf" (keyup)="formatCpf($event)" type="text" class="form-control" maxlength="14"/>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>Data de Nascimento</label>
+                                <input [ngClass]="{'is-invalid': f.nascimento.errors && f.nascimento.touched}" formControlName="nascimento" maxlength="8"
+								class="form-control" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker >
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="genero">Gênero</label>
+                                <select [ngClass]="{'is-invalid': f.genero.errors && f.genero.touched}" formControlName="genero" class="form-select" aria-label="">
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="telefone">Telefone</label>
+                                <input [ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" formControlName="telefone" (keyup)="formatPhone($event)" type="text" class="form-control" id="telefone" maxlength="15">
+                            </div>
+                            <form [formGroup]="password" class="col-md-8">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="senha">Senha</label>
+                                        <input [ngClass]="{'is-invalid': password.get('senha').errors && password.get('senha').touched}" formControlName="senha"  type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="senha">
+                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash' : showPassword, 'fa-eye' : !showPassword }" (click)="togglePasswordVisibility()" class="fa fa-eye showpassword"></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="confirmasenha">Confirme a Senha</label>
+                                        <input [ngClass]="{'is-invalid': password.get('confirmasenha').errors && password.get('confirmasenha').touched}" formControlName="confirmasenha" type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control" id="confirmaSenha">
+                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash': showConfirmPassword,  'fa-eye' : !showConfirmPassword }" (click)="toggleConfirmPasswordVisibility()" class="fa fa-eye showpassword"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+            
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="cep">CEP</label>
+                                <div class="d-flex">
+                                    <input [ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" formControlName="cep" type="text" class="form-control" id="cep">
+                                    <button (click)="searchAddress(form.get('cep').value)" [disabled]="disabledEdit" class="btn btn-success mx-2 fa fa-search"></button>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="endereco">Endereço</label>
+                                <input [ngClass]="{'is-invalid': f.endereco.errors && f.endereco.touched}" formControlName="endereco" type="text" class="form-control" id="endereco">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="numero">Número</label>
+                                <input [ngClass]="{'is-invalid': f.numero.errors && f.numero.touched}" formControlName="numero" type="text" class="form-control" id="numero">
+                            </div>
+                        </div>
+            
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="cidade">Cidade</label>
+                                <input [ngClass]="{'is-invalid': f.cidade.errors && f.cidade.touched}" formControlName="cidade" type="text" class="form-control" id="cidade">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="estado">Estado</label>
+                                <input [ngClass]="{'is-invalid': f.estado.errors && f.estado.touched}" formControlName="estado" type="text" class="form-control" id="estado">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="complemento">Complemento</label>
+                                <input [ngClass]="{'is-invalid': f.complemento.errors && f.complemento.touched}" formControlName="complemento" type="text" class="form-control" id="complemento">
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-end" [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}">
+                    <button (click)="getUser()" class="btn btn-outline-secondary mr-auto border me-2">
+                        Cancelar Alterações
+                    </button>
+                    <button (click)="onSubmit()" type="submit" class="btn btn-success">
+                        <span [ngStyle]="{'visibility': updateStatus ? '' : 'hidden'}" class="spinner-border spinner-border-sm mr-1"></span>
+                        Salvar Alteração
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
