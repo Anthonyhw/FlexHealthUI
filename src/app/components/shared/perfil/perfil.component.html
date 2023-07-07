@@ -1,6 +1,6 @@
 <div class="container-fluid d-flex vh-100 justify-content-center align-items-center margem">
     <div class="card border rounded p-3 w-75 ">
-        <form [formGroup]="form" >
+        <form [formGroup]="form" *ngIf="form">
             <br>
             <div class="row p-3">
                 <div class="form-group card-header col-12 d-flex align-items-end justify-content-between border-bottom">
@@ -133,5 +133,6 @@
                 </div>
             </div>
         </form>
+            <span *ngIf="!form" class="h1 d-flex justify-content-center">Falha na Comunicação com API</span>
     </div>
 </div>
