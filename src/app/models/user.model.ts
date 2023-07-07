@@ -1,3 +1,5 @@
+import { Claims } from "./claims.model"
+
 export class User {
     userName: string
     nome: string
@@ -10,6 +12,8 @@ export class User {
     email: string
     password: string
     fotoPerfil: string
+    claims: Claims[]
+    roles: string[]
 
     constructor(data?: Partial<User>) {
         if (data) {

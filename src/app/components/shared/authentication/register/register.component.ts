@@ -227,7 +227,6 @@ export class RegisterComponent {
       return;
     }
 
-    debugger
     const register = new Register({
       userName: this.f.email.value,
       nome: this.f.nome.value,

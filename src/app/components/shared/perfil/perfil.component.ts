@@ -22,6 +22,7 @@ export class PerfilComponent {
   showConfirmPassword: boolean = false;
   disabledEdit: boolean = true;
   updateStatus: boolean = false;
+  isPatient: boolean;
 
   get f(): any {
     return this.form.controls;
@@ -47,11 +48,7 @@ export class PerfilComponent {
     this.form = this.fb.group({
       nome: [{ value: user.nome, disabled: this.disabledEdit }, Validators.required],
       email: [{ value: user.email, disabled: this.disabledEdit }, [Validators.required, Validators.email]],
-      rg: [{ value: user.rg, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(11)]],
-      cpf: [{ value: user.cpf, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(14)]],
-      nascimento: [{ value: new Date(user.nascimento), disabled: this.disabledEdit }, Validators.required],
-      genero: [{ value: user.genero, disabled: this.disabledEdit }, Validators.required],
-      telefone: [{ value: user.phoneNumber, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(15)]],
+      telefone: [{ value: user.phoneNumber, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(14), Validators.maxLength(15)]],
       cep: [{ value: endereco[0], disabled: this.disabledEdit }, Validators.required],
       endereco: [{ value: endereco[1], disabled: this.disabledEdit }, Validators.required],
       numero: [{ value: endereco[2], disabled: this.disabledEdit }, Validators.required],
@@ -59,6 +56,18 @@ export class PerfilComponent {
       estado: [{ value: endereco[4], disabled: this.disabledEdit }, Validators.required],
       complemento: [{ value: endereco[5], disabled: this.disabledEdit } || undefined],
     }, formOptions);
+
+    if (user.roles.includes('Paciente')) {
+      this.form.addControl('rg', new FormControl({ value: user.rg, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(11)]))
+      this.form.addControl('cpf', new FormControl({ value: user.cpf, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(14)]))
+      this.form.addControl('nascimento', new FormControl({ value: new Date(user.nascimento), disabled: this.disabledEdit }, Validators.required))
+      this.form.addControl('genero', new FormControl({ value: user.genero, disabled: this.disabledEdit }, Validators.required))
+    } else if (user.roles.includes('Estabelecimento')) {
+      this.form.addControl('cnpj', new FormControl({ value: user.claims.find(c => c.type == 'CNPJ').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(18)]))
+      this.form.addControl('tipo', new FormControl({ value: user.claims.find(c => c.type == 'Tipo').value, disabled: this.disabledEdit }, Validators.required))
+    } else {
+      this.form.addControl('crm', new FormControl({ value: user.claims.find(c => c.type == 'CRM').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
+    }
 
     this.password = this.fb.group({
       senha: [{ value: '', disabled: this.disabledEdit },],
@@ -91,7 +100,7 @@ export class PerfilComponent {
 
     input.target.value = formatedRg;
     this.f.rg.value = formatedRg;
-    
+
     console.log(this.f.rg.errors);
   }
 
@@ -126,9 +135,17 @@ export class PerfilComponent {
     let valor = input.target.value;
     valor = valor.replace(/\D/g, '');
 
-    const x = valor.substr(0, 2);
-    const y = valor.substr(2, 5);
-    const z = valor.substr(7, 4);
+    var x, y, z;
+    if (valor.length == 10) {
+      x = valor.substr(0, 2);
+      y = valor.substr(2, 4);
+      z = valor.substr(6, 4);
+    } else {
+      x = valor.substr(0, 2);
+      y = valor.substr(2, 5);
+      z = valor.substr(7, 4);
+    }
+
 
     let formatedPhone = '';
     if (x) {
@@ -145,25 +162,59 @@ export class PerfilComponent {
     this.f.telefone.value = formatedPhone;
   }
 
+  formatCnpj(input: any) {
+    let valor = input.target.value;
+    valor = valor.replace(/\D/g, '');
+
+    const x = valor.substr(0, 2);
+    const y = valor.substr(2, 3);
+    const z = valor.substr(5, 3);
+    const a = valor.substr(8, 4);
+    const b = valor.substr(12, 2);
+
+    let formatedPhone = '';
+    if (x) {
+      formatedPhone += x;
+      if (y) {
+        formatedPhone += '.' + y;
+        if (z) {
+          formatedPhone += '.' + z;
+          if (a) {
+            formatedPhone += '/' + a;
+            if (b) {
+              formatedPhone += '-' + b;
+            }
+          }
+        }
+      }
+    }
+
+    input.target.value = formatedPhone;
+    this.f.telefone.value = formatedPhone;
+  }
+
   onSubmit() {
     if (this.form.invalid || this.password.invalid) {
       this.toastr.error('Verifique os campos preenchidos.', 'Erro');
       return;
     }
-    
+
     this.updateStatus = true;
     const update = new UpdateUser({
       userName: this.f.email.value,
       nome: this.f.nome.value,
-      genero: this.f.genero.value,
-      nascimento: this.f.nascimento.value,
-      rg: this.f.rg.value,
-      cpf: this.f.cpf.value,
+      genero: this.f.genero?.value || '',
+      nascimento: this.f.nascimento?.value || new Date(),
+      rg: this.f.rg?.value || 'Empresa',
+      cpf: this.f.cpf?.value || 'Empresa',
       phoneNumber: this.f.telefone.value,
       endereco: this.f.cep.value + '\\' + this.f.endereco.value + '\\' + this.f.numero.value + '\\' + this.f.cidade.value + '\\' + this.f.estado.value + '\\' + this.f.complemento.value,
       email: this.f.email.value,
       password: this.password.get('senha').value,
-      token: ''
+      token: '',
+      cnpj: this.f.cnpj?.value || '',
+      tipo: this.f.tipo?.value || '',
+      crm: this.f.crm?.value || ''
     });
 
     this.http.put(env.api + 'account/update', JSON.stringify(update)).subscribe({
@@ -230,7 +281,8 @@ export class PerfilComponent {
 
   getUser() {
     this.http.get(env.api + 'account/getuser').subscribe({
-      next: (result: UpdateUser) => {
+      next: (result: User) => {
+        if (result.roles.includes('Paciente')) this.isPatient = true
         this.validation(result);
       },
       error: (error) => {
