@@ -91,7 +91,7 @@ export class PerfilComponent {
 
     input.target.value = formatedRg;
     this.f.rg.value = formatedRg;
-    debugger
+    
     console.log(this.f.rg.errors);
   }
 

@@ -11,6 +11,7 @@ export class UpdateUser {
   email: string
   password: string
   token: string
+  fotoPerfil: string
 
   constructor(data?: Partial<UpdateUser>) {
     if (data) {
