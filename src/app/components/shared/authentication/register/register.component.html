@@ -7,7 +7,7 @@
 				<form class="p-1" style="width: 700px;" [formGroup]="form" (ngSubmit)="onSubmit()">
 					<div class="row ">
 						<div class="form-group col-md-6">
-							<label for="nome">Nome</label>
+							<label for="nome">Nome {{isPatient ? '' : 'do Estabelecimento'}}</label>
 							<input formControlName="nome" type="text" class="form-control"
 								[ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}" id="nome">
 							<div *ngIf="f.nome.errors?.required" class="invalid-feedback">
@@ -33,8 +33,33 @@
 					</div>
 
 					<br>
+					<div class="row" *ngIf="!isPatient">
+						<div class="form-group col-md-8">
+							<label for="cnpj">CNPJ</label>
+							<input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control" maxlength="18"
+								[ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
+							<div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
+								CNPJ  é obrigatório.
+							</div>
+							<div *ngIf="f.cnpj.errors?.minlength" class="invalid-feedback">
+								Insira um CNPJ válido.
+							</div>
+						</div>
 
-					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="rg">Tipo de Estabelecimento</label>
+							<select formControlName="tipo" class="form-select" aria-label=""
+								[ngClass]="{'is-invalid': f.tipo.errors && f.tipo.touched}">
+								<option value="Clinica">Clínica</option>
+								<option value="Consultorio">Consultório</option>
+							</select>
+							<div *ngIf="f.tipo.errors?.required" class="invalid-feedback">
+								Tipo de estabelecimento é obrigatório.
+							</div>
+						</div>
+					</div>
+
+					<div class="row" *ngIf="isPatient">
 						<div class="form-group col-md-3">
 							<label for="rg">RG</label>
 							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control" maxlength="12"

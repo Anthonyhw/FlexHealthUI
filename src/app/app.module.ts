@@ -16,8 +16,8 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { HeaderComponent } from './components/shared/header/header.component';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/authentication/login/login.component';
-import { RegisterComponent } from './components/authentication/register/register.component';
+import { LoginComponent } from './components/shared/authentication/login/login.component';
+import { RegisterComponent } from './components/shared/authentication/register/register.component';
 import { UserComponent } from './components/user/user.component';
 import { PresentationComponent } from './components/presentation/presentation.component';
 import { SchedulesComponent } from './components/user/schedules/schedules.component';

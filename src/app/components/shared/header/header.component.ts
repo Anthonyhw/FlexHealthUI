@@ -27,7 +27,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.cookie.deleteAll('/');
+    this.cookie.deleteAll();
   }
 
   toggle() {
