@@ -9,6 +9,7 @@ export class User {
     endereco: string
     email: string
     password: string
+    fotoPerfil: string
 
     constructor(data?: Partial<User>) {
         if (data) {

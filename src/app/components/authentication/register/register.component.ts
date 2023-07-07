@@ -57,7 +57,7 @@ export class RegisterComponent {
 
     input.target.value = formatedRg;
     this.f.rg.value = formatedRg;
-    debugger
+    
     console.log(this.f.rg.errors);
   }
 
@@ -156,7 +156,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    debugger
+    
     if (this.form.invalid) {
       this.toastr.error('Verifique os campos preenchidos.', 'Erro');
       return;
@@ -173,6 +173,7 @@ export class RegisterComponent {
       endereco: this.f.cep.value + '\\' + this.f.endereco.value + '\\' + this.f.numero.value + '\\' + this.f.cidade.value + '\\' + this.f.estado.value + '\\' + this.f.complemento.value,
       email: this.f.email.value,
       password: this.f.senha.value,
+      fotoPerfil: ''
     });
 
     this.http.post(env.api + 'account/register', JSON.stringify(register), { headers: { 'Content-Type': 'application/json' } }).subscribe({
