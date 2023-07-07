@@ -12,6 +12,9 @@ export class UpdateUser {
   password: string
   token: string
   fotoPerfil: string
+  cnpj: string
+  crm: string
+  tipo: string
 
   constructor(data?: Partial<UpdateUser>) {
     if (data) {
