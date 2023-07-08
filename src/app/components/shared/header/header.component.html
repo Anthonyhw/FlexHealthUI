@@ -7,13 +7,17 @@
         <span id="FlexHealth" class="ms-1">FlexHealth</span>
       </a>
 
-      <div *ngIf="showHeader">
+      <div *ngIf="showHeader && headerType == 'Paciente'">
         <button class="navbar-toggler" type="button" (click)="toggle()" [attr.aria-expanded]="!isCollapsed"
           aria-controls="collapseBasic">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapseBasic" [collapse]="!isCollapsed" [isAnimated]="true">
           <ul class="navbar-nav ms-auto">
+            <li class="nav-item item">
+              <a class="nav-link" aria-current="page" routerLink="/user/schedules">Dashboard</a>
+            </li>
+
             <li class="nav-item item">
               <a class="nav-link" aria-current="page" routerLink="/user/schedules">Agendamento</a>
             </li>
@@ -24,13 +28,73 @@
 
             <li class="nav-item item dropdown" dropdown>
               <a href id="perfil" dropdownToggle (click)="false" aria-controls="options"
-                class="nav-link dropdown-toggle">Anthony</a>
+                class="nav-link dropdown-toggle">{{nome}}</a>
               <ul id="options" *dropdownMenu class="dropdown-menu bg-primary" role="menu" aria-labelledby="perfil">
                 <li><a class="dropdown-item  bg-primary" routerLink="/user/perfil">Perfil</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item bg-primary" (click)="(logout())" routerLink="/login">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="showHeader && headerType == 'Estabelecimento'">
+        <button class="navbar-toggler" type="button" (click)="toggle()" [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseBasic">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapseBasic" [collapse]="!isCollapsed" [isAnimated]="true">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item item">
+              <a class="nav-link" aria-current="page" routerLink="/user/schedules">Dashboard</a>
+            </li>
+
+            <li class="nav-item item">
+              <a class="nav-link" routerLink="/user/prescriptions">Médicos</a>
+            </li>
+
+            <li class="nav-item item dropdown" dropdown>
+              <a href id="perfil" dropdownToggle (click)="false" aria-controls="options"
+                class="nav-link dropdown-toggle">{{nome}}</a>
+              <ul id="options" *dropdownMenu class="dropdown-menu bg-primary" role="menu" aria-labelledby="perfil">
+                <li><a class="dropdown-item  bg-primary" routerLink="/user/perfil">Perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item bg-primary" (click)="(logout())" routerLink="/login">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="showHeader && headerType == 'Medico'">
+        <button class="navbar-toggler" type="button" (click)="toggle()" [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseBasic">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapseBasic" [collapse]="!isCollapsed" [isAnimated]="true">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item item">
+              <a class="nav-link" aria-current="page" routerLink="/user/schedules">Dashboard</a>
+            </li>
+
+            <li class="nav-item item">
+              <a class="nav-link" routerLink="/user/prescriptions">Agendas</a>
+            </li>
+
+            <li class="nav-item item dropdown" dropdown>
+              <a href id="perfil" dropdownToggle (click)="false" aria-controls="options"
+                class="nav-link dropdown-toggle">{{nome}}</a>
+              <ul id="options" *dropdownMenu class="dropdown-menu bg-primary" role="menu" aria-labelledby="perfil">
+                <li><a class="dropdown-item  bg-primary" routerLink="/user/perfil">Perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item bg-primary" (click)="(logout())">Logout</a></li>
               </ul>
             </li>
           </ul>
