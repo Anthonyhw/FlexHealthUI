@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ValidatorField } from '../../../../helpers/validatorField'
-import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { env } from 'src/environments/environment';
 import { User } from 'src/app/models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { Register } from 'src/app/models/register.model';
+import jwtDecode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-register',
@@ -15,14 +17,15 @@ import { Register } from 'src/app/models/register.model';
 })
 export class RegisterComponent {
 
-  origin: string;
+  userType: string;
   data: Date;
   readonly = true;
   form: FormGroup;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   checkname: boolean;
-  isPatient: boolean;
+  ufs: string[] = ['AC','AM','RR','PA','AP','TO','MA','PI','CE','RN','PB','PE','AL','SE','BA','MG','ES','RJ','SP','PR','SC','RS','MS','MT','GO','DF',]
+  especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
 
   get f(): any {
     return this.form.controls;
@@ -30,19 +33,11 @@ export class RegisterComponent {
 
   public cep: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie:CookieService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.origin = params['origin']
-      switch (this.origin) {
-        case 'patient':
-          this.isPatient = true;
-          break;
-        case 'stablishment':
-          this.isPatient = false
-          break;
-      }
+      this.userType = params['origin']
     })
     this.validation();
   }
@@ -112,7 +107,7 @@ export class RegisterComponent {
       x = valor.substr(0, 2);
       y = valor.substr(2, 4);
       z = valor.substr(6, 4);
-    }else {
+    } else {
       x = valor.substr(0, 2);
       y = valor.substr(2, 5);
       z = valor.substr(7, 4);
@@ -195,7 +190,7 @@ export class RegisterComponent {
       termos: [false, Validators.requiredTrue],
     }, formOptions);
 
-    switch (this.origin) {
+    switch (this.userType) {
       case 'patient':
         this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
         this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
@@ -207,7 +202,10 @@ export class RegisterComponent {
         this.form.addControl('tipo', new FormControl('', Validators.required))
         break;
       case 'doctor':
-        this.form.addControl('crm', new FormControl('', [Validators.required, Validators.minLength(12)]))
+        this.form.addControl('crm', new FormControl('', [Validators.required, Validators.minLength(6)]))
+        this.form.addControl('uf', new FormControl('', Validators.required))
+        this.form.addControl('especialidade', new FormControl('', Validators.required))
+        this.form.addControl('genero', new FormControl('', Validators.required))
         break;
     }
   }
@@ -227,6 +225,8 @@ export class RegisterComponent {
       return;
     }
 
+    var decodedToken = jwtDecode<any>(this.cookie.get('Token'))
+
     const register = new Register({
       userName: this.f.email.value,
       nome: this.f.nome.value,
@@ -240,8 +240,10 @@ export class RegisterComponent {
       password: this.f.senha.value,
       fotoPerfil: '',
       cnpj: this.f.cnpj?.value || '',
-      tipo: this.f.tipo?.value || '',
-      crm: this.f.crm?.value || ''
+      tipo: this.userType == 'stablishment' ? this.f.tipo?.value : this.userType == 'doctor' ? 'Medico' : '',
+      crm: ('CRM-' + this.f.uf?.value + '/' + this.f.crm?.value) || '',
+      especialidade: this.f.especialidade?.value || '',
+      estabelecimentoId: decodedToken.nameid
     });
 
     this.http.post(env.api + 'account/register', JSON.stringify(register), { headers: { 'Content-Type': 'application/json' } }).subscribe({

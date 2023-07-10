@@ -7,7 +7,7 @@
 				<form class="p-1" style="width: 700px;" [formGroup]="form" (ngSubmit)="onSubmit()">
 					<div class="row ">
 						<div class="form-group col-md-6">
-							<label for="nome">Nome {{isPatient ? '' : 'do Estabelecimento'}}</label>
+							<label for="nome">Nome {{userType != 'stablishment' ? '' : 'do Estabelecimento'}}</label>
 							<input formControlName="nome" type="text" class="form-control"
 								[ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}" id="nome">
 							<div *ngIf="f.nome.errors?.required" class="invalid-feedback">
@@ -33,13 +33,13 @@
 					</div>
 
 					<br>
-					<div class="row" *ngIf="!isPatient">
+					<div class="row" *ngIf="userType == 'patient'">
 						<div class="form-group col-md-8">
 							<label for="cnpj">CNPJ</label>
-							<input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control" maxlength="18"
-								[ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
+							<input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control"
+								maxlength="18" [ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
 							<div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
-								CNPJ  é obrigatório.
+								CNPJ é obrigatório.
 							</div>
 							<div *ngIf="f.cnpj.errors?.minlength" class="invalid-feedback">
 								Insira um CNPJ válido.
@@ -59,11 +59,11 @@
 						</div>
 					</div>
 
-					<div class="row" *ngIf="isPatient">
+					<div class="row" *ngIf="userType == 'stablishment'">
 						<div class="form-group col-md-3">
 							<label for="rg">RG</label>
-							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control" maxlength="12"
-								[ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
+							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control"
+								maxlength="12" [ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
 							<div *ngIf="f.rg.errors?.required" class="invalid-feedback">
 								RG é obrigatório.
 							</div>
@@ -73,8 +73,8 @@
 						</div>
 						<div class="form-group col-md-3">
 							<label for="cpf">CPF</label>
-							<input (keyup)="formatCpf($event)" formControlName="cpf" type="text" class="form-control" maxlength="14"
-								[ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
+							<input (keyup)="formatCpf($event)" formControlName="cpf" type="text" class="form-control"
+								maxlength="14" [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
 							<div *ngIf="f.cpf.errors?.required" class="invalid-feedback">
 								CPF é obrigatório.
 							</div>
@@ -107,12 +107,64 @@
 						</div>
 					</div>
 
+					<div class="row" *ngIf="userType == 'doctor'">
+						<div class="form-group col-md-2 mt-md-4">
+							<input disabled type="text" class="form-control text-align-center" style="text-align: center;" value="CRM-">
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="crm">UF</label>
+							<select formControlName="uf" class="form-select" 
+								[ngClass]="{'is-invalid': f.uf.errors && f.uf.touched}">
+								<option *ngFor="let uf of ufs" value="{{uf}}">{{uf}}</option>
+							</select>
+							<div *ngIf="f.uf.errors?.required" class="invalid-feedback">
+								UF é obrigatório.
+							</div>
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="crm">CRM</label>
+							<input formControlName="crm" type="text" class="form-control" maxlength="6"
+								[ngClass]="{'is-invalid': f.crm.errors && f.crm.touched}" id="crm">
+							<div *ngIf="f.crm.errors?.required" class="invalid-feedback">
+								CRM é obrigatório.
+							</div>
+							<div *ngIf="f.uf.errors?.minlength" class="invalid-feedback">
+								Insira um CRM válido.
+							</div>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="especialidade">Especialidade</label>
+							<select formControlName="especialidade" class="form-select" aria-label=""
+								[ngClass]="{'is-invalid': f.especialidade.errors && f.especialidade.touched}">
+								<option *ngFor="let especialidade of especialidades" value="{{especialidade}}">{{especialidade}}</option>
+							</select>
+							<div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
+								Escolha uma especialidade.
+							</div>
+						</div>		
+						<div class="form-group col-md-3">
+							<label for="genero">Gênero</label>
+							<select formControlName="genero" class="form-select" aria-label=""
+								[ngClass]="{'is-invalid': f.genero.errors && f.genero.touched}">
+								<option value="Masculino">Masculino</option>
+								<option value="Feminino">Feminino</option>
+							</select>
+							<div *ngIf="f.genero.errors?.required" class="invalid-feedback">
+								Gênero é obrigatório.
+							</div>
+						</div>				
+					</div>
+
 					<br>
 
 					<div class="row">
 						<div class="form-group col-md-4">
 							<label for="telefone">Telefone</label>
-							<input (keyup)="formatPhone($event)" formControlName="telefone" type="text" class="form-control" maxlength="15"
+							<input (keyup)="formatPhone($event)" formControlName="telefone" type="text"
+								class="form-control" maxlength="15"
 								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone"
 								placeholder="(11) 91234-5678">
 							<div *ngIf="f.telefone.errors?.required" class="invalid-feedback">
@@ -160,8 +212,8 @@
 							<div class="row">
 								<input formControlName="cep" type="text" class="col ms-2 form-control"
 									[ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" id="cep">
-								<span (click)="searchAddress(f.cep.value)"
-									class="col-2 btn btn-success mx-2"><span class="fa fa-search"></span></span>
+								<span (click)="searchAddress(f.cep.value)" class="col-2 btn btn-success mx-2"><span
+										class="fa fa-search"></span></span>
 								<div *ngIf="f.cep.errors?.required" class="invalid-feedback">
 									CEP é obrigatório.
 								</div>
