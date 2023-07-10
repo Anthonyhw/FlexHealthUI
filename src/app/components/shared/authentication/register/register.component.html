@@ -33,7 +33,7 @@
 					</div>
 
 					<br>
-					<div class="row" *ngIf="userType == 'patient'">
+					<div class="row" *ngIf="userType == 'stablishment'">
 						<div class="form-group col-md-8">
 							<label for="cnpj">CNPJ</label>
 							<input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control"
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 
-					<div class="row" *ngIf="userType == 'stablishment'">
+					<div class="row" *ngIf="userType == 'patient'">
 						<div class="form-group col-md-3">
 							<label for="rg">RG</label>
 							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control"
