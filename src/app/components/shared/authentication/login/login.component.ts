@@ -26,15 +26,16 @@ export class LoginComponent {
         this.cookie.set('Token', result.token);
         var decodedToken = jwtDecode<any>(result.token);
         
-        localStorage.setItem('user.Id', decodedToken.nameid);
-        localStorage.setItem('user.Name', decodedToken.unique_name);
-        localStorage.setItem('user.Role', decodedToken.role);
+        localStorage.setItem('User.Id', decodedToken.nameid);
+        localStorage.setItem('User.Name', decodedToken.unique_name);
+        localStorage.setItem('User.Role', decodedToken.role);
+        
         if (decodedToken.Estabelecimento) {
-          localStorage.setItem('doctor.Stablishment', decodedToken.Estabelecimento);
-          localStorage.setItem('doctor.Crm', decodedToken.CRM);
-          localStorage.setItem('doctor.Specialty', decodedToken.Especialidade);
-        }else if (decodedToken.Cnpj) {
-          localStorage.setItem('stablishment.Cnpj', decodedToken.Cnpj);
+          localStorage.setItem('Doctor.Stablishment', decodedToken.Estabelecimento);
+          localStorage.setItem('Doctor.Crm', decodedToken.CRM);
+          localStorage.setItem('Doctor.Specialty', decodedToken.Especialidade);
+        }else if (decodedToken.CNPJ) {
+          localStorage.setItem('Stablishment.Cnpj', decodedToken.CNPJ);
         }
 
         location.pathname = '/perfil'
