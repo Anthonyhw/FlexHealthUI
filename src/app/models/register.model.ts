@@ -13,6 +13,8 @@ export class Register {
     cnpj: string
     crm: string
     tipo: string
+    especialidade: string
+    estabelecimentoId: string
 
     constructor(data?: Partial<Register>) {
         if (data) {
