@@ -23,7 +23,7 @@ export class LoginComponent {
       {headers: {'content-type': 'application/json'}}).subscribe ({
       next: (result:any) => {
         this.cookie.set('Token', result.token);
-        location.pathname = '/user/perfil'
+        location.pathname = '/perfil'
       },
       error: (error) => {
         this.toastr.error(error.error, 'Erro!');

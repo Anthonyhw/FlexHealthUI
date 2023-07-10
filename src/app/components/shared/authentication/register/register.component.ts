@@ -36,9 +36,7 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie:CookieService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.userType = params['origin']
-    })
+    this.userType = location.pathname.split('/')[2] || 'patient';
     this.validation();
   }
 
