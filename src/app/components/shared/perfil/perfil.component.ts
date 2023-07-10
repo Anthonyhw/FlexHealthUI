@@ -68,9 +68,9 @@ export class PerfilComponent {
       this.form.addControl('cnpj', new FormControl({ value: user.claims.find(c => c.type == 'CNPJ').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(18)]))
       this.form.addControl('tipo', new FormControl({ value: user.claims.find(c => c.type == 'Tipo').value, disabled: this.disabledEdit }, Validators.required))
     } else {
-      this.form.addControl('crm', new FormControl({ value: localStorage.getItem('doctor.Crm').substring(7, 13), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
-      this.form.addControl('uf', new FormControl({value: localStorage.getItem('doctor.Crm').substring(4,6), disabled: this.disabledEdit},  Validators.required))
-      this.form.addControl('especialidade', new FormControl({value: localStorage.getItem('doctor.Specialty'), disabled: this.disabledEdit}, Validators.required))
+      this.form.addControl('crm', new FormControl({ value: localStorage.getItem('Doctor.Crm').substring(7, 13), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
+      this.form.addControl('uf', new FormControl({value: localStorage.getItem('Doctor.Crm').substring(4,6), disabled: this.disabledEdit},  Validators.required))
+      this.form.addControl('especialidade', new FormControl({value: localStorage.getItem('Doctor.Specialty'), disabled: this.disabledEdit}, Validators.required))
       this.form.addControl('genero', new FormControl({value: user.genero, disabled: this.disabledEdit}, Validators.required))
     }
 
@@ -287,6 +287,7 @@ export class PerfilComponent {
   getUser() {
     this.http.get(env.api + 'account/getuser').subscribe({
       next: (result: User) => {
+        debugger
         if (result.roles.includes('Medico')) this.userType = 'doctor'
         else if (result.roles.includes('Estabelecimento')) this.userType = 'stablishment'
         else this.userType = 'patient'
