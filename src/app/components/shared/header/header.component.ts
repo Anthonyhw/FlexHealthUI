@@ -39,6 +39,7 @@ export class HeaderComponent {
     
     this.cookie.deleteAll('/');
     this.cookie.delete('Token');
+    localStorage.clear()
     location.pathname = '/login'
   }
 

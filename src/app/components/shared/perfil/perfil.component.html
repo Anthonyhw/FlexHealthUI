@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="row" *ngIf="isPatient">
+                        <div class="row" *ngIf="userType == 'patient'">
                             <div class="form-group col-sm-3">
                                 <label>RG</label>
                                 <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg" (keyup)="formatRg($event)" type="text" class="form-control" maxlength="12"/>
@@ -63,7 +63,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row" *ngIf="!isPatient">
+                        <div class="row" *ngIf="userType == 'stablishment'">
                             <div class="form-group col-md-7">
                                 <label for="cnpj">CNPJ</label>
                                 <input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control" maxlength="18"
@@ -87,6 +87,57 @@
                                     Tipo de estabelecimento é obrigatório.
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row" *ngIf="userType == 'doctor'">
+                            <div class="form-group col-md-2 mt-md-4">
+                                <input disabled type="text" class="form-control text-align-center" style="text-align: center;" value="CRM-">
+                            </div>
+    
+                            <div class="form-group col-md-2">
+                                <label for="crm">UF</label>
+                                <select formControlName="uf" class="form-select" 
+                                    [ngClass]="{'is-invalid': f.uf.errors && f.uf.touched}">
+                                    <option *ngFor="let uf of ufs" value="{{uf}}">{{uf}}</option>
+                                </select>
+                                <div *ngIf="f.uf.errors?.required" class="invalid-feedback">
+                                    UF é obrigatório.
+                                </div>
+                            </div>
+    
+                            <div class="form-group col-md-2">
+                                <label for="crm">CRM</label>
+                                <input formControlName="crm" type="text" class="form-control" maxlength="6"
+                                    [ngClass]="{'is-invalid': f.crm.errors && f.crm.touched}" id="crm">
+                                <div *ngIf="f.crm.errors?.required" class="invalid-feedback">
+                                    CRM é obrigatório.
+                                </div>
+                                <div *ngIf="f.uf.errors?.minlength" class="invalid-feedback">
+                                    Insira um CRM válido.
+                                </div>
+                            </div>
+    
+                            <div class="form-group col-md-3">
+                                <label for="especialidade">Especialidade</label>
+                                <select formControlName="especialidade" class="form-select" aria-label=""
+                                    [ngClass]="{'is-invalid': f.especialidade.errors && f.especialidade.touched}">
+                                    <option *ngFor="let especialidade of especialidades" value="{{especialidade}}">{{especialidade}}</option>
+                                </select>
+                                <div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
+                                    Escolha uma especialidade.
+                                </div>
+                            </div>		
+                            <div class="form-group col-md-3">
+                                <label for="genero">Gênero</label>
+                                <select formControlName="genero" class="form-select" aria-label=""
+                                    [ngClass]="{'is-invalid': f.genero.errors && f.genero.touched}">
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                </select>
+                                <div *ngIf="f.genero.errors?.required" class="invalid-feedback">
+                                    Gênero é obrigatório.
+                                </div>
+                            </div>	
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">

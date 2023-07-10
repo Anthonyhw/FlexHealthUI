@@ -22,7 +22,9 @@ export class PerfilComponent {
   showConfirmPassword: boolean = false;
   disabledEdit: boolean = true;
   updateStatus: boolean = false;
-  isPatient: boolean;
+  userType: string;
+  ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
+  especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
 
   get f(): any {
     return this.form.controls;
@@ -66,7 +68,10 @@ export class PerfilComponent {
       this.form.addControl('cnpj', new FormControl({ value: user.claims.find(c => c.type == 'CNPJ').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(18)]))
       this.form.addControl('tipo', new FormControl({ value: user.claims.find(c => c.type == 'Tipo').value, disabled: this.disabledEdit }, Validators.required))
     } else {
-      this.form.addControl('crm', new FormControl({ value: user.claims.find(c => c.type == 'CRM').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
+      this.form.addControl('crm', new FormControl({ value: localStorage.getItem('doctor.Crm').substring(7, 13), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
+      this.form.addControl('uf', new FormControl({value: localStorage.getItem('doctor.Crm').substring(4,6), disabled: this.disabledEdit},  Validators.required))
+      this.form.addControl('especialidade', new FormControl({value: localStorage.getItem('doctor.Specialty'), disabled: this.disabledEdit}, Validators.required))
+      this.form.addControl('genero', new FormControl({value: user.genero, disabled: this.disabledEdit}, Validators.required))
     }
 
     this.password = this.fb.group({
@@ -205,8 +210,8 @@ export class PerfilComponent {
       nome: this.f.nome.value,
       genero: this.f.genero?.value || '',
       nascimento: this.f.nascimento?.value || new Date(),
-      rg: this.f.rg?.value || 'Empresa',
-      cpf: this.f.cpf?.value || 'Empresa',
+      rg: this.f.rg?.value || (this.f.crm?.value ? 'Medico' : 'Empresa'),
+      cpf: this.f.cpf?.value || (this.f.crm?.value ? 'Medico' : 'Empresa'),
       phoneNumber: this.f.telefone.value,
       endereco: this.f.cep.value + '\\' + this.f.endereco.value + '\\' + this.f.numero.value + '\\' + this.f.cidade.value + '\\' + this.f.estado.value + '\\' + this.f.complemento.value,
       email: this.f.email.value,
@@ -214,7 +219,7 @@ export class PerfilComponent {
       token: '',
       cnpj: this.f.cnpj?.value || '',
       tipo: this.f.tipo?.value || '',
-      crm: this.f.crm?.value || ''
+      crm: ('CRM-' + this.f.uf?.value + '/' + this.f.crm?.value) || '',
     });
 
     this.http.put(env.api + 'account/update', JSON.stringify(update)).subscribe({
@@ -282,7 +287,10 @@ export class PerfilComponent {
   getUser() {
     this.http.get(env.api + 'account/getuser').subscribe({
       next: (result: User) => {
-        if (result.roles.includes('Paciente')) this.isPatient = true
+        if (result.roles.includes('Medico')) this.userType = 'doctor'
+        else if (result.roles.includes('Paciente')) this.userType = 'stablishment'
+        else this.userType = 'patient'
+
         this.validation(result);
       },
       error: (error) => {
