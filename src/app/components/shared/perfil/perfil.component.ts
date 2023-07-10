@@ -288,7 +288,7 @@ export class PerfilComponent {
     this.http.get(env.api + 'account/getuser').subscribe({
       next: (result: User) => {
         if (result.roles.includes('Medico')) this.userType = 'doctor'
-        else if (result.roles.includes('Paciente')) this.userType = 'stablishment'
+        else if (result.roles.includes('Estabelecimento')) this.userType = 'stablishment'
         else this.userType = 'patient'
 
         this.validation(result);
