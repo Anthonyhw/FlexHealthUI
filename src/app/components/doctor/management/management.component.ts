@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Day } from 'src/app/models/day.model';
 import { Schedule } from 'src/app/models/schedule.model';
 import { ToastrService } from 'ngx-toastr';
+import { Doctor } from 'src/app/models/doctor.model';
+import { User } from 'src/app/models/user.model';
+import { AccountService } from 'src/app/services/account.service';
+import { Stablishment } from 'src/app/models/stablishment.model';
 
 @Component({
   selector: 'app-management',
@@ -9,6 +13,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./management.component.scss'],
 })
 export class ManagementComponent implements OnInit {
+
+  // Doctor Information
+  doctor: Doctor;
 
   today = new Date();
   dates: Day[] = [new Day(new Date(this.today))];
@@ -31,12 +38,13 @@ export class ManagementComponent implements OnInit {
   currentValue: number;
 
   ngOnInit() {
+    this.getDoctorInformation();
   }
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, private account: AccountService) { }
 
   changeWeekDays(event: any, value: number) {
-    
+
     if (!event.target.checked) {
       this.weekDays.push(value); // Adicionar value ao array quando o checkbox for marcado
     } else {
@@ -75,11 +83,11 @@ export class ManagementComponent implements OnInit {
           return "";
       }
     }).join("|");
-    
+
     const regex = new RegExp(`\\b(${weekDaysString})\\b`, "i");
 
     while (initial != end) {
-      
+
       if (regex.test(firstDate.toString())) {
         firstDate.setDate(firstDate.getDate() + 1);
         continue
@@ -196,7 +204,7 @@ export class ManagementComponent implements OnInit {
         tapToDismiss: true
       })
     }
-    
+
   }
 
   removeSchedule(hour: Date) {
@@ -206,5 +214,29 @@ export class ManagementComponent implements OnInit {
       this.currentHour = undefined
       this.currentValue = undefined
     }
+  }
+
+  getDoctorInformation(): Doctor {
+    
+    // Getting Doctor Information
+    this.account.getUser().subscribe({
+      next: (result: User) => {
+        this.doctor = new Doctor(result,
+          {
+            crm: localStorage.getItem('Doctor.Crm'),
+            especialidade: localStorage.getItem('Doctor.Specialty')
+          });
+      },
+      error: (error) => { console.error(error.Message) }
+    })
+
+    // Getting Stablishment Information
+    this.account.getUserById(parseInt(localStorage.getItem('Doctor.Stablishment'))).subscribe({
+      next: (result: Stablishment) => {
+        this.doctor.estabelecimento = result;
+      },
+      error: (error) => { console.error(error.Message) }
+    })
+    return null
   }
 }

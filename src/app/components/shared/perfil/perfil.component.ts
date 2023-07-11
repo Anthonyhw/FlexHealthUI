@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ValidatorField } from 'src/app/helpers/validatorField';
 import { UpdateUser } from 'src/app/models/updateuser.model';
 import { User } from 'src/app/models/user.model';
+import { AccountService } from 'src/app/services/account.service';
 import { env } from 'src/environments/environment';
 
 
@@ -30,7 +31,7 @@ export class PerfilComponent {
     return this.form.controls;
   }
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService, private account:AccountService) { }
 
   ngOnInit() {
     this.getUser()
@@ -285,7 +286,7 @@ export class PerfilComponent {
   }
 
   getUser() {
-    this.http.get(env.api + 'account/getuser').subscribe({
+    this.account.getUser().subscribe({
       next: (result: User) => {
         
         if (result.roles.includes('Medico')) this.userType = 'doctor'
