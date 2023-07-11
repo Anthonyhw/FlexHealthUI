@@ -1,10 +1,10 @@
 export class Schedule {
     
-    hour: Date;
-    value: number;
+    hora: Date;
+    valor: number;
 
-    constructor(hour: Date, value: number) {
-        this.hour = hour;
-        this.value = value;
+    constructor(hora: Date, valor: number) {
+        this.hora = hora;
+        this.valor = valor;
     }
 }

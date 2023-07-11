@@ -1,10 +1,10 @@
 import { Schedule } from "./schedule.model";
 
 export class Day {
-    Day: Date;
-    Schedules: Schedule[] = []; 
+    dia: Date;
+    horarios: Schedule[] = []; 
 
-    constructor(day: Date) {
-        this.Day = day;
+    constructor(dia: Date) {
+        this.dia = dia;
     }
 }

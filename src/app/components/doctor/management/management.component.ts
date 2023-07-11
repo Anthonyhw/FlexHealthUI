@@ -6,6 +6,8 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
 import { Stablishment } from 'src/app/models/stablishment.model';
+import { AgendamentoDto } from 'src/app/models/agendamentoDto.model';
+import { ScheduleService } from 'src/app/services/schedule.service';
 
 @Component({
   selector: 'app-management',
@@ -41,7 +43,7 @@ export class ManagementComponent implements OnInit {
     this.getDoctorInformation();
   }
 
-  constructor(private toastr: ToastrService, private account: AccountService) { }
+  constructor(private toastr: ToastrService, private account: AccountService, private schedule: ScheduleService) { }
 
   changeWeekDays(event: any, value: number) {
 
@@ -56,6 +58,7 @@ export class ManagementComponent implements OnInit {
   }
 
   changeValue(z: Date[]) {
+    
     var firstDate = new Date(z[0])
     var lastDate = new Date(z[1])
     lastDate.setDate(lastDate.getDate() + 1)
@@ -88,7 +91,7 @@ export class ManagementComponent implements OnInit {
 
     while (initial != end) {
 
-      if (regex.test(firstDate.toString())) {
+      if (this.weekDays.length > 0 && regex.test(firstDate.toString())) {
         firstDate.setDate(firstDate.getDate() + 1);
         continue
       }
@@ -122,15 +125,15 @@ export class ManagementComponent implements OnInit {
     var hourFormated = (hour.getHours() < 10 ? '0' + hour.getHours().toString() : hour.getHours().toString()) + ':' + (hour.getMinutes() < 10 ? '0' + hour.getMinutes().toString() : hour.getMinutes().toString())
     var already = false;
 
-    this.date.Schedules.forEach((date) => {
-      if ((date.hour.getHours() == hour.getHours()) && (date.hour.getMinutes() == hour.getMinutes()))
+    this.date.horarios.forEach((date) => {
+      if ((date.hora.getHours() == hour.getHours()) && (date.hora.getMinutes() == hour.getMinutes()))
         already = true
     })
     if (already) return
-    this.date.Schedules.push(new Schedule(hour, value));
+    this.date.horarios.push(new Schedule(hour, value));
 
     //sort by hour
-    this.date.Schedules.sort((a, b) => a.hour.getHours() - b.hour.getHours() || a.hour.getMinutes() - b.hour.getMinutes());
+    this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
   }
 
   AddHourRange(initial: Date, end: Date, interval: string, value: number = 0) {
@@ -141,33 +144,34 @@ export class ManagementComponent implements OnInit {
     if (!initial || !end || !interval) return
 
     var currentHour = new Date(initial)
+    currentHour.setDate(this.date.dia.getDate())
     var lastHour = new Date(end)
     lastHour.setMinutes(lastHour.getMinutes() + parseInt(interval))
 
     while ((currentHour.getHours() < lastHour.getHours()) || (currentHour.getMinutes() < lastHour.getMinutes())) {
       var already = false;
 
-      this.date.Schedules.forEach((date) => {
-        if ((date.hour.getHours() == currentHour.getHours()) && (date.hour.getMinutes() == currentHour.getMinutes()))
+      this.date.horarios.forEach((date) => {
+        if ((date.hora.getHours() == currentHour.getHours()) && (date.hora.getMinutes() == currentHour.getMinutes()))
           already = true
       })
 
       if (!already) {
-        this.date.Schedules.push(new Schedule(new Date(currentHour), value));
+        this.date.horarios.push(new Schedule(new Date(currentHour), value));
       }
 
       currentHour.setMinutes(currentHour.getMinutes() + parseInt(interval))
     }
 
     //sort by hour
-    this.date.Schedules.sort((a, b) => a.hour.getHours() - b.hour.getHours() || a.hour.getMinutes() - b.hour.getMinutes());
+    this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
   }
 
   chooseHour(hour: Date) {
-    this.date.Schedules.forEach((schedule) => {
-      if ((schedule.hour.getHours() == hour.getHours()) && (schedule.hour.getMinutes() == hour.getMinutes())) {
-        this.currentHour = schedule.hour;
-        this.currentValue = schedule.value;
+    this.date.horarios.forEach((schedule) => {
+      if ((schedule.hora.getHours() == hour.getHours()) && (schedule.hora.getMinutes() == hour.getMinutes())) {
+        this.currentHour = schedule.hora;
+        this.currentValue = schedule.valor;
       }
     });
   }
@@ -190,13 +194,13 @@ export class ManagementComponent implements OnInit {
       this.toastr.error('Digite um valor válido!', 'Erro!');
       return
     }
-    var hourIndex = this.date.Schedules.findIndex(sch => sch.hour == this.currentHour);
+    var hourIndex = this.date.horarios.findIndex(sch => sch.hora == this.currentHour);
     if (hourIndex != -1) {
-      this.date.Schedules.splice(hourIndex, 1)
-      this.date.Schedules.push(new Schedule(new Date(hour), value))
+      this.date.horarios.splice(hourIndex, 1)
+      this.date.horarios.push(new Schedule(new Date(hour), value))
 
       //sort by hour
-      this.date.Schedules.sort((a, b) => a.hour.getHours() - b.hour.getHours() || a.hour.getMinutes() - b.hour.getMinutes());
+      this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
 
       this.toastr.success('Edição feita com sucesso!', 'Atualizado!', {
         timeOut: 3000,
@@ -208,9 +212,9 @@ export class ManagementComponent implements OnInit {
   }
 
   removeSchedule(hour: Date) {
-    var hourIndex = this.date.Schedules.findIndex(sch => sch.hour == hour);
+    var hourIndex = this.date.horarios.findIndex(sch => sch.hora == hour);
     if (hourIndex != -1) {
-      this.date.Schedules.splice(hourIndex, 1)
+      this.date.horarios.splice(hourIndex, 1)
       this.currentHour = undefined
       this.currentValue = undefined
     }
@@ -238,5 +242,26 @@ export class ManagementComponent implements OnInit {
       error: (error) => { console.error(error.Message) }
     })
     return null
+  }
+
+  onSubmit() {
+    var request = new AgendamentoDto({
+      Tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
+      Status: 'Aberto',
+      MedicoId: parseInt(localStorage.getItem('User.Id')),
+      Especialidade: localStorage.getItem('Doctor.Specialty'),
+      Datas: this.dates
+    })
+
+    this.schedule.createSchedule(request).subscribe({
+      next: (result) => {
+        debugger
+        console.log(result)
+        this.toastr.success('Agenda criada com sucesso!', 'Sucesso!')
+      },
+      error: (error) => {
+        console.error(error.Message);
+      }
+    })
   }
 }

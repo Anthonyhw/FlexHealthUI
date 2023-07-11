@@ -140,23 +140,23 @@
                             <div class="col d-flex justify-content-around bg-secondary ">
                                 <button type="button" (click)="rewindDate()" class="btn fa fa-arrow-left"
                                     [ngStyle]="{'color' : currentDate == 0 ? 'black' : 'white'}"></button>
-                                <h3 *ngIf="dates.length > 0" class="">{{date.Day.toLocaleDateString()}}</h3>
+                                <h3 *ngIf="dates.length > 0" class="">{{date.dia.toLocaleDateString()}}</h3>
                                 <button type="button" (click)="advanceDate()" class="btn fa fa-arrow-right"
                                     [ngStyle]="{'color' : currentDate == dates.length-1 ? 'black' : 'white'}"></button>
                             </div>
-                            <div class="border p-3 m-3" [ngClass]=" date.Schedules.length <= 24 ? 'h-25' : '' ">
+                            <div class="border p-3 m-3" [ngClass]=" date.horarios.length <= 24 ? 'h-25' : '' ">
                                 <div class="row">
                                     <h5 class="d-flex justify-content-center">Horários</h5>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex justify-content-center flex-wrap">
-                                        <h2 *ngIf="date.Schedules.length <= 0">Adicione um Horário</h2>
-                                        <button (click)="chooseHour(horario.hour)"
-                                            *ngFor="let horario of date.Schedules" type="button"
+                                        <h2 *ngIf="date.horarios.length <= 0">Adicione um Horário</h2>
+                                        <button (click)="chooseHour(horario.hora)"
+                                            *ngFor="let horario of date.horarios" type="button"
                                             class="btn btn-primary m-1">
-                                            {{horario.hour.getHours() < 10 ? '0' + horario.hour.getHours() :
-                                                horario.hour.getHours()}}:{{horario.hour.getMinutes() < 10 ? '0' +
-                                                horario.hour.getMinutes() : horario.hour.getMinutes()}} </button>
+                                            {{horario.hora.getHours() < 10 ? '0' + horario.hora.getHours() :
+                                                horario.hora.getHours()}}:{{horario.hora.getMinutes() < 10 ? '0' +
+                                                horario.hora.getMinutes() : horario.hora.getMinutes()}} </button>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                             </div>
                             <div class="border p-3 m-3">
                                 <div class="row">
-                                    <button type="button" class="col btn btn-success">
+                                    <button type="button" (click)="onSubmit()" class="col btn btn-success">
                                         Confirmar Agenda
                                     </button>
                                 </div>
