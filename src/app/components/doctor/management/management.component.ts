@@ -118,11 +118,11 @@ export class ManagementComponent implements OnInit {
   }
 
   AddHour(hour: Date, value: number = 0) {
+    hour.setDate(this.date.dia.getDate())
     if (Number.isNaN(value)) {
       this.toastr.error('Digite um valor válido!', 'Erro!');
       return
     }
-    var hourFormated = (hour.getHours() < 10 ? '0' + hour.getHours().toString() : hour.getHours().toString()) + ':' + (hour.getMinutes() < 10 ? '0' + hour.getMinutes().toString() : hour.getMinutes().toString())
     var already = false;
 
     this.date.horarios.forEach((date) => {
@@ -245,18 +245,21 @@ export class ManagementComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     var request = new AgendamentoDto({
       Tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
       Status: 'Aberto',
       MedicoId: parseInt(localStorage.getItem('User.Id')),
+      EstabelecimentoId: parseInt(localStorage.getItem('Doctor.Stablishment')),
       Especialidade: localStorage.getItem('Doctor.Specialty'),
       Datas: this.dates
     })
 
     this.schedule.createSchedule(request).subscribe({
       next: (result) => {
-        debugger
         console.log(result)
+        this.date = new Day(new Date());
+        this.dates = []
         this.toastr.success('Agenda criada com sucesso!', 'Sucesso!')
       },
       error: (error) => {

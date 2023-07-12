@@ -4,6 +4,7 @@ export class AgendamentoDto {
     Tipo: string
     Status: string
     MedicoId: number
+    EstabelecimentoId: number
     Especialidade: string
     Datas: Day[]
 
