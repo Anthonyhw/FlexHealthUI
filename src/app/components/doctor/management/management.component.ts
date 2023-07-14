@@ -254,7 +254,6 @@ export class ManagementComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     var request = new AgendamentoDto({
       Tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
       Status: 'Aberto',
