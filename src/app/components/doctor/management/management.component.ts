@@ -24,6 +24,7 @@ export class ManagementComponent implements OnInit {
   currentDate = 0
   date: Day = this.dates[this.currentDate];
   weekDays: number[] = [];
+  selectedHour: Date;
 
   // To Add Specific Hour
   public specificHour: Date;
@@ -172,6 +173,7 @@ export class ManagementComponent implements OnInit {
       if ((schedule.hora.getHours() == hour.getHours()) && (schedule.hora.getMinutes() == hour.getMinutes())) {
         this.currentHour = schedule.hora;
         this.currentValue = schedule.valor;
+        this.selectedHour = schedule.hora;
       }
     });
   }
@@ -194,10 +196,17 @@ export class ManagementComponent implements OnInit {
       this.toastr.error('Digite um valor válido!', 'Erro!');
       return
     }
-    var hourIndex = this.date.horarios.findIndex(sch => sch.hora == this.currentHour);
+    var hourIndex = this.date.horarios.findIndex(sch => sch.hora.getHours() == this.selectedHour.getHours() && sch.hora.getMinutes() == this.selectedHour.getMinutes());
     if (hourIndex != -1) {
-      this.date.horarios.splice(hourIndex, 1)
-      this.date.horarios.push(new Schedule(new Date(hour), value))
+      var newHour = new Schedule(new Date(hour), value);
+      
+      if (this.date.horarios.find(sch => sch.hora.getHours() == newHour.hora.getHours() && sch.hora.getMinutes() == newHour.hora.getMinutes())) {
+        this.toastr.error('Este horário já existe na agenda!', 'Erro!');
+        return
+      }else {
+        this.date.horarios.splice(hourIndex, 1)
+        this.date.horarios.push(newHour);
+      }
 
       //sort by hour
       this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());

@@ -10,7 +10,7 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) { }
 
-  createSchedule(request: AgendamentoDto) {
-    return this.http.post<AgendamentoDto>(env.api + 'schedule', JSON.stringify(request))
+  createSchedule(request: any) {
+    return this.http.post<any>(env.api + 'schedule', JSON.stringify(request))
   }
 }
