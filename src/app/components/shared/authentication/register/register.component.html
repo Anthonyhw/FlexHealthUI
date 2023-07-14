@@ -36,7 +36,7 @@
 					<div class="row" *ngIf="userType == 'stablishment'">
 						<div class="form-group col-md-8">
 							<label for="cnpj">CNPJ</label>
-							<input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control"
+							<input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text" class="form-control"
 								maxlength="18" [ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
 							<div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
 								CNPJ é obrigatório.
@@ -62,7 +62,7 @@
 					<div class="row" *ngIf="userType == 'patient'">
 						<div class="form-group col-md-3">
 							<label for="rg">RG</label>
-							<input (keyup)="formatRg($event)" formControlName="rg" type="text" class="form-control"
+							<input (keyup)="format.formatRg(form, $event)" formControlName="rg" type="text" class="form-control"
 								maxlength="12" [ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
 							<div *ngIf="f.rg.errors?.required" class="invalid-feedback">
 								RG é obrigatório.
@@ -73,7 +73,7 @@
 						</div>
 						<div class="form-group col-md-3">
 							<label for="cpf">CPF</label>
-							<input (keyup)="formatCpf($event)" formControlName="cpf" type="text" class="form-control"
+							<input (keyup)="format.formatCpf(form, $event)" formControlName="cpf" type="text" class="form-control"
 								maxlength="14" [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
 							<div *ngIf="f.cpf.errors?.required" class="invalid-feedback">
 								CPF é obrigatório.
@@ -163,7 +163,7 @@
 					<div class="row">
 						<div class="form-group col-md-4">
 							<label for="telefone">Telefone</label>
-							<input (keyup)="formatPhone($event)" formControlName="telefone" type="text"
+							<input (keyup)="format.formatPhone(form, $event)" formControlName="telefone" type="text"
 								class="form-control" maxlength="15"
 								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone"
 								placeholder="(11) 91234-5678">

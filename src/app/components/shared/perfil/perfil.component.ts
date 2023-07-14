@@ -7,6 +7,7 @@ import { ValidatorField } from 'src/app/helpers/validatorField';
 import { UpdateUser } from 'src/app/models/updateuser.model';
 import { User } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
+import { FormatFieldsService } from 'src/app/services/format-fields.service';
 import { env } from 'src/environments/environment';
 
 
@@ -31,7 +32,7 @@ export class PerfilComponent {
     return this.form.controls;
   }
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService, private account:AccountService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService, private account:AccountService, public format: FormatFieldsService) { }
 
   ngOnInit() {
     this.getUser()
@@ -79,124 +80,6 @@ export class PerfilComponent {
       senha: [{ value: '', disabled: this.disabledEdit },],
       confirmasenha: [{ value: '', disabled: this.disabledEdit }],
     }, passwordOptions);
-  }
-
-  formatRg(input: any) {
-    let valor = input.target.value;
-    valor = valor.replace(/\D/g, '');
-
-    const x = valor.substr(0, 2);
-    const y = valor.substr(2, 3);
-    const z = valor.substr(5, 3);
-    const a = valor.substr(8, 1);
-
-    let formatedRg = '';
-    if (x) {
-      formatedRg += x;
-      if (y) {
-        formatedRg += '.' + y;
-        if (z) {
-          formatedRg += '.' + z;
-          if (a) {
-            formatedRg += '-' + a;
-          }
-        }
-      }
-    }
-
-    input.target.value = formatedRg;
-    this.f.rg.value = formatedRg;
-
-    console.log(this.f.rg.errors);
-  }
-
-  formatCpf(input: any) {
-    let valor = input.target.value;
-    valor = valor.replace(/\D/g, '');
-
-    const x = valor.substr(0, 3);
-    const y = valor.substr(3, 3);
-    const z = valor.substr(6, 3);
-    const a = valor.substr(9, 2);
-
-    let formatedCpf = '';
-    if (x) {
-      formatedCpf += x;
-      if (y) {
-        formatedCpf += '.' + y;
-        if (z) {
-          formatedCpf += '.' + z;
-          if (a) {
-            formatedCpf += '-' + a;
-          }
-        }
-      }
-    }
-
-    input.target.value = formatedCpf;
-    this.f.cpf.value = formatedCpf;
-  }
-
-  formatPhone(input: any) {
-    let valor = input.target.value;
-    valor = valor.replace(/\D/g, '');
-
-    var x, y, z;
-    if (valor.length == 10) {
-      x = valor.substr(0, 2);
-      y = valor.substr(2, 4);
-      z = valor.substr(6, 4);
-    } else {
-      x = valor.substr(0, 2);
-      y = valor.substr(2, 5);
-      z = valor.substr(7, 4);
-    }
-
-
-    let formatedPhone = '';
-    if (x) {
-      formatedPhone += '(' + x;
-      if (y) {
-        formatedPhone += ') ' + y;
-        if (z) {
-          formatedPhone += '-' + z;
-        }
-      }
-    }
-
-    input.target.value = formatedPhone;
-    this.f.telefone.value = formatedPhone;
-  }
-
-  formatCnpj(input: any) {
-    let valor = input.target.value;
-    valor = valor.replace(/\D/g, '');
-
-    const x = valor.substr(0, 2);
-    const y = valor.substr(2, 3);
-    const z = valor.substr(5, 3);
-    const a = valor.substr(8, 4);
-    const b = valor.substr(12, 2);
-
-    let formatedPhone = '';
-    if (x) {
-      formatedPhone += x;
-      if (y) {
-        formatedPhone += '.' + y;
-        if (z) {
-          formatedPhone += '.' + z;
-          if (a) {
-            formatedPhone += '/' + a;
-            if (b) {
-              formatedPhone += '-' + b;
-            }
-          }
-        }
-      }
-    }
-
-    input.target.value = formatedPhone;
-    this.f.telefone.value = formatedPhone;
   }
 
   onSubmit() {

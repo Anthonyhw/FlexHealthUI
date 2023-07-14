@@ -44,11 +44,11 @@
                         <div class="row" *ngIf="userType == 'patient'">
                             <div class="form-group col-sm-3">
                                 <label>RG</label>
-                                <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg" (keyup)="formatRg($event)" type="text" class="form-control" maxlength="12"/>
+                                <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg" (keyup)="format.formatRg(form, $event)" type="text" class="form-control" maxlength="12"/>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>CPF</label>
-                                <input [ngClass]="{'is-invalid': f.cpf.errors}" formControlName="cpf" (keyup)="formatCpf($event)" type="text" class="form-control" maxlength="14"/>
+                                <input [ngClass]="{'is-invalid': f.cpf.errors}" formControlName="cpf" (keyup)="format.formatCpf(form, $event)" type="text" class="form-control" maxlength="14"/>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>Data de Nascimento</label>
@@ -66,7 +66,7 @@
                         <div class="row" *ngIf="userType == 'stablishment'">
                             <div class="form-group col-md-7">
                                 <label for="cnpj">CNPJ</label>
-                                <input formControlName="cnpj" (keyup)="formatCnpj($event)" type="text" class="form-control" maxlength="18"
+                                <input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text" class="form-control" maxlength="18"
                                     [ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
                                 <div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
                                     CNPJ  é obrigatório.
@@ -142,7 +142,7 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="telefone">Telefone</label>
-                                <input [ngClass]="{'is-invalid': f.telefone.errors}" formControlName="telefone" (keyup)="formatPhone($event)" type="text" class="form-control" id="telefone" maxlength="15">
+                                <input [ngClass]="{'is-invalid': f.telefone.errors}" formControlName="telefone" (keyup)="format.formatPhone(form, $event)" type="text" class="form-control" id="telefone" maxlength="15">
                             </div>
                             <form [formGroup]="password" class="col-md-8">
                                 <div class="row">
