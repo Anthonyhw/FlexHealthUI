@@ -27,6 +27,7 @@ import { ManagementComponent } from './components/doctor/management/management.c
 import { PrescriptionsComponent } from './components/user/prescriptions/prescriptions.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InterceptorModule } from './interceptors/interceptor.module';
+import { DashboardComponent } from './components/doctor/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { InterceptorModule } from './interceptors/interceptor.module';
     PerfilComponent,
     ManagementComponent,
     PrescriptionsComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

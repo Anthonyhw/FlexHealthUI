@@ -1,8 +1,8 @@
-import { Schedule } from "./schedule.model";
+import { Appointment } from "./appointment.model";
 
 export class Day {
     dia: Date;
-    horarios: Schedule[] = []; 
+    horarios: Appointment[] = []; 
 
     constructor(dia: Date) {
         this.dia = dia;

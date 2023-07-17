@@ -1,6 +1,7 @@
 import { Claims } from "./claims.model"
 
 export class User {
+    id: string
     userName: string
     nome: string
     genero: string

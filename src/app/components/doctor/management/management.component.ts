@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Day } from 'src/app/models/day.model';
-import { Schedule } from 'src/app/models/schedule.model';
+import { Appointment } from 'src/app/models/appointment.model';
 import { ToastrService } from 'ngx-toastr';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
 import { Stablishment } from 'src/app/models/stablishment.model';
-import { AgendamentoDto } from 'src/app/models/agendamentoDto.model';
+import { Agenda } from 'src/app/models/agenda';
 import { ScheduleService } from 'src/app/services/schedule.service';
 
 @Component({
@@ -131,7 +131,7 @@ export class ManagementComponent implements OnInit {
         already = true
     })
     if (already) return
-    this.date.horarios.push(new Schedule(hour, value));
+    this.date.horarios.push(new Appointment(hour, value));
 
     //sort by hour
     this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
@@ -158,7 +158,7 @@ export class ManagementComponent implements OnInit {
       })
 
       if (!already) {
-        this.date.horarios.push(new Schedule(new Date(currentHour), value));
+        this.date.horarios.push(new Appointment(new Date(currentHour), value));
       }
 
       currentHour.setMinutes(currentHour.getMinutes() + parseInt(interval))
@@ -198,7 +198,7 @@ export class ManagementComponent implements OnInit {
     }
     var hourIndex = this.date.horarios.findIndex(sch => sch.hora.getHours() == this.selectedHour.getHours() && sch.hora.getMinutes() == this.selectedHour.getMinutes());
     if (hourIndex != -1) {
-      var newHour = new Schedule(new Date(hour), value);
+      var newHour = new Appointment(new Date(hour), value);
       
       if (this.date.horarios.find(sch => sch.hora.getHours() == newHour.hora.getHours() && sch.hora.getMinutes() == newHour.hora.getMinutes())) {
         this.toastr.error('Este horário já existe na agenda!', 'Erro!');
@@ -254,13 +254,13 @@ export class ManagementComponent implements OnInit {
   }
 
   onSubmit() {
-    var request = new AgendamentoDto({
-      Tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
-      Status: 'Aberto',
-      MedicoId: parseInt(localStorage.getItem('User.Id')),
-      EstabelecimentoId: parseInt(localStorage.getItem('Doctor.Stablishment')),
-      Especialidade: localStorage.getItem('Doctor.Specialty'),
-      Datas: this.dates
+    var request = new Agenda({
+      tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
+      status: 'Aberto',
+      medicoId: parseInt(localStorage.getItem('User.Id')),
+      estabelecimentoId: parseInt(localStorage.getItem('Doctor.Stablishment')),
+      especialidade: localStorage.getItem('Doctor.Specialty'),
+      datas: this.dates
     })
 
     this.schedule.createSchedule(request).subscribe({
