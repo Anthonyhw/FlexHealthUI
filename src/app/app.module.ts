@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { HeaderComponent } from './components/shared/header/header.component';
 import { AppComponent } from './app.component';
@@ -54,6 +57,9 @@ import { DashboardComponent } from './components/doctor/dashboard/dashboard.comp
     AccordionModule.forRoot(),
     TimepickerModule.forRoot(),
     TooltipModule.forRoot(),
+    TabsModule.forRoot(),
+    PaginationModule.forRoot(),
+    ModalModule.forRoot(),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

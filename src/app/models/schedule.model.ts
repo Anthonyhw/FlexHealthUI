@@ -1,3 +1,5 @@
+import { User } from "./user.model"
+
 export class Schedule {
     id: string
     tipo: string
@@ -7,6 +9,7 @@ export class Schedule {
     estabelecimentoId: number
     medicoId: number
     usarioId: number
+    usuario: User
     especialidade: string
     valor: string
 }

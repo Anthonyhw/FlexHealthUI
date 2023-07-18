@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { env } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { StablishmentAgenda } from '../models/stablishmentagenda.model';
+import { Schedule } from '../models/schedule.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,23 @@ export class ScheduleService {
     return this.http.post<any>(env.api + 'schedule', JSON.stringify(request))
   }
 
+  getSchedulesByDoctorId(id: string): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(env.api + `schedule/doctor?id=${id}`);
+  }
+
   getSchedulesByCity(city: string): Observable<StablishmentAgenda[]> {
     return this.http.get<StablishmentAgenda[]>(env.api + `schedule/city?city=${city}`)
   }
 
   scheduleToUser(request: any): Observable<any> {
-    return this.http.put<any>(env.api + `schedule`, JSON.stringify(request));
+    return this.http.put<any>(env.api + `schedule/user`, JSON.stringify(request));
+  }
+
+  deleteSchedule(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(env.api + `schedule?id=${id}`);
+  }
+
+  cancelSchedule(id: number): Observable<Schedule> {
+    return this.http.put<Schedule>(env.api + `schedule/cancel`, JSON.stringify(id));
   }
 }

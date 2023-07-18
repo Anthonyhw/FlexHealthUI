@@ -16,6 +16,7 @@ import { userGuard } from './guards/user.guard';
 import { doctorGuard } from './guards/doctor.guard';
 import { stablishmentGuard } from './guards/stablishment.guard';
 import { isNotAuthenticatedGuard } from './guards/is-not-authenticated.guard';
+import { DashboardComponent } from './components/doctor/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path: '', component: PresentationComponent},
@@ -31,7 +32,8 @@ const routes: Routes = [
     {path: 'prescriptions', component: PrescriptionsComponent}
   ]},
   {path: 'doctor', canActivate: [doctorGuard], component: DoctorComponent, children: [
-    {path: 'management', component: ManagementComponent}
+    {path: 'management', component: ManagementComponent},
+    {path: 'dashboard', component: DashboardComponent}
   ]},
   {path: 'stablishment', canActivate: [stablishmentGuard], component: DoctorComponent, children: [
     {path: 'management', component: ManagementComponent},
