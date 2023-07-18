@@ -7,9 +7,12 @@ export class Schedule {
     dataConsulta: string
     dataMarcacao: string
     estabelecimentoId: number
+    medico: User
     medicoId: number
+    usario: User
     usarioId: number
     usuario: User
     especialidade: string
     valor: string
+    pagamento: string
 }

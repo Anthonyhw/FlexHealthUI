@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DashboardComponent {
   modalRef?: BsModalRef;
-
   openedSchedules: Schedule[] = [];
   scheduledSchedules: Schedule[] = [];
   closedSchedules: Schedule[] = [];
@@ -57,8 +56,9 @@ export class DashboardComponent {
   openModal(schedule: Schedule, template: TemplateRef<any>) {
     this.selectedSchedule = schedule;
     this.modalRef = this.modalService.show(template,
-      { class: 'modal-dialog-centered',
-        ignoreBackdropClick: true, 
+      {
+        class: 'modal-lg modal-dialog-centered',
+        ignoreBackdropClick: true,
         keyboard: false
       });
   }
@@ -71,11 +71,11 @@ export class DashboardComponent {
           var index = this.openedSchedules.findIndex(sch => sch.id == this.selectedSchedule.id);
           this.openedSchedules.splice(index, 1);
           message = 'removido';
-        }else {
+        } else {
           message = 'cancelado';
           this.closedSchedules.push(this.selectedSchedule)
           var index = this.scheduledSchedules.findIndex(sch => sch.id == this.selectedSchedule.id);
-          this.scheduledSchedules.splice(index ,1)
+          this.scheduledSchedules.splice(index, 1)
         }
         this.toastr.success(`Agendamento ${message} com sucesso!`, 'Sucesso!');
         this.modalRef.hide();
@@ -85,5 +85,11 @@ export class DashboardComponent {
 
   decline() {
     this.modalRef.hide();
+  }
+
+  getAge(age: Date) {
+    let timeDiff = Math.abs(Date.now() - new Date(age).getTime());
+    let diffDays = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+    return diffDays;
   }
 }

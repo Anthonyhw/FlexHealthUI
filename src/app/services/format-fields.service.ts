@@ -31,9 +31,7 @@ export class FormatFieldsService {
     }
 
     input.target.value = formatedRg;
-    formGroup.rg.value = formatedRg;
-
-    console.log(formGroup.rg.errors);
+    formGroup.controls.rg.value = formatedRg;
 }
 
 formatCpf(formGroup: any, input: any) {
@@ -60,7 +58,7 @@ formatCpf(formGroup: any, input: any) {
     }
 
     input.target.value = formatedCpf;
-    formGroup.cpf.value = formatedCpf;
+    formGroup.controls.cpf.value = formatedCpf;
 }
 
 formatPhone(formGroup: any, input: any) {
@@ -91,7 +89,7 @@ formatPhone(formGroup: any, input: any) {
     }
 
     input.target.value = formatedPhone;
-    formGroup.telefone.value = formatedPhone;
+    formGroup.controls.telefone.value = formatedPhone;
 }
 
 formatCnpj(formGroup: any, input: any) {
@@ -104,24 +102,24 @@ formatCnpj(formGroup: any, input: any) {
     const a = valor.substr(8, 4);
     const b = valor.substr(12, 2);
 
-    let formatedPhone = '';
+    let formatedCnpj = '';
     if (x) {
-        formatedPhone += x;
+        formatedCnpj += x;
         if (y) {
-            formatedPhone += '.' + y;
+            formatedCnpj += '.' + y;
             if (z) {
-                formatedPhone += '.' + z;
+                formatedCnpj += '.' + z;
                 if (a) {
-                    formatedPhone += '/' + a;
+                    formatedCnpj += '/' + a;
                     if (b) {
-                        formatedPhone += '-' + b;
+                        formatedCnpj += '-' + b;
                     }
                 }
             }
         }
     }
 
-    input.target.value = formatedPhone;
-    formGroup.telefone.value = formatedPhone;
+    input.target.value = formatedCnpj;
+    formGroup.controls.cnpj.value = formatedCnpj;
 }
 }

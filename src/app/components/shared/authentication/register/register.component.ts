@@ -24,7 +24,7 @@ export class RegisterComponent {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   checkname: boolean;
-  ufs: string[] = ['AC','AM','RR','PA','AP','TO','MA','PI','CE','RN','PB','PE','AL','SE','BA','MG','ES','RJ','SP','PR','SC','RS','MS','MT','GO','DF',]
+  ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
   especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
 
   get f(): any {
@@ -33,14 +33,14 @@ export class RegisterComponent {
 
   public cep: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie:CookieService, public format: FormatFieldsService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie: CookieService, public format: FormatFieldsService) { }
 
   ngOnInit() {
     this.userType = location.pathname.split('/')[2] || 'patient';
     this.validation();
   }
 
-  
+
 
   searchAddress(cep: string) {
     this.http.get(`https://viacep.com.br/ws/${cep}/json`).subscribe({
@@ -73,12 +73,6 @@ export class RegisterComponent {
     }, formOptions);
 
     switch (this.userType) {
-      case 'patient':
-        this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
-        this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
-        this.form.addControl('nascimento', new FormControl(new Date(), Validators.required))
-        this.form.addControl('genero', new FormControl('', Validators.required))
-        break;
       case 'stablishment':
         this.form.addControl('cnpj', new FormControl('', [Validators.required, Validators.minLength(18)]))
         this.form.addControl('tipo', new FormControl('', Validators.required))
@@ -87,9 +81,12 @@ export class RegisterComponent {
         this.form.addControl('crm', new FormControl('', [Validators.required, Validators.minLength(6)]))
         this.form.addControl('uf', new FormControl('', Validators.required))
         this.form.addControl('especialidade', new FormControl('', Validators.required))
-        this.form.addControl('genero', new FormControl('', Validators.required))
         break;
     }
+    this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
+    this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
+    this.form.addControl('nascimento', new FormControl(new Date(), Validators.required))
+    this.form.addControl('genero', new FormControl('', Validators.required))
   }
 
 
