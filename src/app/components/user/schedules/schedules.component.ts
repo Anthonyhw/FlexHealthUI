@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AccordionConfig } from 'ngx-bootstrap/accordion';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Agenda } from 'src/app/models/agenda';
 import { Schedule } from 'src/app/models/schedule.model';
@@ -30,8 +31,13 @@ export class SchedulesComponent {
 
   foundResult: boolean = false;
   spinner: boolean = false;
+  page: number;
+  modalRef?: BsModalRef;
 
-  constructor(private schedule: ScheduleService, private account: AccountService, private toastr: ToastrService) { }
+  constructor(private schedule: ScheduleService, private account: AccountService, private toastr: ToastrService, private modalService: BsModalService) { }
+
+  ngOnInit() {
+  }
 
   formatDate(input: string) {
     let valor = input;
@@ -114,10 +120,20 @@ export class SchedulesComponent {
     return this.stablishments.find(stab => stab.estabelecimento.id == this.selectedHour.estabelecimentoId.toString()).estabelecimento
   }
 
-  scheduleToUser() {
+  scheduleToUser(modal: any) {
     if (!this.paymentType && !this.selectedHour.valor.includes('R$ 0')) {
       this.toastr.error('Escolha uma forma de pagamento!')
     }
+    if (this.paymentType == 'Credito') {
+      this.modalRef = this.modalService.show(modal,
+        {
+          class: 'modal-lg modal-dialog-centered',
+          ignoreBackdropClick: true,
+          keyboard: false
+        });
+      return;
+    }
+    
     var request = {
       agendamentoId: this.selectedHour.id,
       usuarioId: localStorage.getItem('User.Id'),

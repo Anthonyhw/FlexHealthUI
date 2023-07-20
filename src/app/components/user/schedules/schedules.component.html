@@ -20,7 +20,7 @@
           <label for="schedule">Tipo</label>
           <select [(ngModel)]="specialty" class="form-select" aria-label="">
             <ng-container *ngIf="scheduleType == 'Consulta'">
-              <option  *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
+              <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
             </ng-container>
             <ng-container *ngIf="scheduleType == 'Exame'">
               <option *ngFor="let tipo of tipoExames" value="{{tipo}}">{{tipo}}</option>
@@ -29,12 +29,12 @@
 
             </div>
             <div *ngIf="scheduleType == 'Exame'">
-            <option value="cardiologia">'Cardiologia'</option>
-             <option value="psicologia">'Psicologia'</option>
-            <option value="ginecologia">'Ginecologia'</option>
+              <option value="cardiologia">'Cardiologia'</option>
+              <option value="psicologia">'Psicologia'</option>
+              <option value="ginecologia">'Ginecologia'</option>
               <option value="pediatria">'Pediatria'</option>
-           <option value="oftalmologia">'Oftalmologia'</option>
-            <option value="psiquiatria">'Psiquiatria'</option>
+              <option value="oftalmologia">'Oftalmologia'</option>
+              <option value="psiquiatria">'Psiquiatria'</option>
             </div>
           </select>
         </div>
@@ -85,15 +85,49 @@
         </div>
       </div>
       <div class="row">
-        <accordion panelClass="customClass">
-          <accordion-group *ngFor="let stablishment of stablishments" heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
-            <button *ngFor="let horario of stablishment.agenda" (click)="chooseHour(horario.id)" type="button" class="btn btn-secondary col mt-1 mx-2">
-              {{horario.dataConsulta.substring(11, 16)}}
-            </button>
-          </accordion-group>
-          <p *ngIf="foundResult" class="h3 d-flex align-items-center justify-content-center">Nenhum Resultado
-            Encontrado.</p>
-        </accordion>
+        <tabset *ngIf="stablishments">
+          <tab *ngFor="let stablishment of stablishments"
+            heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
+            <table class="table table-striped table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="d-none d-md-table-cell">
+                  </th>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th class="d-none d-md-table-cell">Doutor</th>
+                  <th class="d-none d-md-table-cell">Especialidade</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;" (click)="chooseHour(schedule.id)">
+                  <td class="d-none d-md-table-cell"></td>
+                  <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
+                  <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
+                  <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}} {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+                  <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
+                  <td class="d-none d-md-table-cell">{{schedule.valor}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </tab>
+          <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
+          <pagination *ngIf="stablishments.length > 3"
+            class="d-flex justify-content-center"
+            [boundaryLinks]="true"
+        
+            [totalItems]="stablishments.length"
+            [itemsPerPage]="3"
+            [(ngModel)]="page"
+        
+            pageBtnClass="btn"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;">
+          </pagination>
+        </tabset>
       </div>
     </div>
   </div>
@@ -113,7 +147,8 @@
               {{getStablishment().nome}}
             </div>
             <div class="row information">
-              {{getStablishment().endereco.split('\\')[1].split(' - ')[0]}} - {{getStablishment().endereco.split('\\')[2]}}
+              {{getStablishment().endereco.split('\\')[1].split(' - ')[0]}} -
+              {{getStablishment().endereco.split('\\')[2]}}
             </div>
             <div class="row information">
               {{getStablishment().endereco.split('\\')[0]}}
@@ -128,7 +163,8 @@
               Telefone: {{getStablishment().phoneNumber}}
             </div>
             <br>
-            <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split(' ')[doctor.nome.split(' ').length-1]}}</div>
+            <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
+              ')[doctor.nome.split(' ').length-1]}}</div>
             <div class="row information">Horário: {{selectedHour.dataConsulta}}</div>
             <div class="row information">Valor da consulta: {{selectedHour.valor}}</div>
           </div>
@@ -147,7 +183,7 @@
             </select>
           </div>
           <div class="col-1 d-flex align-items-end">
-            <button (click)="scheduleToUser()" type="button" class="btn btn-success">
+            <button (click)="scheduleToUser(creditoModal)" type="button" class="btn btn-success">
               Agendar
             </button>
           </div>
@@ -155,3 +191,16 @@
       </div>
     </div>
   </div>
+
+  <ng-template #creditoModal>
+    <div class="modal-header d-flex text-align-center justify-content-center">
+      <h5 class="h5">Aqui tem q montar os campos pro cara botar os dados do cartão</h5>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quas distinctio ducimus numquam labore adipisci perferendis, officia repudiandae similique? Voluptatem tenetur, aspernatur minima cumque voluptates velit voluptate consequuntur tempore adipisci.</p>
+      <button type="button" class="btn btn-default btn-primary border rounded ms-1">Efetuar Pagamento</button>
+    </div>
+  </ng-template>
