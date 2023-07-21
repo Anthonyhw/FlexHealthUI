@@ -226,29 +226,114 @@
   </ng-template>
 
   <ng-template #detailModal>
-    <div class="modal-header d-flex text-align-center justify-content-center">
+    <div class="modal-header d-flex justify-content-center">
       <h5 class="h5">Detalhes</h5>
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>
     </div>
-    <div class="modal-body text-center">
-      <div class="row">
-        <span class="col-3 h6">Data: {{selectedSchedule.dataConsulta.substring(0, 10)}}</span>
-        <span class="col-2 h6">Hora: {{selectedSchedule.dataConsulta.substring(11, 16)}}</span>
-        <span class="col-4 h6">Especialidade: {{selectedSchedule.especialidade}}</span>
-        <span class="col-3 h6">Tipo: {{selectedSchedule.tipo}}</span>
+    <div class="modal-body">
+      <div class="details-section">
+        <div class="row">
+          <div class="col-md-3">
+            <h6>Data</h6>
+            <p>{{ selectedSchedule.dataConsulta.substring(0, 10) }}</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Hora</h6>
+            <p>{{ selectedSchedule.dataConsulta.substring(11, 16) }}</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Tipo</h6>
+            <p>{{ selectedSchedule.tipo }}</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Especialidade</h6>
+            <p>{{ selectedSchedule.especialidade }}</p>
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <span class="col h6">Valor: {{selectedSchedule.valor}}</span>
-        <span class="col h6">Forma de pagamento: {{selectedSchedule.pagamento}}</span>
-        <span class="col h6">Status do pagamento: </span>
+      <hr>
+      <div class="details-section">
+        <div class="row">
+          <div class="col-md">
+            <h6>Valor</h6>
+            <p>{{ selectedSchedule.valor }}</p>
+          </div>
+          <div class="col-md">
+            <h6>Forma de pagamento</h6>
+            <p>{{ selectedSchedule.pagamento }}</p>
+          </div>
+          <div class="col-md">
+            <h6>Status do pagamento</h6>
+            <p>Aprovado</p>
+          </div>
+          <div class="col-md d-flex align-items-center" *ngIf="">
+            <!-- ali no ngIf tem q adicionar uma condicional de se o status do pagamento for diferente de Aprovado -->
+            <button class="btn btn-default btn-success" >Efetuar Pagamento</button>
+          </div>
+        </div>
+        <div class="row">
+        </div>
       </div>
-      <div class="row">
-        <span class="col h6">Nome do {{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}: {{func == 'getSchedulesByDoctorId' ? selectedSchedule.usuario.nome.split(' ')[0] + ' ' + selectedSchedule.usuario.nome.split(' ')[selectedSchedule.usuario.nome.split(' ').length-1] : selectedSchedule.medico.nome.split(' ')[0] + ' ' + selectedSchedule.medico.nome.split(' ')[selectedSchedule.medico.nome.split(' ').length-1]}}</span>
-        <span class="col h6">Idade: {{getAge(selectedSchedule.usuario.nascimento)}}</span>
-
+      <hr>
+      <div class="details-section">
+        <div class="row">
+          <div class="col-md-4">
+            <h6>Nome do {{ func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor' }}</h6>
+            <p>
+              {{
+                func == 'getSchedulesByDoctorId'
+                  ? selectedSchedule.usuario.nome.split(' ')[0] + ' ' + selectedSchedule.usuario.nome.split(' ')[selectedSchedule.usuario.nome.split(' ').length - 1]
+                  : selectedSchedule.medico.nome.split(' ')[0] + ' ' + selectedSchedule.medico.nome.split(' ')[selectedSchedule.medico.nome.split(' ').length - 1]
+              }}
+            </p>
+          </div>
+          <div class="col-md-3" *ngIf="func == 'getSchedulesByDoctorId'">
+            <h6>Idade</h6>
+            <p>{{ getAge(selectedSchedule.usuario.nascimento) }}</p>
+          </div>
+          <div class="col-md-3" *ngIf="func != 'getSchedulesByDoctorId'">
+            <h6>Estabelecimento</h6>
+            <p>{{ selectedSchedule.estabelecimento.nome.split(' ')[0] + ' ' + selectedSchedule.estabelecimento.nome.split(' ')[selectedSchedule.estabelecimento.nome.split(' ').length - 1] }}</p>
+          </div>
+          <div class="col-md-5">
+            <h6>Endereço</h6>
+            <div class="row">
+              <p>
+                {{ selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[0]}} - {{selectedSchedule.estabelecimento.endereco.split('\\')[2]}}
+              </p>
+            </div>
+            <div class="row">
+              <p>
+                {{ selectedSchedule.estabelecimento.endereco.split('\\')[0]}}, {{ selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[1]}} - {{ selectedSchedule.estabelecimento.endereco.split('\\')[4]}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="details-section" *ngIf="func == 'getSchedulesByDoctorId'">
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Prescrições do Paciente</h6>
+            <p>Não há prescrições Disponíveis</p>
+          </div>
+          <div class="col-md-6">
+            <h6>Anexar Arquivo</h6>
+            <input type="file">
+          </div>
+        </div>
+        <hr>
+        <div class="row d-flex justify-content-end">
+          <div class="col-md-4 d-flex justify-content-end">
+            <button class="btn btn-default btn-success me-3">Encerrar Agendamento</button>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="modal-footer"></div>
   </ng-template>
+  
+  
 </div>
