@@ -25,7 +25,7 @@ export class RegisterComponent {
   showConfirmPassword: boolean = false;
   checkname: boolean;
   ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
-  especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
+  especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psiquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
 
   get f(): any {
     return this.form.controls;
@@ -136,6 +136,8 @@ export class RegisterComponent {
           this.toastr.error('Este Cpf já foi utilizado para cadastro!', 'Erro!');
         else if (error.error.includes('RG'))
           this.toastr.error('Este Rg já foi utilizado para cadastro!', 'Erro!');
+        else if (error.error.includes('CRM'))
+          this.toastr.error('Este CRM já foi utilizado para cadastro!', 'Erro!');
       }
     })
   }

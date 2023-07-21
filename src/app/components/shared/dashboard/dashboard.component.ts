@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DashboardComponent {
   modalRef?: BsModalRef;
+  func: string;
+
   openedSchedules: Schedule[] = [];
   scheduledSchedules: Schedule[] = [];
   closedSchedules: Schedule[] = [];
@@ -22,10 +24,35 @@ export class DashboardComponent {
   constructor(private schedule: ScheduleService, private modalService: BsModalService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.getSchedules();
+    this.func = location.pathname.includes('doctor') ? 'getSchedulesByDoctorId' : 'GetSchedulesByPatientId'
+    this.getSchedules(this.func)
   }
 
-  getSchedules() {
+  getSchedules(func: string) {
+    this.schedule[func](localStorage.getItem('User.Id')).subscribe({
+      next: (result: Schedule[]) => {
+        result.forEach((schedule) => {
+          switch (schedule.status) {
+            case 'Aberto':
+              this.openedSchedules.push(schedule);
+              break;
+            case 'Agendado':
+              this.scheduledSchedules.push(schedule);
+              break;
+            case 'Fechado':
+            case 'Cancelado':
+              this.closedSchedules.push(schedule);
+              break;
+          }
+        })
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  getSchedulesByUser() {
     this.schedule.getSchedulesByDoctorId(localStorage.getItem('User.Id')).subscribe({
       next: (result: Schedule[]) => {
         result.forEach((schedule) => {
@@ -73,9 +100,10 @@ export class DashboardComponent {
           message = 'removido';
         } else {
           message = 'cancelado';
-          this.closedSchedules.push(this.selectedSchedule)
           var index = this.scheduledSchedules.findIndex(sch => sch.id == this.selectedSchedule.id);
           this.scheduledSchedules.splice(index, 1)
+          this.selectedSchedule.status = 'Cancelado'
+          this.closedSchedules.push(this.selectedSchedule)
         }
         this.toastr.success(`Agendamento ${message} com sucesso!`, 'Sucesso!');
         this.modalRef.hide();

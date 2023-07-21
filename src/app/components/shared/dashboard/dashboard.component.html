@@ -3,7 +3,7 @@
   <div class="card rounded shadow-sm p-3">
     <!-- Em Aberto -->
     <tabset>
-      <tab (selectTab)="page=1" heading="Em Aberto">
+      <tab (selectTab)="page=1" heading="Em Aberto" *ngIf="func == 'getSchedulesByDoctorId'">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
@@ -18,7 +18,7 @@
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
           </thead>
-          <tbody  *ngIf="openedSchedules.length > 0">
+          <tbody>
             <tr *ngFor="let schedule of openedSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))" style="cursor: pointer;">
               <td class="d-none d-md-table-cell"></td>
               <td>{{schedule.id}}</td>
@@ -61,7 +61,7 @@
         </div>
       </tab>
       <!-- Agendados -->
-      <tab (selectTab)="page=1" heading="Agendados">
+      <tab (selectTab)="page=1" heading="Agendados" *ngIf="scheduledSchedules">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
@@ -72,12 +72,12 @@
               <th>Hora</th>
               <th class="d-none d-md-table-cell">Especialidade</th>
               <th class="d-none d-md-table-cell">Tipo</th>
-              <th class="d-none d-md-table-cell">Paciente</th>
+              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}</th>
               <th>Valor</th>
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
           </thead>
-          <tbody  *ngIf="scheduledSchedules.length > 0">
+          <tbody  *ngIf="scheduledSchedules">
             <tr (click)="openModal(schedule, detailModal)" *ngFor="let schedule of scheduledSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))" style="cursor: pointer;">
               <td class="d-none d-md-table-cell"></td>
               <td>{{schedule.id}}</td>
@@ -85,7 +85,7 @@
               <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
               <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
               <td class="d-none d-md-table-cell">{{schedule.tipo}}</td>
-              <td class="d-none d-md-table-cell">{{schedule.usuario.nome.split(' ')[0]}} {{schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1]}}</td>
+              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split(' ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] : schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
               <td>{{schedule.valor}}</td>
               <td class="d-none d-md-table-cell">{{schedule.status}}</td>
               <td>
@@ -121,7 +121,7 @@
         </div>
       </tab>
       <!-- Fechados -->
-      <tab (selectTab)="page=1" heading="Fechados">
+      <tab (selectTab)="page=1" heading="Fechados" *ngIf="closedSchedules.length > 0">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
@@ -132,7 +132,7 @@
               <th>Hora</th>
               <th class="d-none d-md-table-cell">Especialidade</th>
               <th class="d-none d-md-table-cell">Tipo</th>
-              <th class="d-none d-md-table-cell">Paciente</th>
+              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}</th>
               <th>Valor</th>
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
@@ -145,7 +145,7 @@
               <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
               <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
               <td class="d-none d-md-table-cell">{{schedule.tipo}}</td>
-              <td class="d-none d-md-table-cell">{{schedule.usuario.nome.split(' ')[0]}} {{schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1]}}</td>
+              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split(' ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] : schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
               <td>{{schedule.valor}}</td>
               <td class="d-none d-md-table-cell">{{schedule.status}}</td>
             </tr>
@@ -245,7 +245,7 @@
         <span class="col h6">Status do pagamento: </span>
       </div>
       <div class="row">
-        <span class="col h6">Nome do Paciente: {{selectedSchedule.usuario.nome.split(' ')[0]}} {{selectedSchedule.usuario.nome.split(' ')[selectedSchedule.usuario.nome.split(' ').length-1]}}</span>
+        <span class="col h6">Nome do {{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}: {{func == 'getSchedulesByDoctorId' ? selectedSchedule.usuario.nome.split(' ')[0] + ' ' + selectedSchedule.usuario.nome.split(' ')[selectedSchedule.usuario.nome.split(' ').length-1] : selectedSchedule.medico.nome.split(' ')[0] + ' ' + selectedSchedule.medico.nome.split(' ')[selectedSchedule.medico.nome.split(' ').length-1]}}</span>
         <span class="col h6">Idade: {{getAge(selectedSchedule.usuario.nascimento)}}</span>
 
       </div>

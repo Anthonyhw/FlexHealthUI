@@ -16,6 +16,10 @@ export class ScheduleService {
     return this.http.post<any>(env.api + 'schedule', JSON.stringify(request))
   }
 
+  GetSchedulesByPatientId(id: string): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(env.api + `schedule/patient?id=${id}`);
+  }
+
   getSchedulesByDoctorId(id: string): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(env.api + `schedule/doctor?id=${id}`);
   }
