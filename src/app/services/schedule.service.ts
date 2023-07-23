@@ -39,4 +39,8 @@ export class ScheduleService {
   cancelSchedule(id: number): Observable<Schedule> {
     return this.http.put<Schedule>(env.api + `schedule/cancel`, JSON.stringify(id));
   }
+
+  endSchedule(request: FormData): Observable<boolean> {
+    return this.http.post<boolean>(env.api + `schedule/end`, request);
+  }
 }

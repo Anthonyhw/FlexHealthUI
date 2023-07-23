@@ -15,8 +15,7 @@ export class Interceptor implements HttpInterceptor {
         if (cookie != '' || !request.url.includes('viacep')) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: 'Bearer ' + cookie,
-                    'Content-Type': 'application/json'
+                    Authorization: 'Bearer ' + cookie
                 }
             });
             return next.handle(request);

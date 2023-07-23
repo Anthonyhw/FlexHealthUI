@@ -10,9 +10,8 @@ export class Schedule {
     estabelecimento: User
     medico: User
     medicoId: number
-    usario: User
-    usarioId: number
     usuario: User
+    usuarioId: number
     especialidade: string
     valor: string
     pagamento: string

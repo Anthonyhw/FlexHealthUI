@@ -23,8 +23,8 @@ export class LoginComponent {
       JSON.stringify({username: user.includes('@') ? '' : user, email: user.includes('@') ? user : '', password: password}),
       {headers: {'content-type': 'application/json'}}).subscribe ({
       next: (result:any) => {
-        this.cookie.set('Token', result.token);
         var decodedToken = jwtDecode<any>(result.token);
+        this.cookie.set('Token', result.token, new Date(decodedToken.exp*1000));
         
         localStorage.setItem('User.Id', decodedToken.nameid);
         localStorage.setItem('User.Name', decodedToken.unique_name);

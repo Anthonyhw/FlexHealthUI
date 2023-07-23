@@ -19,7 +19,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let schedule of openedSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))" style="cursor: pointer;">
+            <tr *ngFor="let schedule of openedSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))"
+              style="cursor: pointer;">
               <td class="d-none d-md-table-cell"></td>
               <td>{{schedule.id}}</td>
               <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
@@ -45,17 +46,8 @@
         </table>
         <div class="d-flex justify-content-center">
 
-          <pagination
-            [boundaryLinks]="true"
-        
-            [totalItems]="openedSchedules.length"
-            [itemsPerPage]="12"
-            [(ngModel)]="page"
-        
-            pageBtnClass="btn"
-            previousText="&lsaquo;"
-            nextText="&rsaquo;"
-            firstText="&laquo;"
+          <pagination [boundaryLinks]="true" [totalItems]="openedSchedules.length" [itemsPerPage]="12"
+            [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
         </div>
@@ -77,19 +69,25 @@
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
           </thead>
-          <tbody  *ngIf="scheduledSchedules">
-            <tr (click)="openModal(schedule, detailModal)" *ngFor="let schedule of scheduledSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))" style="cursor: pointer;">
+          <tbody *ngIf="scheduledSchedules">
+            <tr (click)="openModal(schedule, detailModal)"
+              *ngFor="let schedule of scheduledSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))"
+              style="cursor: pointer;">
               <td class="d-none d-md-table-cell"></td>
               <td>{{schedule.id}}</td>
               <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
               <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
               <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
               <td class="d-none d-md-table-cell">{{schedule.tipo}}</td>
-              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split(' ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] : schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split('
+                ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] :
+                schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split('
+                ').length-1]}}</td>
               <td>{{schedule.valor}}</td>
               <td class="d-none d-md-table-cell">{{schedule.status}}</td>
               <td>
-                <button type="button" (click)="openModal(schedule, cancelModal);$event.stopPropagation();" class="btn btn-danger">
+                <button type="button" (click)="openModal(schedule, cancelModal);$event.stopPropagation();"
+                  class="btn btn-danger">
                   <i class="fa fa-cancel"></i>
                 </button>
               </td>
@@ -105,17 +103,8 @@
         </table>
         <div class="d-flex justify-content-center">
 
-          <pagination
-            [boundaryLinks]="true"
-        
-            [totalItems]="scheduledSchedules.length"
-            [itemsPerPage]="12"
-            [(ngModel)]="page"
-        
-            pageBtnClass="btn"
-            previousText="&lsaquo;"
-            nextText="&rsaquo;"
-            firstText="&laquo;"
+          <pagination [boundaryLinks]="true" [totalItems]="scheduledSchedules.length" [itemsPerPage]="12"
+            [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
         </div>
@@ -137,15 +126,20 @@
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
           </thead>
-          <tbody  *ngIf="closedSchedules.length > 0">
-            <tr *ngFor="let schedule of closedSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))" style="cursor: pointer;">
+          <tbody *ngIf="closedSchedules.length > 0">
+            <tr (click)="openModal(schedule, detailModal)"
+              *ngFor="let schedule of closedSchedules.slice((page == 1 ? 0 : 12 * (page-1)), (12 * page))"
+              style="cursor: pointer;">
               <td class="d-none d-md-table-cell"></td>
               <td>{{schedule.id}}</td>
               <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
               <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
               <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
               <td class="d-none d-md-table-cell">{{schedule.tipo}}</td>
-              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split(' ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] : schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+              <td class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? schedule.usuario.nome.split('
+                ')[0] + ' ' + schedule.usuario.nome.split(' ')[schedule.usuario.nome.split(' ').length-1] :
+                schedule.medico.nome.split(' ')[0] + ' ' + schedule.medico.nome.split(' ')[schedule.medico.nome.split('
+                ').length-1]}}</td>
               <td>{{schedule.valor}}</td>
               <td class="d-none d-md-table-cell">{{schedule.status}}</td>
             </tr>
@@ -160,23 +154,14 @@
         </table>
         <div class="d-flex justify-content-center">
 
-          <pagination
-            [boundaryLinks]="true"
-        
-            [totalItems]="closedSchedules.length"
-            [itemsPerPage]="12"
-            [(ngModel)]="page"
-        
-            pageBtnClass="btn"
-            previousText="&lsaquo;"
-            nextText="&rsaquo;"
-            firstText="&laquo;"
+          <pagination [boundaryLinks]="true" [totalItems]="closedSchedules.length" [itemsPerPage]="12"
+            [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
         </div>
       </tab>
     </tabset>
-    
+
     <!-- Filtro -->
     <!-- <div class="d-flex">
       <div class="flex-fill pr-3">
@@ -195,7 +180,7 @@
       </div>
     </div> -->
     <!-- <h3>Filtro: {{filtroLista}}</h3> -->
-    
+
 
     <div class="d-flex justify-content-center">
 
@@ -208,9 +193,10 @@
       <h5 class="h5">Aviso</h5>
     </div>
     <div class="modal-body text-center">
-      <p>Deseja excluir a agenda do dia {{selectedSchedule.dataConsulta.substring(0, 10)}} - {{selectedSchedule.dataConsulta.substring(11, 16)}}?</p>
-      <button type="button" class="btn btn-default ms-1" (click)="confirm('deleteSchedule')" >Sim</button>
-      <button type="button" class="btn btn-primary ms-1" (click)="decline()" >Não</button>
+      <p>Deseja excluir a agenda do dia {{selectedSchedule.dataConsulta.substring(0, 10)}} -
+        {{selectedSchedule.dataConsulta.substring(11, 16)}}?</p>
+      <button type="button" class="btn btn-default ms-1" (click)="confirm('deleteSchedule')">Sim</button>
+      <button type="button" class="btn btn-primary ms-1" (click)="decline()">Não</button>
     </div>
   </ng-template>
 
@@ -219,9 +205,10 @@
       <h5 class="h5">Aviso</h5>
     </div>
     <div class="modal-body text-center">
-      <p>Deseja Cancelar a agenda do dia {{selectedSchedule.dataConsulta.substring(0, 10)}} - {{selectedSchedule.dataConsulta.substring(11, 16)}}?</p>
-      <button type="button" class="btn btn-default ms-1" (click)="confirm('cancelSchedule')" >Sim</button>
-      <button type="button" class="btn btn-primary ms-1" (click)="decline()" >Não</button>
+      <p>Deseja Cancelar a agenda do dia {{selectedSchedule.dataConsulta.substring(0, 10)}} -
+        {{selectedSchedule.dataConsulta.substring(11, 16)}}?</p>
+      <button type="button" class="btn btn-default ms-1" (click)="confirm('cancelSchedule')">Sim</button>
+      <button type="button" class="btn btn-primary ms-1" (click)="decline()">Não</button>
     </div>
   </ng-template>
 
@@ -270,7 +257,7 @@
           </div>
           <div class="col-md d-flex align-items-center" *ngIf="">
             <!-- ali no ngIf tem q adicionar uma condicional de se o status do pagamento for diferente de Aprovado -->
-            <button class="btn btn-default btn-success" >Efetuar Pagamento</button>
+            <button class="btn btn-default btn-success">Efetuar Pagamento</button>
           </div>
         </div>
         <div class="row">
@@ -283,9 +270,11 @@
             <h6>Nome do {{ func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor' }}</h6>
             <p>
               {{
-                func == 'getSchedulesByDoctorId'
-                  ? selectedSchedule.usuario.nome.split(' ')[0] + ' ' + selectedSchedule.usuario.nome.split(' ')[selectedSchedule.usuario.nome.split(' ').length - 1]
-                  : selectedSchedule.medico.nome.split(' ')[0] + ' ' + selectedSchedule.medico.nome.split(' ')[selectedSchedule.medico.nome.split(' ').length - 1]
+              func == 'getSchedulesByDoctorId'
+              ? selectedSchedule.usuario.nome.split(' ')[0] + ' ' + selectedSchedule.usuario.nome.split('
+              ')[selectedSchedule.usuario.nome.split(' ').length - 1]
+              : selectedSchedule.medico.nome.split(' ')[0] + ' ' + selectedSchedule.medico.nome.split('
+              ')[selectedSchedule.medico.nome.split(' ').length - 1]
               }}
             </p>
           </div>
@@ -295,18 +284,23 @@
           </div>
           <div class="col-md-3" *ngIf="func != 'getSchedulesByDoctorId'">
             <h6>Estabelecimento</h6>
-            <p>{{ selectedSchedule.estabelecimento.nome.split(' ')[0] + ' ' + selectedSchedule.estabelecimento.nome.split(' ')[selectedSchedule.estabelecimento.nome.split(' ').length - 1] }}</p>
+            <p>{{ selectedSchedule.estabelecimento.nome.split(' ')[0] + ' ' +
+              selectedSchedule.estabelecimento.nome.split(' ')[selectedSchedule.estabelecimento.nome.split(' ').length -
+              1] }}</p>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5" *ngIf="func != 'getSchedulesByDoctorId'">
             <h6>Endereço</h6>
             <div class="row">
               <p>
-                {{ selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[0]}} - {{selectedSchedule.estabelecimento.endereco.split('\\')[2]}}
+                {{ selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[0]}} -
+                {{selectedSchedule.estabelecimento.endereco.split('\\')[2]}}
               </p>
             </div>
             <div class="row">
               <p>
-                {{ selectedSchedule.estabelecimento.endereco.split('\\')[0]}}, {{ selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[1]}} - {{ selectedSchedule.estabelecimento.endereco.split('\\')[4]}}
+                {{ selectedSchedule.estabelecimento.endereco.split('\\')[0]}}, {{
+                selectedSchedule.estabelecimento.endereco.split('\\')[1].split(' - ')[1]}} - {{
+                selectedSchedule.estabelecimento.endereco.split('\\')[4]}}
               </p>
             </div>
           </div>
@@ -319,21 +313,66 @@
             <h6>Prescrições do Paciente</h6>
             <p>Não há prescrições Disponíveis</p>
           </div>
-          <div class="col-md-6">
-            <h6>Anexar Arquivo</h6>
-            <input type="file">
+        </div>
+        <div class="row">
+          <div>
+            <ng-container *ngIf="selectedSchedule.status != 'Cancelado'">
+              <hr>
+              <ng-container *ngFor="let archive of archives; let i = index">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6>Anexar Arquivo</h6>
+                    <input type="file" accept="application/pdf" (change)="onFileChange($event, i)">
+                  </div>
+                  <div class="col-md-6 ">
+                    <div class="row d-flex justify-content-end align-items-center">
+                      <div
+                        *ngIf="i != archives.length-1 && selectedSchedule.status == 'Encerrado' && (archive.proposito && archive.proposito != 'Pedido' || archive.proposito == 'Pedido' && archive.tipoExame) "
+                        class="col-md ">
+                        <div class="me-3">
+                          <button (click)="uploadFile(archive)"
+                            class="btn btn-default btn-success">Enviar
+                            Arquivo</button>
+                        </div>
+                      </div>
+                      <div *ngIf="i != archives.length-1" class="col-md ">
+                        <div class="me-3  d-flex justify-content-end"><button (click)="deleteFile(i)" class="btn btn-default btn-danger"><i
+                              class="fa fa-x"></i></button></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="archive.arquivo">
+                  <div class="col-md-6">
+                    <h6>Tipo de arquivo</h6>
+                    <select (change)="archive.tipoExame = undefined" [(ngModel)]="archive.proposito" class="form-select"
+                      aria-label="">
+                      <option value="Receita">Receita</option>
+                      <option value="Pedido">Pedido Médico</option>
+                      <option value="Resultado">Resultado de Exame</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6" *ngIf="archive.proposito == 'Pedido'">
+                    <h6>Tipo de Exame</h6>
+                    <select [(ngModel)]="archive.tipoExame" class="form-select" aria-label="">
+                      <option *ngFor="let tipo of tipoExames" value="{{tipo}}">{{tipo}}</option>
+                    </select>
+                  </div>
+                </div>
+                <hr *ngIf="archive.arquivo != undefined">
+              </ng-container>
+            </ng-container>
           </div>
         </div>
-        <hr>
-        <div class="row d-flex justify-content-end">
+        <div *ngIf="selectedSchedule.status == 'Agendado'" class="row d-flex justify-content-end">
           <div class="col-md-4 d-flex justify-content-end">
-            <button class="btn btn-default btn-success me-3">Encerrar Agendamento</button>
+            <button [disabled]="confirmStatus" (click)="endSchedule()" class="btn btn-default btn-success me-3"><span
+                [ngStyle]="{'visibility': confirmStatus ? '' : 'hidden'}"
+                class="spinner-border spinner-border-sm me-2"></span>Encerrar Agendamento</button>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-footer"></div>
   </ng-template>
-  
-  
 </div>
