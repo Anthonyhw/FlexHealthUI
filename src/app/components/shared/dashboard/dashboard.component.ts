@@ -1,10 +1,11 @@
-import { Component, LOCALE_ID, TemplateRef } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { Schedule } from 'src/app/models/schedule.model';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ArchiveDto } from 'src/app/models/archiveDto.model';
 import { PrescriptionService } from 'src/app/services/prescription.service';
+import { env } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,13 +21,17 @@ export class DashboardComponent {
   closedSchedules: Schedule[] = [];
   selectedSchedule: Schedule;
   archives: ArchiveDto[] = [new ArchiveDto()];
-  tipoExames = ['TSH e T4 livre', 'Transaminases ', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma'];
+  tipoExames = ['TSH e T4 livre', 'Transaminases', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma'];
   confirmStatus: boolean = false;
+
+  public get api() {
+    return env.api;
+  }
 
   // Paginations
   page: number;
 
-  constructor(private schedule: ScheduleService, private modalService: BsModalService, private toastr: ToastrService, private prescription: PrescriptionService) { }
+  constructor(private schedule: ScheduleService, private modalService: BsModalService, private toastr: ToastrService, private prescription: PrescriptionService ) { }
 
   ngOnInit() {
     this.func = location.pathname.includes('doctor') ? 'getSchedulesByDoctorId' : 'GetSchedulesByPatientId'
@@ -76,6 +81,15 @@ export class DashboardComponent {
         ignoreBackdropClick: true,
         keyboard: false
       });
+
+    this.prescription.GetPrescriptionByUserId(parseInt(this.selectedSchedule.usuario.id), true).subscribe({
+      next: (result) => {
+        this.selectedSchedule.prescricoes = result;
+      },
+      error: (error) => {
+        this.toastr.error('Erro ao tentar recuperar prescrições do usuário!', 'Erro!');
+      }
+    })
   }
 
   confirm(requestType: string) {
@@ -113,14 +127,7 @@ export class DashboardComponent {
 
     var addNewSlot = true
 
-    //var fileObject = event.target.files[0];
-
     this.archives[index].arquivo = event.target.files.length == 0 ? undefined : event.target.files[0];
-
-    /*if (event.target.files > 0) {
-      reader.readAsDataURL(this.archives[index].arquivo[0]);
-    }*/
-
 
     this.archives.forEach(archive => {
       if (archive.arquivo == undefined) addNewSlot = false;
@@ -161,7 +168,7 @@ export class DashboardComponent {
           this.toastr.error(`${arquivo.arquivo.name} deve ser do formato pdf`, 'Erro!')
           someError = true
         }
-        arquivo.url = `${arquivo.proposito}${arquivo.tipoExame == undefined ? '' : '_' + arquivo.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${arquivo.usuarioId}`;
+        arquivo.url = `${arquivo.proposito}${arquivo.tipoExame == undefined ? '' : '_' + arquivo.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${arquivo.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
       })
       if (someError) {
         this.confirmStatus = false;
@@ -231,5 +238,8 @@ export class DashboardComponent {
         this.toastr.error(error.error, 'Erro!')
       }
     })
+  }
+  downloadFile(fileName: string) {
+    return this.prescription.downloadFile(fileName);
   }
 }

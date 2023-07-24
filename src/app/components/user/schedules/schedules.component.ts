@@ -135,9 +135,9 @@ export class SchedulesComponent {
     }
     
     var request = {
-      agendamentoId: this.selectedHour.id,
-      usuarioId: localStorage.getItem('User.Id'),
-      pagamento: this.paymentType
+      AgendamentoId: parseInt(this.selectedHour.id),
+      UsuarioId: parseInt(localStorage.getItem('User.Id')),
+      Pagamento: this.paymentType
     }
 
     this.schedule.scheduleToUser(request).subscribe({

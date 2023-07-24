@@ -1,3 +1,4 @@
+import { ArchiveDto } from "./archiveDto.model"
 import { User } from "./user.model"
 
 export class Schedule {
@@ -15,4 +16,5 @@ export class Schedule {
     especialidade: string
     valor: string
     pagamento: string
+    prescricoes: ArchiveDto[]
 }
