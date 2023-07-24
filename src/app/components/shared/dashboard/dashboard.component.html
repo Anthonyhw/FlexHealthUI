@@ -312,7 +312,7 @@
           <div class="col-md-6">
             <h6>Prescrições do Paciente</h6>
             <a *ngFor="let prescription of selectedSchedule.prescricoes" href="{{api + 'resources/prescriptions/' + prescription.url + '.pdf'}}" target="_blank"><p>{{prescription.url.substring(0, prescription.url.indexOf("_user")).replaceAll('_', ' ').replaceAll('-', '/')}}</p></a>
-            <p *ngIf="!selectedSchedule.prescricoes">Não há prescrições Disponíveis</p>
+            <p *ngIf="selectedSchedule.prescricoes.length == 0">Não há prescrições Disponíveis</p>
           </div>
         </div>
         <div class="row">
