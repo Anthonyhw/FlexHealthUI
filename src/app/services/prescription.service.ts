@@ -27,7 +27,11 @@ export class PrescriptionService {
     return this.http.post<ArchiveDto>(env.api + `prescription`, prescription);
   }
 
-  downloadFile(filename: string): Observable<File> {
-    return this.http.get<File>(env.api + `Resources/Prescriptions/${filename}.pdf`);
+  downloadFile(filename: string) {
+    return this.http.post(env.api + `prescription/download`, JSON.stringify(filename));
+  }
+
+  changeVisibility(id: number, visibility: boolean): Observable<boolean> {
+    return this.http.put<boolean>(env.api + `prescription/${id}`, JSON.stringify(visibility));
   }
 }

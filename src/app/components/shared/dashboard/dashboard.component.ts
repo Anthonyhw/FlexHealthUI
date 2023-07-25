@@ -218,7 +218,7 @@ export class DashboardComponent {
       this.toastr.error('Escolha um arquivo do formato pdf!', 'Erro!');
       return
     }
-    archive.url = `${archive.proposito}${archive.tipoExame == undefined ? '' : '_' + archive.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${archive.usuarioId}`;
+    archive.url = `${archive.proposito}${archive.tipoExame == undefined ? '' : '_' + archive.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${archive.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
     var formData = new FormData();
     formData.append(`Arquivos[0].Arquivo`, archive.arquivo, archive.arquivo.name);
     formData.append(`Arquivos[0].Url`, archive.url);

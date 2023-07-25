@@ -83,10 +83,12 @@ export class RegisterComponent {
         this.form.addControl('especialidade', new FormControl('', Validators.required))
         break;
     }
-    this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
-    this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
-    this.form.addControl('nascimento', new FormControl(new Date(), Validators.required))
-    this.form.addControl('genero', new FormControl('', Validators.required))
+    if (this.userType != 'stablishment') {
+      this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
+      this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
+      this.form.addControl('nascimento', new FormControl(new Date(), Validators.required))
+      this.form.addControl('genero', new FormControl('', Validators.required))
+    }
   }
 
 
@@ -104,7 +106,8 @@ export class RegisterComponent {
       return;
     }
 
-    var decodedToken = jwtDecode<any>(this.cookie.get('Token'))
+    var decodedToken = null
+    if (location.pathname.includes('doctor')) decodedToken = jwtDecode<any>(this.cookie.get('Token'));
 
     const register = new Register({
       userName: this.f.email.value,
@@ -122,7 +125,7 @@ export class RegisterComponent {
       tipo: this.userType == 'stablishment' ? this.f.tipo?.value : this.userType == 'doctor' ? 'Medico' : '',
       crm: ('CRM-' + this.f.uf?.value + '/' + this.f.crm?.value) || '',
       especialidade: this.f.especialidade?.value || '',
-      estabelecimentoId: decodedToken.nameid
+      estabelecimentoId: decodedToken?.nameid || null
     });
 
     this.http.post(env.api + 'account/register', JSON.stringify(register), { headers: { 'Content-Type': 'application/json' } }).subscribe({

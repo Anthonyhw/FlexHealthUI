@@ -1,5 +1,6 @@
 export class ArchiveDto {
     arquivo: File
+    id: number
     url: string
     usuarioId: number
     medicoId: number

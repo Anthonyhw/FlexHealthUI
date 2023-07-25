@@ -8,6 +8,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { Stablishment } from 'src/app/models/stablishment.model';
 import { Agenda } from 'src/app/models/agenda';
 import { ScheduleService } from 'src/app/services/schedule.service';
+import { last } from 'rxjs';
 
 @Component({
   selector: 'app-management',
@@ -145,9 +146,12 @@ export class ManagementComponent implements OnInit {
     if (!initial || !end || !interval) return
 
     var currentHour = new Date(initial)
-    currentHour.setDate(this.date.dia.getDate())
+    currentHour.setUTCDate(this.date.dia.getUTCDate())
+    currentHour.setUTCMonth(this.date.dia.getUTCMonth())
     var lastHour = new Date(end)
-    lastHour.setMinutes(lastHour.getMinutes() + parseInt(interval))
+    lastHour.setUTCDate(this.date.dia.getUTCDate())
+    lastHour.setUTCMonth(this.date.dia.getUTCMonth())
+    lastHour.setUTCMinutes(lastHour.getUTCMinutes() + parseInt(interval))
 
     while ((currentHour.getHours() < lastHour.getHours()) || (currentHour.getMinutes() < lastHour.getMinutes())) {
       var already = false;

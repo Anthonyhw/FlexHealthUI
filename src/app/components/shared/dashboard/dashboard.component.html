@@ -36,17 +36,12 @@
               </td>
             </tr>
           </tbody>
-          <tfoot *ngIf="openedSchedules.length == 0">
-            <tr>
-              <td colspan="8" class="text-center">
-                <h4>Nenhum agendamento encontrado!</h4>
-              </td>
-            </tr>
-          </tfoot>
         </table>
+        <h4 *ngIf="openedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
+
         <div class="d-flex justify-content-center">
 
-          <pagination [boundaryLinks]="true" [totalItems]="openedSchedules.length" [itemsPerPage]="12"
+          <pagination class="mt-2" [boundaryLinks]="true" [totalItems]="openedSchedules.length" [itemsPerPage]="12"
             [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
@@ -57,8 +52,7 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th class="d-none d-md-table-cell">
-              </th>
+              <th class="d-none d-md-table-cell"></th>
               <th>#</th>
               <th>Data</th>
               <th>Hora</th>
@@ -92,18 +86,11 @@
                 </button>
               </td>
             </tr>
-          </tbody>
-          <tfoot *ngIf="scheduledSchedules.length == 0">
-            <tr>
-              <td colspan="8" class="text-center">
-                <h4>Nenhum agendamento encontrado!</h4>
-              </td>
-            </tr>
-          </tfoot>
         </table>
+        <h4 *ngIf="scheduledSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
         <div class="d-flex justify-content-center">
 
-          <pagination [boundaryLinks]="true" [totalItems]="scheduledSchedules.length" [itemsPerPage]="12"
+          <pagination class="mt-2" [boundaryLinks]="true" [totalItems]="scheduledSchedules.length" [itemsPerPage]="12"
             [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
@@ -144,17 +131,11 @@
               <td class="d-none d-md-table-cell">{{schedule.status}}</td>
             </tr>
           </tbody>
-          <tfoot *ngIf="closedSchedules.length == 0">
-            <tr>
-              <td colspan="8" class="text-center">
-                <h4>Nenhum agendamento encontrado!</h4>
-              </td>
-            </tr>
-          </tfoot>
         </table>
+        <h4 *ngIf="closedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
         <div class="d-flex justify-content-center">
 
-          <pagination [boundaryLinks]="true" [totalItems]="closedSchedules.length" [itemsPerPage]="12"
+          <pagination class="mt-2" [boundaryLinks]="true" [totalItems]="closedSchedules.length" [itemsPerPage]="12"
             [(ngModel)]="page" pageBtnClass="btn" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
             lastText="&raquo;">
           </pagination>
@@ -311,7 +292,7 @@
         <div class="row">
           <div class="col-md-6">
             <h6>Prescrições do Paciente</h6>
-            <a *ngFor="let prescription of selectedSchedule.prescricoes" href="{{api + 'resources/prescriptions/' + prescription.url + '.pdf'}}" target="_blank"><p>{{prescription.url.substring(0, prescription.url.indexOf("_user")).replaceAll('_', ' ').replaceAll('-', '/')}}</p></a>
+            <a *ngFor="let prescription of selectedSchedule.prescricoes" target="_blank" href="{{api}}Resources/Prescriptions/{{prescription.url}}.pdf" download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
             <p *ngIf="selectedSchedule.prescricoes.length == 0">Não há prescrições Disponíveis</p>
           </div>
         </div>
