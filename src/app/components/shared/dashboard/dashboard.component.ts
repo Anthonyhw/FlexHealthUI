@@ -168,7 +168,7 @@ export class DashboardComponent {
           this.toastr.error(`${arquivo.arquivo.name} deve ser do formato pdf`, 'Erro!')
           someError = true
         }
-        arquivo.url = `${arquivo.proposito}${arquivo.tipoExame == undefined ? '' : '_' + arquivo.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${arquivo.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
+        arquivo.url = `${arquivo.proposito}${arquivo.tipoExame == undefined ? '' : '_' + arquivo.tipoExame.replaceAll(' ', '_')}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${arquivo.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
       })
       if (someError) {
         this.confirmStatus = false;
@@ -218,7 +218,7 @@ export class DashboardComponent {
       this.toastr.error('Escolha um arquivo do formato pdf!', 'Erro!');
       return
     }
-    archive.url = `${archive.proposito}${archive.tipoExame == undefined ? '' : '_' + archive.tipoExame}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${archive.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
+    archive.url = `${archive.proposito}${archive.tipoExame == undefined ? '' : '_' + archive.tipoExame.replaceAll(' ', '_')}_${new Date().toLocaleDateString().toString().substring(0, 10).replaceAll('/', '-')}_user${archive.usuarioId}_${Math.floor(Math.random() * 90000) + 10000}`;
     var formData = new FormData();
     formData.append(`Arquivos[0].Arquivo`, archive.arquivo, archive.arquivo.name);
     formData.append(`Arquivos[0].Url`, archive.url);
@@ -226,7 +226,7 @@ export class DashboardComponent {
     formData.append(`Arquivos[0].MedicoId`, archive.medicoId.toString());
     formData.append(`Arquivos[0].AgendamentoId`, archive.agendamentoId.toString());
     formData.append(`Arquivos[0].Proposito`, archive.proposito);
-    formData.append(`Arquivos[0].TipoExame`, archive.tipoExame);
+    formData.append(`Arquivos[0].TipoExame`, archive.tipoExame?.replaceAll(' ', '_'));
     formData.append(`Arquivos[0].Visibilidade`, 'false');
 
     this.prescription.CreatePrescription(formData).subscribe({
