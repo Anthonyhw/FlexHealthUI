@@ -71,7 +71,7 @@ export class DashboardComponent {
     this.archives = [];
     this.archives.push(new ArchiveDto({
       medicoId: parseInt(localStorage.getItem('User.Id')),
-      usuarioId: parseInt(this.selectedSchedule.usuario.id),
+      usuarioId: parseInt(this.selectedSchedule.usuario?.id),
       agendamentoId: parseInt(this.selectedSchedule.id),
 
     }));
@@ -82,14 +82,16 @@ export class DashboardComponent {
         keyboard: false
       });
 
-    this.prescription.GetPrescriptionByUserId(parseInt(this.selectedSchedule.usuario.id), true).subscribe({
-      next: (result) => {
-        this.selectedSchedule.prescricoes = result;
-      },
-      error: (error) => {
-        this.toastr.error('Erro ao tentar recuperar prescrições do usuário!', 'Erro!');
-      }
-    })
+    if (this.selectedSchedule.usuario) {
+      this.prescription.GetPrescriptionByUserId(parseInt(this.selectedSchedule.usuario.id), true).subscribe({
+        next: (result) => {
+          this.selectedSchedule.prescricoes = result;
+        },
+        error: (error) => {
+          this.toastr.error('Erro ao tentar recuperar prescrições do usuário!', 'Erro!');
+        }
+      })
+    }
   }
 
   confirm(requestType: string) {

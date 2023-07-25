@@ -288,8 +288,8 @@
         </div>
       </div>
       <div class="details-section" *ngIf="func == 'getSchedulesByDoctorId'">
-        <hr>
-        <div class="row">
+        <div class="row" *ngIf="selectedSchedule.status != 'Cancelado'">
+          <hr>
           <div class="col-md-6">
             <h6>Prescrições do Paciente</h6>
             <a class="row ms-1" *ngFor="let prescription of selectedSchedule.prescricoes" target="_blank" href="{{api}}Resources/Prescriptions/{{prescription.url}}.pdf" download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
