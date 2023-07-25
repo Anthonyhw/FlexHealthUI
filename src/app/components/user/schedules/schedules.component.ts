@@ -143,6 +143,8 @@ export class SchedulesComponent {
     this.schedule.scheduleToUser(request).subscribe({
       next: (result) => {
         window.location.reload;
+        this.stablishments = []
+        this.selectedHour = undefined;
         this.toastr.success('Agendamento realizado com sucesso!', 'Sucesso!')
       }
     })
