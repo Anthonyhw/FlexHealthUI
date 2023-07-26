@@ -20,4 +20,8 @@ export class AccountService {
   getUserById(id: number): Observable<Stablishment> {
     return this.http.get<Stablishment>(env.api + `account/getUserById/${id}`);
   }
+
+  updateImage(formData: FormData, fileName: string): Observable<boolean> {
+    return this.http.put<boolean>(env.api + `account/image?fileName=${fileName}`, formData); 
+  }
 }

@@ -10,6 +10,7 @@ import { User } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
 import { PrescriptionService } from 'src/app/services/prescription.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
+import { env } from 'src/environments/environment';
 
 @Component({
   selector: 'app-schedules',
@@ -31,6 +32,9 @@ export class SchedulesComponent {
   doctor: User;
   selectedPrescription: string;
   prescriptions: ArchiveDto[];
+
+  doctorImageSrc: string;
+  stablishmentImageSrc: string;
 
 
   foundResult: boolean = false;
@@ -116,7 +120,15 @@ export class SchedulesComponent {
 
     this.account.getUserById(this.selectedHour.medicoId).subscribe({
       next: (result) => {
+        
         this.doctor = result;
+        var stablishmentPhoto = this.stablishments.find(stab => stab.agenda[0].medicoId == parseInt(result.id)).estabelecimento.fotoPerfil
+        if (stablishmentPhoto != "") this.stablishmentImageSrc = env.api + `Resources/Images/UserImages/` + stablishmentPhoto;
+        else this.stablishmentImageSrc ='../../../../assets/nophoto.png'
+        
+        if (result.fotoPerfil != "") this.doctorImageSrc = env.api + `Resources/Images/UserImages/${result.fotoPerfil}`;
+        else this.doctorImageSrc = '../../../../assets/nophoto.png'
+        
       }
     })
   }

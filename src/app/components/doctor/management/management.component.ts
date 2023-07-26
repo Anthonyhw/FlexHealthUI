@@ -9,6 +9,7 @@ import { Stablishment } from 'src/app/models/stablishment.model';
 import { Agenda } from 'src/app/models/agenda';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { last } from 'rxjs';
+import { env } from 'src/environments/environment';
 
 @Component({
   selector: 'app-management',
@@ -19,6 +20,7 @@ export class ManagementComponent implements OnInit {
 
   // Doctor Information
   doctor: Doctor;
+  doctorImageSrc: string;
 
   today = new Date();
   dates: Day[] = [new Day(new Date(this.today))];
@@ -243,6 +245,7 @@ export class ManagementComponent implements OnInit {
             crm: localStorage.getItem('Doctor.Crm'),
             especialidade: localStorage.getItem('Doctor.Specialty')
           });
+        this.doctorImageSrc = result.fotoPerfil ? env.api + `Resources/Images/UserImages/${result.fotoPerfil}` : '../../../../assets/nophoto.png';
         // Getting Stablishment Information
         this.account.getUserById(parseInt(localStorage.getItem('Doctor.Stablishment'))).subscribe({
           next: (result: User) => {

@@ -12,14 +12,16 @@
                                     <div class="row information">Especialidade: {{doctor?.especialidade}}</div>
                                     <br>
                                     <div class="row information">{{doctor?.estabelecimento?.nome}}</div>
-                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[1] || ''}} - {{doctor?.estabelecimento?.endereco?.split('\\')[2]}}</div>
-                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[3] || ''}} - CEP: {{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(0, 5)}}{{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(5)}}</div>
-                                    <div class="row information">Telefone: {{doctor?.estabelecimento?.phoneNumber}}</div>
+                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[1] ||
+                                        ''}} - {{doctor?.estabelecimento?.endereco?.split('\\')[2]}}</div>
+                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[3] ||
+                                        ''}} - CEP: {{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(0,
+                                        5)}}{{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(5)}}</div>
+                                    <div class="row information">Telefone: {{doctor?.estabelecimento?.phoneNumber}}
+                                    </div>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <img width="220px" class="img-fluid"
-                                        src="https://goadmedia.com.br/wp-content/uploads/2015/11/c%C3%B3pia-de-GustavoReis3x4-354x450.jpg"
-                                        alt="">
+                                    <img width="220px" class="border border-black" [src]="doctorImageSrc" alt="">
                                 </div>
                             </div>
                             <br>
@@ -34,9 +36,10 @@
                                     </bs-daterangepicker-inline>
                                 </div>
                                 <h5 class="d-flex justify-content-center">Desabilitar dias da Semana</h5>
-                                <div class="btn-group px-5 pb-3" role="group" aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
-                                        value="0" [checked]="true" (change)="changeWeekDays($event, 0)">
+                                <div class="btn-group px-5 pb-3" role="group"
+                                    aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" value="0"
+                                        [checked]="true" (change)="changeWeekDays($event, 0)">
                                     <label class="btn btn-outline-primary border" for="btncheck1">Domingo</label>
 
                                     <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
@@ -151,9 +154,8 @@
                                 <div class="row">
                                     <div class="d-flex justify-content-center flex-wrap">
                                         <h2 *ngIf="date.horarios.length <= 0">Adicione um Horário</h2>
-                                        <button (click)="chooseHour(horario.hora)"
-                                            *ngFor="let horario of date.horarios" type="button"
-                                            class="btn btn-primary m-1">
+                                        <button (click)="chooseHour(horario.hora)" *ngFor="let horario of date.horarios"
+                                            type="button" class="btn btn-primary m-1">
                                             {{horario.hora.getHours() < 10 ? '0' + horario.hora.getHours() :
                                                 horario.hora.getHours()}}:{{horario.hora.getMinutes() < 10 ? '0' +
                                                 horario.hora.getMinutes() : horario.hora.getMinutes()}} </button>

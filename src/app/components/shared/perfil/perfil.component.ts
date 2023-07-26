@@ -27,12 +27,14 @@ export class PerfilComponent {
   userType: string;
   ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
   especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
+  imageSrc: string = '../../../../assets/nophoto.png';
+  imgFile: File;
 
   get f(): any {
     return this.form.controls;
   }
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService, private account:AccountService, public format: FormatFieldsService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private cookie: CookieService, private account: AccountService, public format: FormatFieldsService) { }
 
   ngOnInit() {
     this.getUser()
@@ -71,9 +73,9 @@ export class PerfilComponent {
       this.form.addControl('tipo', new FormControl({ value: user.claims.find(c => c.type == 'Tipo').value, disabled: this.disabledEdit }, Validators.required))
     } else {
       this.form.addControl('crm', new FormControl({ value: localStorage.getItem('Doctor.Crm').substring(7, 13), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
-      this.form.addControl('uf', new FormControl({value: localStorage.getItem('Doctor.Crm').substring(4,6), disabled: this.disabledEdit},  Validators.required))
-      this.form.addControl('especialidade', new FormControl({value: localStorage.getItem('Doctor.Specialty'), disabled: this.disabledEdit}, Validators.required))
-      this.form.addControl('genero', new FormControl({value: user.genero, disabled: this.disabledEdit}, Validators.required))
+      this.form.addControl('uf', new FormControl({ value: localStorage.getItem('Doctor.Crm').substring(4, 6), disabled: this.disabledEdit }, Validators.required))
+      this.form.addControl('especialidade', new FormControl({ value: localStorage.getItem('Doctor.Specialty'), disabled: this.disabledEdit }, Validators.required))
+      this.form.addControl('genero', new FormControl({ value: user.genero, disabled: this.disabledEdit }, Validators.required))
     }
 
     this.password = this.fb.group({
@@ -171,7 +173,9 @@ export class PerfilComponent {
   getUser() {
     this.account.getUser().subscribe({
       next: (result: User) => {
-        
+
+        if (result.fotoPerfil) this.imageSrc = env.api + `Resources/Images/UserImages/${result.fotoPerfil}`
+
         if (result.roles.includes('Medico')) this.userType = 'doctor'
         else if (result.roles.includes('Estabelecimento')) this.userType = 'stablishment'
         else this.userType = 'patient'
@@ -184,4 +188,34 @@ export class PerfilComponent {
     })
   }
 
+  changeImage() {
+    const fileInput = document.getElementById('inputFile');
+    fileInput?.click();
+  }
+
+  onFileSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.item(0);
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.imageSrc = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+
+      var formData = new FormData();
+      var filename = 'user_' + localStorage.getItem('User.Id');
+
+      formData.append('file', file);
+
+      this.account.updateImage(formData, filename).subscribe({
+        next: (result) => {
+          this.toastr.success('Imagem atualizada com sucesso!');
+        }
+      })
+    }
+  }
 }

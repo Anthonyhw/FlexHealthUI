@@ -5,21 +5,24 @@
             <div class="row p-3">
                 <div class="form-group card-header col-12 d-flex align-items-end justify-content-between border-bottom">
                     <h3 class="ms-4">Perfil</h3>
-                    <button (click)="toggledisabledEdit()" class="btn btn-success  border rounded p-1 mb-2">Editar <label class="fa fa-edit"></label></button>
+                    <button (click)="toggledisabledEdit()" class="btn btn-success  border rounded p-1 mb-2">Editar
+                        <label class="fa fa-edit"></label></button>
                 </div>
                 <div class="col-lg-4 pt-1 d-flex align-items-center">
                     <div class="container-fluid ">
                         <div class="card mb-3">
                             <div class="card-header"></div>
-                            <div class="d-flex align-self-center pt-3">
-                                <a>
-                                    <img
-                                    src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-                                    name="aboutme" width="120" height="120" class="rounded-circle">
+                            <div class="card-body d-flex flex-column align-items-center pt-3">
+                                <a class="d-flex align-items-center justify-content-center">
+                                    <input type="file" id="inputFile" style="display: none" (change)="onFileSelected($event)">
+                                    <img [src]="imageSrc" 
+                                    (click)="changeImage()"
+                                    name="aboutme" width="150" height="180" alt="Editar Imagem"
+                                    class="rounded-circle border border-black hover-img">
                                 </a>
-                            </div>
-                            <div class="card-body">
-                                <div class="h5 text-bold text-center pb-1">{{f.nome.value}}</div>
+                            
+                            
+                                <div class="h5 mt-1 text-bold text-center pb-1">{{f.nome.value}}</div>
                             </div>
                             <div class="card-footer"></div>
                         </div>
@@ -27,16 +30,18 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="form-row">
-                        
+
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label>Nome</label>
-                                <input [ngClass]="{'is-invalid': f.nome.errors}" formControlName="nome" type="text" class="form-control"/>
+                                <input [ngClass]="{'is-invalid': f.nome.errors}" formControlName="nome" type="text"
+                                    class="form-control" />
 
                             </div>
                             <div class="form-group col-sm-6">
                                 <label>E-mail</label>
-                                <input [ngClass]="{'is-invalid': f.email.errors}" formControlName="email" type="text" class="form-control"/>
+                                <input [ngClass]="{'is-invalid': f.email.errors}" formControlName="email" type="text"
+                                    class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -44,20 +49,26 @@
                         <div class="row" *ngIf="userType == 'patient'">
                             <div class="form-group col-sm-3">
                                 <label>RG</label>
-                                <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg" (keyup)="format.formatRg(form, $event)" type="text" class="form-control" maxlength="12"/>
+                                <input [ngClass]="{'is-invalid': f.rg.errors}" formControlName="rg"
+                                    (keyup)="format.formatRg(form, $event)" type="text" class="form-control"
+                                    maxlength="12" />
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>CPF</label>
-                                <input [ngClass]="{'is-invalid': f.cpf.errors}" formControlName="cpf" (keyup)="format.formatCpf(form, $event)" type="text" class="form-control" maxlength="14"/>
+                                <input [ngClass]="{'is-invalid': f.cpf.errors}" formControlName="cpf"
+                                    (keyup)="format.formatCpf(form, $event)" type="text" class="form-control"
+                                    maxlength="14" />
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>Data de Nascimento</label>
-                                <input [ngClass]="{'is-invalid': f.nascimento.errors}" formControlName="nascimento" maxlength="8"
-								class="form-control" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker >
+                                <input [ngClass]="{'is-invalid': f.nascimento.errors}" formControlName="nascimento"
+                                    maxlength="8" class="form-control" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                    bsDatepicker>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label for="genero">Gênero</label>
-                                <select [ngClass]="{'is-invalid': f.genero.errors}" formControlName="genero" class="form-select" aria-label="">
+                                <select [ngClass]="{'is-invalid': f.genero.errors}" formControlName="genero"
+                                    class="form-select" aria-label="">
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
                                 </select>
@@ -66,16 +77,17 @@
                         <div class="row" *ngIf="userType == 'stablishment'">
                             <div class="form-group col-md-7">
                                 <label for="cnpj">CNPJ</label>
-                                <input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text" class="form-control" maxlength="18"
+                                <input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text"
+                                    class="form-control" maxlength="18"
                                     [ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
                                 <div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
-                                    CNPJ  é obrigatório.
+                                    CNPJ é obrigatório.
                                 </div>
                                 <div *ngIf="f.cnpj.errors?.minlength" class="invalid-feedback">
                                     Insira um CNPJ válido.
                                 </div>
                             </div>
-    
+
                             <div class="form-group col-md-5">
                                 <label for="rg">Tipo de Estabelecimento</label>
                                 <select formControlName="tipo" class="form-select" aria-label=""
@@ -91,12 +103,13 @@
 
                         <div class="row" *ngIf="userType == 'doctor'">
                             <div class="form-group col-md-2 mt-md-4">
-                                <input disabled type="text" class="form-control text-align-center" style="text-align: center;" value="CRM-">
+                                <input disabled type="text" class="form-control text-align-center"
+                                    style="text-align: center;" value="CRM-">
                             </div>
-    
+
                             <div class="form-group col-md-2">
                                 <label for="crm">UF</label>
-                                <select formControlName="uf" class="form-select" 
+                                <select formControlName="uf" class="form-select"
                                     [ngClass]="{'is-invalid': f.uf.errors && f.uf.touched}">
                                     <option *ngFor="let uf of ufs" value="{{uf}}">{{uf}}</option>
                                 </select>
@@ -104,7 +117,7 @@
                                     UF é obrigatório.
                                 </div>
                             </div>
-    
+
                             <div class="form-group col-md-2">
                                 <label for="crm">CRM</label>
                                 <input formControlName="crm" type="text" class="form-control" maxlength="6"
@@ -116,17 +129,18 @@
                                     Insira um CRM válido.
                                 </div>
                             </div>
-    
+
                             <div class="form-group col-md-3">
                                 <label for="especialidade">Especialidade</label>
                                 <select formControlName="especialidade" class="form-select" aria-label=""
                                     [ngClass]="{'is-invalid': f.especialidade.errors && f.especialidade.touched}">
-                                    <option *ngFor="let especialidade of especialidades" value="{{especialidade}}">{{especialidade}}</option>
+                                    <option *ngFor="let especialidade of especialidades" value="{{especialidade}}">
+                                        {{especialidade}}</option>
                                 </select>
                                 <div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
                                     Escolha uma especialidade.
                                 </div>
-                            </div>		
+                            </div>
                             <div class="form-group col-md-3">
                                 <label for="genero">Gênero</label>
                                 <select formControlName="genero" class="form-select" aria-label=""
@@ -137,60 +151,79 @@
                                 <div *ngIf="f.genero.errors?.required" class="invalid-feedback">
                                     Gênero é obrigatório.
                                 </div>
-                            </div>	
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="telefone">Telefone</label>
-                                <input [ngClass]="{'is-invalid': f.telefone.errors}" formControlName="telefone" (keyup)="format.formatPhone(form, $event)" type="text" class="form-control" id="telefone" maxlength="15">
+                                <input [ngClass]="{'is-invalid': f.telefone.errors}" formControlName="telefone"
+                                    (keyup)="format.formatPhone(form, $event)" type="text" class="form-control"
+                                    id="telefone" maxlength="15">
                             </div>
                             <form [formGroup]="password" class="col-md-8">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="senha">Senha</label>
-                                        <input [ngClass]="{'is-invalid': password.get('senha').errors}" formControlName="senha"  type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="senha">
-                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash' : showPassword, 'fa-eye' : !showPassword }" (click)="togglePasswordVisibility()" class="fa fa-eye showpassword"></label>
+                                        <input [ngClass]="{'is-invalid': password.get('senha').errors}"
+                                            formControlName="senha" type="{{ showPassword ? 'text' : 'password' }}"
+                                            class="form-control" id="senha">
+                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}"
+                                            [ngClass]="{ 'fa-eye-slash' : showPassword, 'fa-eye' : !showPassword }"
+                                            (click)="togglePasswordVisibility()" class="fa fa-eye showpassword"></label>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="confirmasenha">Confirme a Senha</label>
-                                        <input [ngClass]="{'is-invalid': password.get('confirmasenha').errors}" formControlName="confirmasenha" type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control" id="confirmaSenha">
-                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}" [ngClass]="{ 'fa-eye-slash': showConfirmPassword,  'fa-eye' : !showConfirmPassword }" (click)="toggleConfirmPasswordVisibility()" class="fa fa-eye showpassword"></label>
+                                        <input [ngClass]="{'is-invalid': password.get('confirmasenha').errors}"
+                                            formControlName="confirmasenha"
+                                            type="{{ showConfirmPassword ? 'text' : 'password' }}" class="form-control"
+                                            id="confirmaSenha">
+                                        <label [ngStyle]="{'visibility': disabledEdit? 'hidden' : ''}"
+                                            [ngClass]="{ 'fa-eye-slash': showConfirmPassword,  'fa-eye' : !showConfirmPassword }"
+                                            (click)="toggleConfirmPasswordVisibility()"
+                                            class="fa fa-eye showpassword"></label>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <br>
-            
+
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="cep">CEP</label>
                                 <div class="d-flex">
-                                    <input [ngClass]="{'is-invalid': f.cep.errors}" formControlName="cep" type="text" class="form-control" id="cep">
-                                    <button (click)="searchAddress(form.get('cep').value)" [disabled]="disabledEdit" class="btn btn-success mx-2 fa fa-search"></button>
+                                    <input [ngClass]="{'is-invalid': f.cep.errors}" formControlName="cep" type="text"
+                                        class="form-control" id="cep">
+                                    <button (click)="searchAddress(form.get('cep').value)" [disabled]="disabledEdit"
+                                        class="btn btn-success mx-2 fa fa-search"></button>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="endereco">Endereço</label>
-                                <input [ngClass]="{'is-invalid': f.endereco.errors}" formControlName="endereco" type="text" class="form-control" id="endereco">
+                                <input [ngClass]="{'is-invalid': f.endereco.errors}" formControlName="endereco"
+                                    type="text" class="form-control" id="endereco">
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="numero">Número</label>
-                                <input [ngClass]="{'is-invalid': f.numero.errors}" formControlName="numero" type="text" class="form-control" id="numero">
+                                <input [ngClass]="{'is-invalid': f.numero.errors}" formControlName="numero" type="text"
+                                    class="form-control" id="numero">
                             </div>
                         </div>
-            
+
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="cidade">Cidade</label>
-                                <input [ngClass]="{'is-invalid': f.cidade.errors}" formControlName="cidade" type="text" class="form-control" id="cidade">
+                                <input [ngClass]="{'is-invalid': f.cidade.errors}" formControlName="cidade" type="text"
+                                    class="form-control" id="cidade">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="estado">Estado</label>
-                                <input [ngClass]="{'is-invalid': f.estado.errors}" formControlName="estado" type="text" class="form-control" id="estado">
+                                <input [ngClass]="{'is-invalid': f.estado.errors}" formControlName="estado" type="text"
+                                    class="form-control" id="estado">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="complemento">Complemento</label>
-                                <input [ngClass]="{'is-invalid': f.complemento.errors}" formControlName="complemento" type="text" class="form-control" id="complemento">
+                                <input [ngClass]="{'is-invalid': f.complemento.errors}" formControlName="complemento"
+                                    type="text" class="form-control" id="complemento">
                             </div>
                         </div>
                         <br><br>
@@ -203,12 +236,13 @@
                         Cancelar Alterações
                     </button>
                     <button (click)="onSubmit()" type="submit" class="btn btn-success">
-                        <span [ngStyle]="{'visibility': updateStatus ? '' : 'hidden'}" class="spinner-border spinner-border-sm mr-1"></span>
+                        <span [ngStyle]="{'visibility': updateStatus ? '' : 'hidden'}"
+                            class="spinner-border spinner-border-sm mr-1"></span>
                         Salvar Alteração
                     </button>
                 </div>
             </div>
         </form>
-            <span *ngIf="!form" class="h1 d-flex justify-content-center">Falha na Comunicação com API</span>
+        <span *ngIf="!form" class="h1 d-flex justify-content-center">Falha na Comunicação com API</span>
     </div>
 </div>
