@@ -23,19 +23,18 @@
               <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
             </ng-container>
             <ng-container *ngIf="scheduleType == 'Exame'">
-              <option *ngFor="let tipo of tipoExames" value="{{tipo}}">{{tipo}}</option>
+              <option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">{{tipo}}</option>
             </ng-container>
-            <div *ngIf="scheduleType == 'Consulta'">
-
-            </div>
-            <div *ngIf="scheduleType == 'Exame'">
-              <option value="cardiologia">'Cardiologia'</option>
-              <option value="psicologia">'Psicologia'</option>
-              <option value="ginecologia">'Ginecologia'</option>
-              <option value="pediatria">'Pediatria'</option>
-              <option value="oftalmologia">'Oftalmologia'</option>
-              <option value="psiquiatria">'Psiquiatria'</option>
-            </div>
+          </select>
+        </div>
+      </div>
+      <div class="row" *ngIf="scheduleType == 'Exame'">
+        <div class="col">
+          <label for="data">Pedido Médico</label>
+          <select [(ngModel)]="selectedPrescription" class="form-select" aria-label="">
+            <ng-container>
+              <option *ngFor="let prescription of prescriptions" value="{{prescription.tipoExame}}">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll ('-', '/').replaceAll('_', ' ')}}</option>
+            </ng-container>
           </select>
         </div>
       </div>
@@ -58,7 +57,7 @@
           </select>
         </div>
         <div class="col-1 d-flex align-items-end">
-          <button (click)="getSchedulesByCity(city)" type="button" class="btn btn-success">
+          <button (click)="scheduleToUser(null)" type="button" class="btn btn-success">
             Buscar
           </button>
         </div>

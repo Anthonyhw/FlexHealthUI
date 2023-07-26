@@ -3,10 +3,12 @@ import { AccordionConfig } from 'ngx-bootstrap/accordion';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Agenda } from 'src/app/models/agenda';
+import { ArchiveDto } from 'src/app/models/archiveDto.model';
 import { Schedule } from 'src/app/models/schedule.model';
 import { StablishmentAgenda } from 'src/app/models/stablishmentagenda.model';
 import { User } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
+import { PrescriptionService } from 'src/app/services/prescription.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
 
 @Component({
@@ -23,10 +25,12 @@ export class SchedulesComponent {
   city: string;
   scheduleType: string;
   paymentType: string;
-  tipoExames = ['Cardiologia', 'Psicologia', 'Ginecologia', 'Pediatria', 'Oftalmologia', 'Psiquiatria']
-  tipoConsultas = ['TSH e T4 livre', 'Transaminases ', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma']
+  tipoConsultas = ['Cardiologia', 'Psicologia', 'Ginecologia', 'Pediatria', 'Oftalmologia', 'Psiquiatria']
+  tipoExames = ['TSH e T4 livre', 'Transaminases', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma']
   selectedHour: Schedule;
   doctor: User;
+  selectedPrescription: string;
+  prescriptions: ArchiveDto[];
 
 
   foundResult: boolean = false;
@@ -34,9 +38,10 @@ export class SchedulesComponent {
   page: number;
   modalRef?: BsModalRef;
 
-  constructor(private schedule: ScheduleService, private account: AccountService, private toastr: ToastrService, private modalService: BsModalService) { }
+  constructor(private schedule: ScheduleService, private account: AccountService, private toastr: ToastrService, private modalService: BsModalService, private prescription: PrescriptionService) { }
 
   ngOnInit() {
+    this.getPrescriptions(parseInt(localStorage.getItem('User.Id')));
   }
 
   formatDate(input: string) {
@@ -121,8 +126,16 @@ export class SchedulesComponent {
   }
 
   scheduleToUser(modal: any) {
+    debugger
+    if (this.scheduleType == 'Exame') {
+      if (this.selectedPrescription != this.specialty) {
+        this.toastr.error(`O pedido médico selecionado não está relacionado ao exame ${this.specialty}.`);
+        return
+      }
+    }
     if (!this.paymentType && !this.selectedHour.valor.includes('R$ 0')) {
       this.toastr.error('Escolha uma forma de pagamento!')
+      return
     }
     if (this.paymentType == 'Credito') {
       this.modalRef = this.modalService.show(modal,
@@ -146,6 +159,17 @@ export class SchedulesComponent {
         this.stablishments = []
         this.selectedHour = undefined;
         this.toastr.success('Agendamento realizado com sucesso!', 'Sucesso!')
+      }
+    })
+  }
+
+  getPrescriptions(id: number) {
+    this.prescription.GetPrescriptionByUserId(id, false).subscribe({
+      next: (result: ArchiveDto[]) => {
+        this.prescriptions = result;
+      },
+      error: (error) => {
+        this.toastr.error(`Erro ao recuperar prescrições: ${error.error}`, 'Erro');
       }
     })
   }

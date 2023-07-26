@@ -7,7 +7,7 @@ export class Doctor extends User {
     crm: string;
     specialty: string;
     especialidade: string
-    estabelecimento: Stablishment
+    estabelecimento: User
 
     constructor(user: User, data?: Partial<Doctor>) {
         super(user);

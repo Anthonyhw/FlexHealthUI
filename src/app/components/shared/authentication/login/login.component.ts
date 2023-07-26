@@ -36,6 +36,7 @@ export class LoginComponent {
           localStorage.setItem('Doctor.Specialty', decodedToken.Especialidade);
         }else if (decodedToken.CNPJ) {
           localStorage.setItem('Stablishment.Cnpj', decodedToken.CNPJ);
+          localStorage.setItem('Stablishment.Type', decodedToken.Tipo);
         }
 
         location.pathname = '/perfil'

@@ -60,7 +60,7 @@ export class ManagementComponent implements OnInit {
   }
 
   changeValue(z: Date[]) {
-    
+
     var firstDate = new Date(z[0])
     var lastDate = new Date(z[1])
     lastDate.setDate(lastDate.getDate() + 1)
@@ -203,11 +203,11 @@ export class ManagementComponent implements OnInit {
     var hourIndex = this.date.horarios.findIndex(sch => sch.hora.getHours() == this.selectedHour.getHours() && sch.hora.getMinutes() == this.selectedHour.getMinutes());
     if (hourIndex != -1) {
       var newHour = new Appointment(new Date(hour), value);
-      
+
       if (this.date.horarios.find(sch => sch.hora.getHours() == newHour.hora.getHours() && sch.hora.getMinutes() == newHour.hora.getMinutes())) {
         this.toastr.error('Este horário já existe na agenda!', 'Erro!');
         return
-      }else {
+      } else {
         this.date.horarios.splice(hourIndex, 1)
         this.date.horarios.push(newHour);
       }
@@ -233,8 +233,8 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  getDoctorInformation(): Doctor {
-    
+  getDoctorInformation() {
+
     // Getting Doctor Information
     this.account.getUser().subscribe({
       next: (result: User) => {
@@ -243,29 +243,28 @@ export class ManagementComponent implements OnInit {
             crm: localStorage.getItem('Doctor.Crm'),
             especialidade: localStorage.getItem('Doctor.Specialty')
           });
+        // Getting Stablishment Information
+        this.account.getUserById(parseInt(localStorage.getItem('Doctor.Stablishment'))).subscribe({
+          next: (result: User) => {
+            this.doctor.estabelecimento = result;
+          },
+          error: (error) => { console.error(error.Message) }
+        })
       },
       error: (error) => { console.error(error.Message) }
     })
-
-    // Getting Stablishment Information
-    this.account.getUserById(parseInt(localStorage.getItem('Doctor.Stablishment'))).subscribe({
-      next: (result: Stablishment) => {
-        this.doctor.estabelecimento = result;
-      },
-      error: (error) => { console.error(error.Message) }
-    })
-    return null
   }
 
   onSubmit() {
     var request = new Agenda({
-      tipo: this.doctor.estabelecimento.tipo == 'Clinica' ? 'Consulta' : 'Exame',
+      tipo: this.doctor.estabelecimento.claims.find(claim => claim.type == 'Tipo').value,
       status: 'Aberto',
       medicoId: parseInt(localStorage.getItem('User.Id')),
       estabelecimentoId: parseInt(localStorage.getItem('Doctor.Stablishment')),
       especialidade: localStorage.getItem('Doctor.Specialty'),
       datas: this.dates
     })
+    debugger
 
     this.schedule.createSchedule(request).subscribe({
       next: (result) => {

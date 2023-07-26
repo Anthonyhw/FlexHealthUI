@@ -6,14 +6,14 @@
                     <div class="row  ">
                         <div class="col   p-3">
                             <div class="row border m-0 bg-light bg-gradient rounded d-flex align-items-center ">
-                                <div class="col">
+                                <div class="col" *ngIf="doctor">
                                     <div class="row information">{{doctor?.nome}}</div>
                                     <div class="row information">{{doctor?.crm}}</div>
                                     <div class="row information">Especialidade: {{doctor?.especialidade}}</div>
                                     <br>
                                     <div class="row information">{{doctor?.estabelecimento?.nome}}</div>
                                     <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[1] || ''}} - {{doctor?.estabelecimento?.endereco?.split('\\')[2]}}</div>
-                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[3] || ''}} - {{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(0, 5)}}-{{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(5)}}</div>
+                                    <div class="row information">{{doctor?.estabelecimento?.endereco?.split('\\')[3] || ''}} - CEP: {{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(0, 5)}}{{doctor?.estabelecimento?.endereco?.split('\\')[0].substring(5)}}</div>
                                     <div class="row information">Telefone: {{doctor?.estabelecimento?.phoneNumber}}</div>
                                 </div>
                                 <div class="col d-flex justify-content-end">

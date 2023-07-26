@@ -139,14 +139,18 @@
 
 						<div class="form-group col-md-4">
 							<label for="especialidade">Especialidade</label>
-							<select formControlName="especialidade" class="form-select" aria-label=""
-								[ngClass]="{'is-invalid': f.especialidade.errors && f.especialidade.touched}">
-								<option *ngFor="let especialidade of especialidades" value="{{especialidade}}">{{especialidade}}</option>
-							</select>
+							<select formControlName="especialidade" class="form-select" aria-label="">
+								<ng-container *ngIf="specialty == 'Consultorio'">
+								  <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
+								</ng-container>
+								<ng-container *ngIf="specialty == 'Clinica'">
+								  <option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">{{tipo}}</option>
+								</ng-container>
+							  </select>
 							<div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
 								Escolha uma especialidade.
 							</div>
-						</div>					
+						</div>				
 					</div>
 
 					<br>

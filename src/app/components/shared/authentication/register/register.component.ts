@@ -25,7 +25,9 @@ export class RegisterComponent {
   showConfirmPassword: boolean = false;
   checkname: boolean;
   ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
-  especialidades: string[] = ['Cardiologia', 'Psicologia', 'Psiquiatria', 'Neurologia', 'Endocrinologia', 'Dermatologia', 'Oftalmologia']
+  tipoConsultas = ['Cardiologia', 'Psicologia', 'Ginecologia', 'Pediatria', 'Oftalmologia', 'Psiquiatria']
+  tipoExames = ['TSH e T4 livre', 'Transaminases', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma']
+  specialty: string = localStorage.getItem('Stablishment.Type') || '';
 
   get f(): any {
     return this.form.controls;
