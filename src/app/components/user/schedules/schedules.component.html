@@ -33,7 +33,9 @@
           <label for="data">Pedido Médico</label>
           <select [(ngModel)]="selectedPrescription" class="form-select" aria-label="">
             <ng-container>
-              <option *ngFor="let prescription of prescriptions" value="{{prescription.tipoExame}}">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll ('-', '/').replaceAll('_', ' ')}}</option>
+              <option *ngFor="let prescription of prescriptions" value="{{prescription.tipoExame}}">
+                {{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll ('-', '/').replaceAll('_',
+                ' ')}}</option>
             </ng-container>
           </select>
         </div>
@@ -100,11 +102,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;" (click)="chooseHour(schedule.id)">
+                <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
+                  (click)="chooseHour(schedule.id)">
                   <td class="d-none d-md-table-cell"></td>
                   <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
                   <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
-                  <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}} {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+                  <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
+                    {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
                   <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
                   <td class="d-none d-md-table-cell">{{schedule.valor}}</td>
                 </tr>
@@ -112,19 +116,9 @@
             </table>
           </tab>
           <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
-          <pagination *ngIf="stablishments.length > 3"
-            class="d-flex justify-content-center"
-            [boundaryLinks]="true"
-        
-            [totalItems]="stablishments.length"
-            [itemsPerPage]="3"
-            [(ngModel)]="page"
-        
-            pageBtnClass="btn"
-            previousText="&lsaquo;"
-            nextText="&rsaquo;"
-            firstText="&laquo;"
-            lastText="&raquo;">
+          <pagination *ngIf="stablishments.length > 3" class="d-flex justify-content-center" [boundaryLinks]="true"
+            [totalItems]="stablishments.length" [itemsPerPage]="3" [(ngModel)]="page" pageBtnClass="btn"
+            previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
           </pagination>
         </tabset>
       </div>
@@ -132,13 +126,11 @@
   </div>
   <div class="col-3 my-2 border">
     <div *ngIf="selectedHour">
-      
+
       <div>
         <br>
         <div class="row d-flex justify-content-center">
-          <img
-          [src]="stablishmentImageSrc"
-          width="230" height="300">
+          <img [src]="stablishmentImageSrc" width="230" height="300">
         </div>
         <br><br>
         <div class="row">
@@ -169,10 +161,7 @@
             <div class="row information">Valor da consulta: {{selectedHour.valor}}</div>
           </div>
           <div class="col d-flex align-items-center">
-            <img 
-            width="150" height="180"
-            class="border border-black"
-            [src]="doctorImageSrc"  alt="">
+            <img width="150" height="180" class="border border-black" [src]="doctorImageSrc" alt="">
           </div>
         </div>
         <br>
@@ -195,14 +184,68 @@
   </div>
 
   <ng-template #creditoModal>
-    <div class="modal-header d-flex text-align-center justify-content-center">
-      <h5 class="h5">Aqui tem q montar os campos pro cara botar os dados do cartão</h5>
+    <div class="modal-header d-flex text-align-center align-items-center justify-content-center">
+      <h5 class="h5">Dados do cartão</h5>
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>
     </div>
-    <div class="modal-body text-center">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quas distinctio ducimus numquam labore adipisci perferendis, officia repudiandae similique? Voluptatem tenetur, aspernatur minima cumque voluptates velit voluptate consequuntur tempore adipisci.</p>
-      <button type="button" class="btn btn-default btn-primary border rounded ms-1">Efetuar Pagamento</button>
+    <div class="modal-body text-center d-flex justify-content-center align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title mb-4">Cadastro de Cartão de Crédito</h4>
+                <form>
+                  <div class="form-group">
+                    <label for="nomeTitular">Nome do Titular do Cartão</label>
+                    <input type="text" class="form-control" id="nomeTitular" placeholder="Nome do Titular" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="numeroCartao">Número do Cartão</label>
+                    <input type="text" class="form-control" id="numeroCartao" placeholder="Número do Cartão" required>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md">
+                      <label for="mesValidade">Mês de Validade</label>
+                      <select class="form-control" id="mesValidade" required>
+                        <option value="" disabled selected>Escolha o Mês</option>
+                        <option value="01">Janeiro</option>
+                        <option value="02">Fevereiro</option>
+                        <option value="03">Março</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Março</option>
+                        <option value="06">Junho</option>
+                        <option value="07">Julho</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md">
+                      <label for="anoValidade">Ano de Validade</label>
+                      <select class="form-control" id="anoValidade" required>
+                        <option value="" disabled selected>Escolha o Ano</option>
+                        <option *ngFor="let item of numeros" value="{{item}}">20{{item < 10 ? '0' +item : item}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md">
+                      <label for="codigoSeguranca">Código de Segurança</label>
+                      <input type="text" class="form-control" id="codigoSeguranca" placeholder="Código de Segurança"
+                        required maxlength="3">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary mt-3">Efetuar Pagamento</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </ng-template>

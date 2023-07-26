@@ -32,6 +32,7 @@ export class SchedulesComponent {
   doctor: User;
   selectedPrescription: string;
   prescriptions: ArchiveDto[];
+  numeros: number[] = Array.from({ length: 15 }, (_, index) => 24 + index)
 
   doctorImageSrc: string;
   stablishmentImageSrc: string;
@@ -138,7 +139,7 @@ export class SchedulesComponent {
   }
 
   scheduleToUser(modal: any) {
-    debugger
+    
     if (this.scheduleType == 'Exame') {
       if (this.selectedPrescription != this.specialty) {
         this.toastr.error(`O pedido médico selecionado não está relacionado ao exame ${this.specialty}.`);
