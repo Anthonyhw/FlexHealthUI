@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="col-4">
                                         <label>Valor da Consulta</label>
-                                        <input type="text" (blur)="CurrencyFormat(specificValue, '')"
+                                        <input type="text" spinners="false" (blur)="CurrencyFormat(specificValue, '')"
                                             [(ngModel)]="specificValue" class="form-control ">
                                     </div>
                                     <div class="row">
@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="col-4">
                                             <label>Valor da Consulta</label>
-                                            <input type="text" (blur)="CurrencyFormat(rangeValue, 'range')"
+                                            <input type="text" spinners="false" (blur)="CurrencyFormat(rangeValue, 'range')"
                                                 [(ngModel)]="rangeValue" class="form-control ">
                                         </div>
                                         <div class="col d-flex align-items-end">

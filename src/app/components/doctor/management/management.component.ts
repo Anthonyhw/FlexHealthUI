@@ -31,17 +31,17 @@ export class ManagementComponent implements OnInit {
 
   // To Add Specific Hour
   public specificHour: Date;
-  public specificValue: number;
+  public specificValue: string;
 
   // To Add Hour Range
   public initialHour: Date;
   public finalHour: Date;
-  public rangeValue: number;
+  public rangeValue: string;
   public interval: string;
 
   // to show information of the chosen time
   currentHour: Date;
-  currentValue: number;
+  currentValue: string;
 
   ngOnInit() {
     this.getDoctorInformation();
@@ -121,7 +121,7 @@ export class ManagementComponent implements OnInit {
     if (this.currentDate != 0) this.date = this.dates[--this.currentDate]
   }
 
-  AddHour(hour: Date, value: number = 0) {
+  AddHour(hour: Date, value: string = '0.00') {
     hour.setDate(this.date.dia.getDate())
     if (Number.isNaN(value)) {
       this.toastr.error('Digite um valor válido!', 'Erro!');
@@ -140,7 +140,7 @@ export class ManagementComponent implements OnInit {
     this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
   }
 
-  AddHourRange(initial: Date, end: Date, interval: string, value: number = 0) {
+  AddHourRange(initial: Date, end: Date, interval: string, value: string = '0.00') {
     if (Number.isNaN(value)) {
       this.toastr.error('Digite um valor válido!', 'Erro!');
       return
@@ -166,10 +166,10 @@ export class ManagementComponent implements OnInit {
       if (!already) {
         this.date.horarios.push(new Appointment(new Date(currentHour), value));
       }
-
+      
       currentHour.setMinutes(currentHour.getMinutes() + parseInt(interval))
     }
-
+    
     //sort by hour
     this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
   }
@@ -178,26 +178,27 @@ export class ManagementComponent implements OnInit {
     this.date.horarios.forEach((schedule) => {
       if ((schedule.hora.getHours() == hour.getHours()) && (schedule.hora.getMinutes() == hour.getMinutes())) {
         this.currentHour = schedule.hora;
-        this.currentValue = schedule.valor;
+        this.currentValue = schedule.valor.toString();
         this.selectedHour = schedule.hora;
       }
     });
   }
 
-  CurrencyFormat(value: number, input: string) {
-    var decimal = parseInt(value.toString());
-    var fixed = parseFloat(decimal.toFixed());
-
+  CurrencyFormat(value: string, input: string) {
+    value = value.replaceAll(',', '.')
+    var integer = parseFloat(value)
+    var decimal = integer.toFixed(2);
+    
     if (input == 'range') {
-      this.rangeValue = fixed;
+      this.rangeValue = decimal.toString();
     } else if (input == 'edit') {
-      this.currentValue = fixed
+      this.currentValue = decimal.toString();
     } else {
-      this.specificValue = fixed;
+      this.specificValue = decimal.toString();
     }
   }
 
-  editSchedule(hour: Date, value: number) {
+  editSchedule(hour: Date, value: string) {
     if (Number.isNaN(value)) {
       this.toastr.error('Digite um valor válido!', 'Erro!');
       return
