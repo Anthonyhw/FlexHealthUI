@@ -148,12 +148,12 @@ export class ManagementComponent implements OnInit {
     if (!initial || !end || !interval) return
 
     var currentHour = new Date(initial)
-    currentHour.setUTCDate(this.date.dia.getUTCDate())
-    currentHour.setUTCMonth(this.date.dia.getUTCMonth())
+    currentHour.setMonth(this.date.dia.getMonth())
+    currentHour.setDate(this.date.dia.getDate())
     var lastHour = new Date(end)
-    lastHour.setUTCDate(this.date.dia.getUTCDate())
-    lastHour.setUTCMonth(this.date.dia.getUTCMonth())
-    lastHour.setUTCMinutes(lastHour.getUTCMinutes() + parseInt(interval))
+    lastHour.setMonth(this.date.dia.getMonth())
+    lastHour.setDate(this.date.dia.getDate())
+    lastHour.setMinutes(lastHour.getMinutes() + parseInt(interval))
 
     while ((currentHour.getHours() < lastHour.getHours()) || (currentHour.getMinutes() < lastHour.getMinutes())) {
       var already = false;
@@ -260,14 +260,13 @@ export class ManagementComponent implements OnInit {
 
   onSubmit() {
     var request = new Agenda({
-      tipo: this.doctor.estabelecimento.claims.find(claim => claim.type == 'Tipo').value,
+      tipo: this.doctor.estabelecimento.claims.find(claim => claim.type == 'Tipo').value == 'Consultorio' ? 'Consulta' : 'Exame',
       status: 'Aberto',
       medicoId: parseInt(localStorage.getItem('User.Id')),
       estabelecimentoId: parseInt(localStorage.getItem('Doctor.Stablishment')),
       especialidade: localStorage.getItem('Doctor.Specialty'),
       datas: this.dates
     })
-    debugger
 
     this.schedule.createSchedule(request).subscribe({
       next: (result) => {
