@@ -42,7 +42,7 @@ export class LoginComponent {
         location.pathname = '/perfil'
       },
       error: (error) => {
-        this.toastr.error(error.error, 'Erro!');
+        this.toastr.error(error.message, 'Erro!');
       }
     });
   }

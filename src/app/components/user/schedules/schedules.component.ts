@@ -140,17 +140,28 @@ export class SchedulesComponent {
 
   scheduleToUser(modal: any) {
     
+    if (modal == 'Credit') {
+      if ((<HTMLInputElement>document.getElementById('nomeTitular')).value == '' || 
+          (<HTMLInputElement>document.getElementById('numeroCartao')).value == '' ||
+          (<HTMLSelectElement>document.getElementById('mesValidade')).value == '' ||
+          (<HTMLSelectElement>document.getElementById('anoValidade')).value == '' ||
+          (<HTMLInputElement>document.getElementById('codigoSeguranca')).value == '') {
+            this.toastr.error('Preencha todos os campos!');
+            return
+          }
+    }
+
     if (this.scheduleType == 'Exame') {
       if (this.selectedPrescription != this.specialty) {
         this.toastr.error(`O pedido médico selecionado não está relacionado ao exame ${this.specialty}.`);
         return
       }
     }
-    if (!this.paymentType && !this.selectedHour.valor.includes('R$ 0')) {
+    if (!this.paymentType) {
       this.toastr.error('Escolha uma forma de pagamento!')
       return
     }
-    if (this.paymentType == 'Credito') {
+    if (this.paymentType == 'Credito' && modal != 'Credit') {
       this.modalRef = this.modalService.show(modal,
         {
           class: 'modal-lg modal-dialog-centered',
@@ -171,6 +182,7 @@ export class SchedulesComponent {
         window.location.reload;
         this.stablishments = []
         this.selectedHour = undefined;
+        this.modalRef?.hide();
         this.toastr.success('Agendamento realizado com sucesso!', 'Sucesso!')
       }
     })

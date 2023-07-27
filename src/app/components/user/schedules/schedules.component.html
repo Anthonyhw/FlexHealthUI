@@ -67,7 +67,7 @@
       <div class="row my-1">
         <div class="col-9">
           <label for="data">Cidade</label>
-          <input [(ngModel)]="city" type="text" class="form-control">
+          <input [(ngModel)]="city" (keydown.enter)="getSchedulesByCity(city)" type="text" class="form-control">
         </div>
         <div class="col-1 d-flex align-items-end">
           <button (click)="getSchedulesByCity(city)" type="button" class="btn btn-success">
@@ -208,7 +208,7 @@
                   </div>
                   <div class="row">
                     <div class="form-group col-md">
-                      <label for="mesValidade">Mês de Validade</label>
+                      <label id="mesValidade" for="mesValidade">Mês de Validade</label>
                       <select class="form-control" id="mesValidade" required>
                         <option value="" disabled selected>Escolha o Mês</option>
                         <option value="01">Janeiro</option>
@@ -240,7 +240,7 @@
                         required maxlength="3">
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3">Efetuar Pagamento</button>
+                  <button type="submit" (click)="scheduleToUser('Credit')" class="btn btn-primary mt-3">Efetuar Pagamento</button>
                 </form>
               </div>
             </div>
