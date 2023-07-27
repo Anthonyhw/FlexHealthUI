@@ -36,8 +36,9 @@
 					<div class="row" *ngIf="userType == 'stablishment'">
 						<div class="form-group col-md-8">
 							<label for="cnpj">CNPJ</label>
-							<input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text" class="form-control"
-								maxlength="18" [ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
+							<input formControlName="cnpj" (keyup)="format.formatCnpj(form, $event)" type="text"
+								class="form-control" maxlength="18"
+								[ngClass]="{'is-invalid': f.cnpj.errors && f.cnpj.touched}" id="rg">
 							<div *ngIf="f.cnpj.errors?.required" class="invalid-feedback">
 								CNPJ é obrigatório.
 							</div>
@@ -62,8 +63,9 @@
 					<div class="row" *ngIf="userType == 'patient' || userType == 'doctor' ">
 						<div class="form-group col-md-3">
 							<label for="rg">RG</label>
-							<input (keyup)="format.formatRg(form, $event)" formControlName="rg" type="text" class="form-control"
-								maxlength="12" [ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
+							<input (keyup)="format.formatRg(form, $event)" formControlName="rg" type="text"
+								class="form-control" maxlength="12"
+								[ngClass]="{'is-invalid': f.rg.errors && f.rg.touched}" id="rg">
 							<div *ngIf="f.rg.errors?.required" class="invalid-feedback">
 								RG é obrigatório.
 							</div>
@@ -73,8 +75,9 @@
 						</div>
 						<div class="form-group col-md-3">
 							<label for="cpf">CPF</label>
-							<input (keyup)="format.formatCpf(form, $event)" formControlName="cpf" type="text" class="form-control"
-								maxlength="14" [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
+							<input (keyup)="format.formatCpf(form, $event)" formControlName="cpf" type="text"
+								class="form-control" maxlength="14"
+								[ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" id="cpf">
 							<div *ngIf="f.cpf.errors?.required" class="invalid-feedback">
 								CPF é obrigatório.
 							</div>
@@ -106,17 +109,18 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<br>
-					
+
 					<div class="row" *ngIf="userType == 'doctor'">
 						<div class="form-group col-md-3 mt-md-4">
-							<input disabled type="text" class="form-control text-align-center" style="text-align: center;" value="CRM-">
+							<input disabled type="text" class="form-control text-align-center"
+								style="text-align: center;" value="CRM-">
 						</div>
 
 						<div class="form-group col-md-2">
 							<label for="crm">UF</label>
-							<select formControlName="uf" class="form-select" 
+							<select formControlName="uf" class="form-select"
 								[ngClass]="{'is-invalid': f.uf.errors && f.uf.touched}">
 								<option *ngFor="let uf of ufs" value="{{uf}}">{{uf}}</option>
 							</select>
@@ -141,16 +145,17 @@
 							<label for="especialidade">Especialidade</label>
 							<select formControlName="especialidade" class="form-select" aria-label="">
 								<ng-container *ngIf="specialty == 'Consultorio'">
-								  <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
+									<option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
 								</ng-container>
 								<ng-container *ngIf="specialty == 'Clinica'">
-								  <option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">{{tipo}}</option>
+									<option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">
+										{{tipo}}</option>
 								</ng-container>
-							  </select>
+							</select>
 							<div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
 								Escolha uma especialidade.
 							</div>
-						</div>				
+						</div>
 					</div>
 
 					<br>
@@ -258,9 +263,9 @@
 					<div class="form-group">
 						<div class="form-check">
 							<input formControlName="termos" class="form-check-input " type="checkbox" id="gridCheck">
-							<label class="form-check-label" for="gridCheck">
-								Li e aceito os <a href="">Termos de uso</a>
-							</label>
+							<span class="form-check-label" for="gridCheck">
+								Li e aceito os 
+							</span> <a class="a" role="button" (click)="openTerms(terms)">Termos de uso</a>
 							<div *ngIf="f.termos.errors?.required">
 								Você deve aceitar os termos de uso.
 							</div>
@@ -274,8 +279,60 @@
 			<div class="col-md-4 img-fluid d-lg-block d-none d-flex align-items-center"><img
 					src="../../../../assets/doctor_consultation_02.png" width="406px" alt=""></div>
 		</div>
-
-
 	</div>
-
 </div>
+
+<ng-template #terms>
+	<div class="modal-header">
+		<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+			<span aria-hidden="true" class="visually-hidden">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo, inventore earum, et adipisci sit ipsa in
+		blanditiis eos placeat facilis fuga tempore aspernatur dignissimos dolorum eum sequi cupiditate temporibus eius?
+		Nam ipsum velit eos, culpa impedit possimus? Unde animi illo dolore ex tempore id corporis iure sunt
+		voluptatibus voluptatem pariatur similique explicabo, nihil doloremque. Iusto ut culpa eligendi consequuntur
+		quo.
+		Ipsum placeat quos id ex pariatur obcaecati? Quaerat, minus! Fuga expedita ex repellendus dolores, libero
+		eveniet facere accusamus laudantium possimus, consequuntur atque magni accusantium quam alias. Voluptate maxime
+		nostrum commodi.
+		Laboriosam repudiandae a libero animi corporis voluptatibus unde autem atque? Accusamus quam numquam,
+		consequuntur enim laboriosam eum cum illo itaque tenetur ab deserunt laudantium tempore eligendi eaque
+		consequatur mollitia assumenda!
+		Quasi, culpa? Facilis impedit minima, excepturi necessitatibus provident corrupti maiores soluta architecto
+		repellat, consequuntur consequatur. Dolorem atque, placeat laudantium error recusandae aperiam tempora odio sint
+		maxime dolorum illum ea accusantium.
+		Debitis ullam optio totam consequuntur? Sapiente sint aut natus fugiat iure ut obcaecati voluptate sunt
+		recusandae animi maiores sequi ad velit corrupti repellendus aspernatur possimus tenetur a, rerum dignissimos
+		molestiae.
+		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae veritatis dolore ratione distinctio, modi
+		neque quibusdam doloremque magnam ducimus laboriosam, quam nisi eligendi nam unde, vitae ipsum natus
+		accusantium! Sit?
+		Assumenda dolores maxime ullam, asperiores, repellat optio tempora nisi esse rem excepturi quae autem
+		voluptatibus dicta, accusantium ipsam veritatis ut? Possimus sint, eveniet nesciunt non aliquid incidunt error
+		architecto laudantium.
+		Voluptas dolor tempora error hic ea consequuntur voluptatum explicabo qui, ut nisi iste dolore earum ullam odio
+		eius adipisci a. Quod similique illum at accusamus aspernatur in facilis cum amet.
+		Aut sequi quaerat eum nihil laboriosam fuga esse dolor ipsam, rem maiores soluta possimus exercitationem optio
+		cumque cum consequatur, dicta atque vel voluptate? Dolor repellat unde ducimus veniam magnam provident?
+		Obcaecati voluptate vitae dolorum, veritatis molestias facere earum in maiores optio quod quisquam. Quibusdam
+		quasi explicabo dolor sint, saepe architecto consequuntur! Provident fuga facilis natus iusto hic architecto
+		excepturi aliquid?
+		Odit itaque quam eligendi at dignissimos repellat corrupti, id autem? Consequatur, recusandae eos? Voluptatem
+		enim obcaecati corrupti laboriosam ullam architecto quos dolores autem odio, commodi totam cupiditate veniam
+		accusantium sequi!
+		Ratione mollitia consequatur ex nulla odio, facilis fugit? Perspiciatis cupiditate saepe minus, sed nobis libero
+		quibusdam ipsam magni corrupti consequuntur facilis veritatis dolorum reiciendis adipisci nesciunt fugit neque
+		optio laborum?
+		Iure aperiam culpa voluptatibus corporis, iste cum cupiditate ducimus distinctio, nisi dolorum nostrum illum
+		repudiandae officia, sint maiores corrupti. Quos cumque dignissimos voluptatum omnis libero minus natus dolorum
+		alias temporibus.
+		Quibusdam corporis tempora, cumque reprehenderit quo cupiditate aut, doloremque iure distinctio molestias esse
+		minus, earum blanditiis molestiae? Rem illum nesciunt exercitationem nam natus ullam ipsam cumque culpa
+		voluptate! Et, sint!
+		Mollitia ullam laboriosam voluptatibus maiores natus ex reiciendis rem ea quidem. Quaerat iste earum maxime, aut
+		corrupti nihil. Commodi voluptates expedita aperiam consectetur quos! Quaerat quos quibusdam ex veniam
+		voluptatibus!
+	</div>
+</ng-template>

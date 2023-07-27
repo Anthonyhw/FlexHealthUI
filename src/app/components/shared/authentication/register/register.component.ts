@@ -9,6 +9,7 @@ import { Register } from 'src/app/models/register.model';
 import jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { FormatFieldsService } from 'src/app/services/format-fields.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,8 @@ import { FormatFieldsService } from 'src/app/services/format-fields.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+
+  modalRef: BsModalRef;
 
   userType: string;
   data: Date;
@@ -35,7 +38,7 @@ export class RegisterComponent {
 
   public cep: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie: CookieService, public format: FormatFieldsService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private toastr: ToastrService, private route: ActivatedRoute, private cookie: CookieService, public format: FormatFieldsService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.userType = location.pathname.split('/')[2] || 'patient';
@@ -145,5 +148,9 @@ export class RegisterComponent {
           this.toastr.error('Este CRM já foi utilizado para cadastro!', 'Erro!');
       }
     })
+  }
+
+  openTerms(terms:any) {
+    this.modalRef = this.modalService.show(terms)
   }
 }
