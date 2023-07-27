@@ -30,6 +30,8 @@ export class PerfilComponent {
   imageSrc: string = '../../../../assets/nophoto.png';
   imgFile: File;
 
+  formRequestStatus = true;
+
   get f(): any {
     return this.form.controls;
   }
@@ -184,6 +186,7 @@ export class PerfilComponent {
       },
       error: (error) => {
         this.toastr.error(error.error, 'Erro!');
+        this.formRequestStatus = false;
       }
     })
   }

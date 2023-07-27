@@ -134,8 +134,8 @@
                                 <label for="especialidade">Especialidade</label>
                                 <select formControlName="especialidade" class="form-select" aria-label=""
                                     [ngClass]="{'is-invalid': f.especialidade.errors && f.especialidade.touched}">
-                                    <option *ngFor="let especialidade of especialidades" value="{{especialidade}}">
-                                        {{especialidade}}</option>
+                                    <option *ngFor="let especialidade of especialidades" value="{{f.especialidade.value}}">
+                                        {{f.especialidade.value}}</option>
                                 </select>
                                 <div *ngIf="f.especialidade.errors?.required" class="invalid-feedback">
                                     Escolha uma especialidade.
@@ -243,6 +243,6 @@
                 </div>
             </div>
         </form>
-        <span *ngIf="!form" class="h1 d-flex justify-content-center">Falha na Comunicação com API</span>
+        <span *ngIf="!formRequestStatus" class="h1 d-flex justify-content-center">Falha na Comunicação com API</span>
     </div>
 </div>
