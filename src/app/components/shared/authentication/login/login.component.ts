@@ -22,6 +22,7 @@ export class LoginComponent {
   ngOnInit() {
     if (localStorage.getItem('registerRedirect') == 'true') {
       this.toastr.success('Cadastro efetuado com sucesso!');
+      localStorage.removeItem('registerRedirect')
     }
   }
 
