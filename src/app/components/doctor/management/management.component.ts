@@ -147,31 +147,33 @@ export class ManagementComponent implements OnInit {
     }
     if (!initial || !end || !interval) return
 
-    var currentHour = new Date(initial)
-    currentHour.setMonth(this.date.dia.getMonth())
-    currentHour.setDate(this.date.dia.getDate())
-    var lastHour = new Date(end)
-    lastHour.setMonth(this.date.dia.getMonth())
-    lastHour.setDate(this.date.dia.getDate())
-    lastHour.setMinutes(lastHour.getMinutes() + parseInt(interval))
+    this.dates.forEach(date => {
+      var currentHour = new Date(initial)
+      currentHour.setMonth(date.dia.getMonth())
+      currentHour.setDate(date.dia.getDate())
+      var lastHour = new Date(end)
+      lastHour.setMonth(date.dia.getMonth())
+      lastHour.setDate(date.dia.getDate())
+      lastHour.setMinutes(lastHour.getMinutes() + parseInt(interval))
 
-    while ((currentHour.getHours() < lastHour.getHours()) || (currentHour.getMinutes() < lastHour.getMinutes())) {
-      var already = false;
+      while ((currentHour.getHours() < lastHour.getHours()) || (currentHour.getMinutes() < lastHour.getMinutes())) {
+        var already = false;
 
-      this.date.horarios.forEach((date) => {
-        if ((date.hora.getHours() == currentHour.getHours()) && (date.hora.getMinutes() == currentHour.getMinutes()))
-          already = true
-      })
+        date.horarios.forEach((date) => {
+          if ((date.hora.getHours() == currentHour.getHours()) && (date.hora.getMinutes() == currentHour.getMinutes()))
+            already = true
+        })
 
-      if (!already) {
-        this.date.horarios.push(new Appointment(new Date(currentHour), value));
+        if (!already) {
+          date.horarios.push(new Appointment(new Date(currentHour), value));
+        }
+
+        currentHour.setMinutes(currentHour.getMinutes() + parseInt(interval))
       }
-      
-      currentHour.setMinutes(currentHour.getMinutes() + parseInt(interval))
-    }
-    
-    //sort by hour
-    this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
+
+      //sort by hour
+      date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
+    })
   }
 
   chooseHour(hour: Date) {
@@ -188,7 +190,7 @@ export class ManagementComponent implements OnInit {
     value = value.replaceAll(',', '.')
     var integer = parseFloat(value)
     var decimal = integer.toFixed(2);
-    
+
     if (input == 'range') {
       this.rangeValue = decimal.toString();
     } else if (input == 'edit') {
@@ -264,7 +266,7 @@ export class ManagementComponent implements OnInit {
 
     this.dates.forEach(date => {
       if (date.horarios.length > 0) hasSchedule = true
-    }) 
+    })
 
     if (!hasSchedule) {
       this.toastr.error('Não há nenhum horário na agenda!')

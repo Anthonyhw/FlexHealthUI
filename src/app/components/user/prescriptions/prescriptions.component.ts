@@ -43,7 +43,6 @@ export class PrescriptionsComponent {
         }
       },
       error:(error) => {
-        debugger
         prescription.visibilidade = !prescription.visibilidade;
         this.toastr.error('Erro ao tentar alterar visibilidade', 'Erro')
       }
