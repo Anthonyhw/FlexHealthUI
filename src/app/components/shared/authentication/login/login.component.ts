@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Route } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,8 +15,15 @@ export class LoginComponent {
 
   user: string = '';
   password: string = '';
+  previousRoute: string;
 
-  constructor(private http: HttpClient, private cookie: CookieService, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private cookie: CookieService, private toastr: ToastrService) { }
+
+  ngOnInit() {
+    if (localStorage.getItem('registerRedirect') == 'true') {
+      this.toastr.success('Cadastro efetuado com sucesso!');
+    }
+  }
 
   login(user: string, password: string) {
     this.http.post(

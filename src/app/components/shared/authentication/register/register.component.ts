@@ -4,7 +4,7 @@ import { ValidatorField } from '../../../../helpers/validatorField'
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { env } from 'src/environments/environment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Register } from 'src/app/models/register.model';
 import jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
@@ -91,7 +91,7 @@ export class RegisterComponent {
     if (this.userType != 'stablishment') {
       this.form.addControl('rg', new FormControl('', [Validators.required, Validators.minLength(11)]))
       this.form.addControl('cpf', new FormControl('', [Validators.required, Validators.minLength(14)]))
-      this.form.addControl('nascimento', new FormControl(new Date(), Validators.required))
+      this.form.addControl('nascimento', new FormControl('', Validators.required))
       this.form.addControl('genero', new FormControl('', Validators.required))
     }
   }
@@ -136,6 +136,8 @@ export class RegisterComponent {
     this.http.post(env.api + 'account/register', JSON.stringify(register), { headers: { 'Content-Type': 'application/json' } }).subscribe({
       next: () => {
         this.toastr.success('Usuário cadastrado com sucesso!', 'Conta criada');
+        localStorage.setItem('registerRedirect', 'true');
+        window.location.pathname = '/login'
       },
       error: (error) => {
         if (error.error.includes('E-mail'))

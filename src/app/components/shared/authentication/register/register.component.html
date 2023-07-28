@@ -4,7 +4,7 @@
 		<div class="row">
 			<h3 class="text-center">Cadastre-se</h3>
 			<div class="col-md-8">
-				<form class="p-1" style="width: 700px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+				<form class="p-1" style="width: 700px;" [formGroup]="form">
 					<div class="row ">
 						<div class="form-group col-md-6">
 							<label for="nome">Nome {{userType != 'stablishment' ? '' : 'do Estabelecimento'}}</label>
@@ -21,8 +21,7 @@
 						<div class="form-group col-md-6">
 							<label for="email">Email</label>
 							<input formControlName="email" type="email" class="form-control"
-								[ngClass]="{'is-invalid': f.email.errors && f.email.touched}" id="input Email4"
-								placeholder="Email">
+								[ngClass]="{'is-invalid': f.email.errors && f.email.touched}" id="input">
 							<div *ngIf="f.email.errors?.required" class="invalid-feedback">
 								E-mail é obrigatório.
 							</div>
@@ -88,7 +87,7 @@
 
 						<div class="form-group col-md-3">
 							<label for="nascimento">Data de Nascimento</label>
-							<input type="text" formControlName="nascimento" placeholder="01/01/2001" maxlength="8"
+							<input type="text" formControlName="nascimento" maxlength="8"
 								class="form-control"
 								[ngClass]="{'is-invalid': f.nascimento.errors && f.nascimento.touched}"
 								[bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly bsDatepicker>
@@ -166,7 +165,7 @@
 							<input (keyup)="format.formatPhone(form, $event)" formControlName="telefone" type="text"
 								class="form-control" maxlength="15"
 								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone"
-								placeholder="(11) 91234-5678">
+								>
 							<div *ngIf="f.telefone.errors?.required" class="invalid-feedback">
 								Telefone é obrigatório.
 							</div>
@@ -211,7 +210,9 @@
 							<label for="cep">CEP</label>
 							<div class="row">
 								<input formControlName="cep" type="text" class="col ms-2 form-control"
-									[ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" id="cep">
+									[ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" id="cep"
+									(keyup.enter)="searchAddress(f.cep.value)"
+									(blur)="searchAddress(f.cep.value)">
 								<span (click)="searchAddress(f.cep.value)" class="col-2 btn btn-success mx-2"><span
 										class="fa fa-search"></span></span>
 								<div *ngIf="f.cep.errors?.required" class="invalid-feedback">
@@ -272,7 +273,7 @@
 						</div>
 					</div>
 					<br>
-					<button type="submit" class="btn btn-primary">Cadastrar</button>
+					<button type="button" (click)="onSubmit()" class="btn btn-primary">Cadastrar</button>
 				</form>
 			</div>
 
