@@ -260,6 +260,16 @@ export class ManagementComponent implements OnInit {
   }
 
   onSubmit() {
+    var hasSchedule = false;
+
+    this.dates.forEach(date => {
+      if (date.horarios.length > 0) hasSchedule = true
+    }) 
+
+    if (!hasSchedule) {
+      this.toastr.error('Não há nenhum horário na agenda!')
+      return
+    }
     var request = new Agenda({
       tipo: this.doctor.estabelecimento.claims.find(claim => claim.type == 'Tipo').value == 'Consultorio' ? 'Consulta' : 'Exame',
       status: 'Aberto',
