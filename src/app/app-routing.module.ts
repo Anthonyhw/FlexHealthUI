@@ -37,7 +37,7 @@ const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent}
   ]},
   {path: 'stablishment', canActivate: [stablishmentGuard], component: DoctorComponent, children: [
-    {path: 'management', component: ManagementComponent},
+    {path: 'dashboard', component: DashboardComponent}
   ]},
   {path:'404', component: PerfilComponent}
 ];

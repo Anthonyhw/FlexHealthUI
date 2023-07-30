@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ArchiveDto } from 'src/app/models/archiveDto.model';
 import { PrescriptionService } from 'src/app/services/prescription.service';
 import { env } from 'src/environments/environment';
+import { AccountService } from 'src/app/services/account.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +25,8 @@ export class DashboardComponent {
   archives: ArchiveDto[] = [new ArchiveDto()];
   tipoExames = ['TSH e T4 livre', 'Transaminases', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma'];
   confirmStatus: boolean = false;
+  doctorList: User[] = []
+  userType: string;
 
   public get api() {
     return env.api;
@@ -31,16 +35,33 @@ export class DashboardComponent {
   // Paginations
   page: number;
 
-  constructor(private schedule: ScheduleService, private modalService: BsModalService, private toastr: ToastrService, private prescription: PrescriptionService ) { }
+  constructor(private schedule: ScheduleService, private modalService: BsModalService, private toastr: ToastrService, private prescription: PrescriptionService, private account: AccountService) { }
 
   ngOnInit() {
-    this.func = location.pathname.includes('doctor') ? 'getSchedulesByDoctorId' : 'GetSchedulesByPatientId'
-    this.getSchedules(this.func)
+    this.userType = location.pathname.split('/')[1]
+    if (this.userType == 'doctor') {
+      this.func = 'getSchedulesByDoctorId'
+      this.getSchedules(this.func, localStorage.getItem('User.Id'))
+    } else if (this.userType == 'user') {
+      this.func = 'GetSchedulesByPatientId'
+      this.getSchedules(this.func, localStorage.getItem('User.Id'))
+    } else {
+      this.func = 'getSchedulesByDoctorId'
+      this.account.getDoctors().subscribe({
+        next: (result) => {
+          this.doctorList = result
+          this.getSchedules(this.func, this.doctorList[0].id);
+        }
+      });
+    }
   }
 
-  getSchedules(func: string) {
-    this.schedule[func](localStorage.getItem('User.Id')).subscribe({
+  getSchedules(func: string, id: string) {
+    this.schedule[func](id).subscribe({
       next: (result: Schedule[]) => {
+        this.openedSchedules = []
+        this.scheduledSchedules = []
+        this.closedSchedules = []
         result.forEach((schedule) => {
           switch (schedule.status) {
             case 'Aberto':
@@ -146,7 +167,7 @@ export class DashboardComponent {
   endSchedule() {
     this.confirmStatus = true
     var someError = false
-    
+
     if (this.archives.length >= 1) {
       if (this.archives[this.archives.length - 1].arquivo == undefined) {
         this.archives.pop();
@@ -236,7 +257,7 @@ export class DashboardComponent {
         this.toastr.success('Arquivo enviado com sucesso!', 'Sucesso!')
         this.archives.splice(this.archives.findIndex(arch => arch == archive), 1);
       },
-      error: (error) => { 
+      error: (error) => {
         this.toastr.error(error.error, 'Erro!')
       }
     })

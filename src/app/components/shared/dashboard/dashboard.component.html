@@ -1,6 +1,14 @@
 <div class="container margem">
 
   <div class="card rounded shadow-sm p-3">
+    <div *ngIf="this.userType == 'stablishment'" class="row mb-3">
+      <div class="form-group col-4">
+        <label for="Medicos">Escolha o Médico</label>
+        <select #doctor (change)="getSchedules(func, doctor.value)" class="form-select">
+          <option *ngFor="let doctor of doctorList" value="{{doctor.id}}">{{doctor.nome}}</option>
+        </select>
+      </div>
+    </div>
     <!-- Em Aberto -->
     <tabset>
       <tab (selectTab)="page=1" heading="Em Aberto" *ngIf="func == 'getSchedulesByDoctorId'">
@@ -37,7 +45,8 @@
             </tr>
           </tbody>
         </table>
-        <h4 *ngIf="openedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
+        <h4 *ngIf="openedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!
+        </h4>
 
         <div class="d-flex justify-content-center">
 
@@ -87,7 +96,8 @@
               </td>
             </tr>
         </table>
-        <h4 *ngIf="scheduledSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
+        <h4 *ngIf="scheduledSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!
+        </h4>
         <div class="d-flex justify-content-center">
 
           <pagination class="mt-2" [boundaryLinks]="true" [totalItems]="scheduledSchedules.length" [itemsPerPage]="12"
@@ -97,7 +107,7 @@
         </div>
       </tab>
       <!-- Fechados -->
-      <tab (selectTab)="page=1" heading="Fechados" *ngIf="closedSchedules.length > 0">
+      <tab (selectTab)="page=1" heading="Fechados" *ngIf="closedSchedules">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
@@ -132,7 +142,8 @@
             </tr>
           </tbody>
         </table>
-        <h4 *ngIf="closedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!</h4>
+        <h4 *ngIf="closedSchedules.length == 0" class="d-flex justify-content-center">Nenhum agendamento encontrado!
+        </h4>
         <div class="d-flex justify-content-center">
 
           <pagination class="mt-2" [boundaryLinks]="true" [totalItems]="closedSchedules.length" [itemsPerPage]="12"
@@ -292,7 +303,10 @@
           <hr>
           <div class="col-md-6">
             <h6>Prescrições do Paciente</h6>
-            <a class="row ms-1" *ngFor="let prescription of selectedSchedule.prescricoes" target="_blank" href="{{api}}Resources/Prescriptions/{{prescription.url}}.pdf" download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
+            <a class="row ms-1" *ngFor="let prescription of selectedSchedule.prescricoes" target="_blank"
+              href="{{api}}Resources/Prescriptions/{{prescription.url}}.pdf"
+              download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}">{{prescription.url.substring(0,
+              prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
             <p *ngIf="selectedSchedule.prescricoes?.length == 0">Não há prescrições Disponíveis</p>
           </div>
         </div>
@@ -312,14 +326,13 @@
                         *ngIf="i != archives.length-1 && selectedSchedule.status == 'Encerrado' && (archive.proposito && archive.proposito != 'Pedido' || archive.proposito == 'Pedido' && archive.tipoExame) "
                         class="col-md ">
                         <div class="me-3">
-                          <button (click)="uploadFile(archive)"
-                            class="btn btn-default btn-success">Enviar
+                          <button (click)="uploadFile(archive)" class="btn btn-default btn-success">Enviar
                             Arquivo</button>
                         </div>
                       </div>
                       <div *ngIf="i != archives.length-1" class="col-md ">
-                        <div class="me-3  d-flex justify-content-end"><button (click)="deleteFile(i)" class="btn btn-default btn-danger"><i
-                              class="fa fa-x"></i></button></div>
+                        <div class="me-3  d-flex justify-content-end"><button (click)="deleteFile(i)"
+                            class="btn btn-default btn-danger"><i class="fa fa-x"></i></button></div>
                       </div>
                     </div>
                   </div>

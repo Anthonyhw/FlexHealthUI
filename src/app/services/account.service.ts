@@ -21,6 +21,10 @@ export class AccountService {
     return this.http.get<Stablishment>(env.api + `account/getUserById/${id}`);
   }
 
+  getDoctors():Observable<User[]> {
+    return this.http.get<User[]>(env.api + `account/GetDoctors`);
+  }
+
   updateImage(formData: FormData, fileName: string): Observable<boolean> {
     return this.http.put<boolean>(env.api + `account/image?fileName=${fileName}`, formData); 
   }
