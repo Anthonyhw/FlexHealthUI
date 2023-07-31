@@ -19,7 +19,7 @@ import { env } from 'src/environments/environment';
   providers: [{ provide: AccordionConfig, useValue: { isAnimated: true, closeOthers: true } }]
 })
 export class SchedulesComponent {
-  
+
   date = new Date();
   stablishments: StablishmentAgenda[];
   specialty: string;
@@ -40,7 +40,7 @@ export class SchedulesComponent {
 
   foundResult: boolean = false;
   spinner: boolean = false;
-  page: number;
+  page: number = 1;
   modalRef?: BsModalRef;
 
   constructor(private schedule: ScheduleService, private account: AccountService, private toastr: ToastrService, private modalService: BsModalService, private prescription: PrescriptionService) { }
@@ -75,15 +75,17 @@ export class SchedulesComponent {
     this.spinner = true
     this.schedule.getSchedulesByCity(city).subscribe({
       next: (result: StablishmentAgenda[]) => {
+        this.stablishments = undefined
+        this.page = 1
         this.stablishments = result;
         this.stablishments.forEach((stablishment) => {
           var index = 0;
-          while (index < stablishment.agenda.length -1) {
+          while (index <= stablishment.agenda.length - 1) {
             var formattedDate = this.date.toLocaleDateString()
             if (!stablishment.agenda[index].dataConsulta.includes(formattedDate) || stablishment.agenda[index].tipo != this.scheduleType || stablishment.agenda[index].especialidade != this.specialty) {
               var start = stablishment.agenda.findIndex(h => h.id == stablishment.agenda[index].id);
               stablishment.agenda.splice(start, 1);
-            }else index++;
+            } else index++;
           }
           stablishment.agenda.forEach((hour) => {
             var formattedDate = this.date.toLocaleDateString()
@@ -92,15 +94,17 @@ export class SchedulesComponent {
               stablishment.agenda.splice(start, 1);
             }
           })
-          stablishment.agenda.sort( (a,b) => parseInt(a.valor.split(' ')[1]) - parseInt(b.valor.split(' ')[1]) )
+          stablishment.agenda.sort((a, b) => parseInt(a.valor.split(' ')[1]) - parseInt(b.valor.split(' ')[1]))
         })
-        this.stablishments.forEach(stablishment => {
-          if (stablishment.agenda.length == 0) {
-            this.stablishments.splice(this.stablishments.findIndex(h => h.estabelecimento.id == stablishment.estabelecimento.id))
-          }
-        })
+        var index = 0;
+        while (index <= this.stablishments.length - 1) {
+          if (this.stablishments[index].agenda.length == 0) {
+            this.stablishments.splice(this.stablishments.findIndex(h => h.estabelecimento.id == this.stablishments[index].estabelecimento.id), 1)
+          }else index++;
+        }
         if (this.stablishments.length == 0) {
           this.foundResult = true
+          this.stablishments = undefined
         } else {
           this.foundResult = false
         }
@@ -109,7 +113,7 @@ export class SchedulesComponent {
         console.error(error)
       }
     })
-    this.spinner=false;
+    this.spinner = false;
   }
 
   chooseHour(id: string) {
@@ -121,15 +125,15 @@ export class SchedulesComponent {
 
     this.account.getUserById(this.selectedHour.medicoId).subscribe({
       next: (result) => {
-        
+
         this.doctor = result;
         var stablishmentPhoto = this.stablishments.find(stab => stab.agenda[0].medicoId == parseInt(result.id)).estabelecimento.fotoPerfil
         if (stablishmentPhoto != "") this.stablishmentImageSrc = env.api + `Resources/Images/UserImages/` + stablishmentPhoto;
-        else this.stablishmentImageSrc ='../../../../assets/nophoto.png'
-        
+        else this.stablishmentImageSrc = '../../../../assets/nophoto.png'
+
         if (result.fotoPerfil != "") this.doctorImageSrc = env.api + `Resources/Images/UserImages/${result.fotoPerfil}`;
         else this.doctorImageSrc = '../../../../assets/nophoto.png'
-        
+
       }
     })
   }
@@ -139,16 +143,16 @@ export class SchedulesComponent {
   }
 
   scheduleToUser(modal: any) {
-    
+
     if (modal == 'Credit') {
-      if ((<HTMLInputElement>document.getElementById('nomeTitular')).value == '' || 
-          (<HTMLInputElement>document.getElementById('numeroCartao')).value == '' ||
-          (<HTMLSelectElement>document.getElementById('mesValidade')).value == '' ||
-          (<HTMLSelectElement>document.getElementById('anoValidade')).value == '' ||
-          (<HTMLInputElement>document.getElementById('codigoSeguranca')).value == '') {
-            this.toastr.error('Preencha todos os campos!');
-            return
-          }
+      if ((<HTMLInputElement>document.getElementById('nomeTitular')).value == '' ||
+        (<HTMLInputElement>document.getElementById('numeroCartao')).value == '' ||
+        (<HTMLSelectElement>document.getElementById('mesValidade')).value == '' ||
+        (<HTMLSelectElement>document.getElementById('anoValidade')).value == '' ||
+        (<HTMLInputElement>document.getElementById('codigoSeguranca')).value == '') {
+        this.toastr.error('Preencha todos os campos!');
+        return
+      }
     }
 
     if (this.scheduleType == 'Exame') {
@@ -170,7 +174,7 @@ export class SchedulesComponent {
         });
       return;
     }
-    
+
     var request = {
       AgendamentoId: parseInt(this.selectedHour.id),
       UsuarioId: parseInt(localStorage.getItem('User.Id')),
