@@ -39,7 +39,8 @@ export class SchedulesComponent {
 
 
   foundResult: boolean = false;
-  spinner: boolean = false;
+  picanha: boolean = false;
+  spinner: boolean;
   page: number = 1;
   modalRef?: BsModalRef;
 
@@ -72,9 +73,13 @@ export class SchedulesComponent {
   }
 
   getSchedulesByCity(city: string) {
-    this.spinner = true
+    this.spinner = true;
+    this.foundResult = false;
+    this.stablishments = undefined;
     this.schedule.getSchedulesByCity(city).subscribe({
       next: (result: StablishmentAgenda[]) => {
+
+        this.spinner = false;
         this.stablishments = undefined
         this.page = 1
         this.stablishments = result;
@@ -100,7 +105,7 @@ export class SchedulesComponent {
         while (index <= this.stablishments.length - 1) {
           if (this.stablishments[index].agenda.length == 0) {
             this.stablishments.splice(this.stablishments.findIndex(h => h.estabelecimento.id == this.stablishments[index].estabelecimento.id), 1)
-          }else index++;
+          } else index++;
         }
         if (this.stablishments.length == 0) {
           this.foundResult = true
@@ -113,7 +118,6 @@ export class SchedulesComponent {
         console.error(error)
       }
     })
-    this.spinner = false;
   }
 
   chooseHour(id: string) {

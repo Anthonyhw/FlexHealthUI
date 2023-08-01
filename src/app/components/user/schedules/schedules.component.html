@@ -78,55 +78,57 @@
       <br>
     </div>
   </div>
-  <div class="col-6 my-2 border d-flex align-items-center">
-    <div class="container-fluid">
-      <div *ngIf="spinner" class="row d-flex justify-content-center ">
-        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+  <div class="col-6 my-2 border d-flex align-items-center justify-content-center">
+
+    <div class="row d-flex justify-content-center" *ngIf="spinner">
+      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <div class="row">
-        <tabset *ngIf="stablishments != undefined">
-          <tab *ngFor="let stablishment of stablishments.slice((page == 1 ? 0 : 3 * (page-1)), (3 * page))"
-            heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
-            <table class="table table-striped table-hover">
-              <thead class="thead-dark">
-                <tr>
-                  <th class="d-none d-md-table-cell">
-                  </th>
-                  <th>Data</th>
-                  <th>Hora</th>
-                  <th class="d-none d-md-table-cell">Doutor</th>
-                  <th class="d-none d-md-table-cell">Especialidade</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
-                  (click)="chooseHour(schedule.id)">
-                  <td class="d-none d-md-table-cell"></td>
-                  <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
-                  <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
-                  <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
-                    {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
-                  <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
-                  <td class="d-none d-md-table-cell">{{schedule.valor}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </tab>
-          <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
-          <pagination *ngIf="stablishments.length > 3" class="d-flex justify-content-center" [boundaryLinks]="true"
-            [totalItems]="stablishments.length" 
-            [itemsPerPage]="3" 
-            [(ngModel)]="page" 
-            pageBtnClass="btn"
-            previousText="&lsaquo;" 
-            nextText="&rsaquo;" 
-            firstText="&laquo;" 
-            lastText="&raquo;">
-          </pagination>
-        </tabset>
+    </div>
+
+    <div *ngIf="foundResult" class="w-100">
+      <h3 class="h3 w-100 text-center">Nenhum resultado encontrado!</h3>
+    </div>
+
+    <div class="row w-100" *ngIf="stablishments">
+      <div class="container-fluid" >
+        <div class="row">
+          <tabset>
+            <tab *ngFor="let stablishment of stablishments.slice((page == 1 ? 0 : 3 * (page-1)), (3 * page))"
+              heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
+              <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th class="d-none d-md-table-cell">
+                    </th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th class="d-none d-md-table-cell">Doutor</th>
+                    <th class="d-none d-md-table-cell">Especialidade</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
+                    (click)="chooseHour(schedule.id)">
+                    <td class="d-none d-md-table-cell"></td>
+                    <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
+                    <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
+                    <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
+                      {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+                    <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
+                    <td class="d-none d-md-table-cell">{{schedule.valor}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </tab>
+            <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
+            <pagination *ngIf="stablishments.length > 3" class="d-flex justify-content-center" [boundaryLinks]="true"
+              [totalItems]="stablishments.length" [itemsPerPage]="3" [(ngModel)]="page" pageBtnClass="btn"
+              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+            </pagination>
+          </tabset>
+        </div>
       </div>
     </div>
   </div>
@@ -235,7 +237,8 @@
                       <label for="anoValidade">Ano de Validade</label>
                       <select class="form-control" id="anoValidade" required>
                         <option value="" disabled selected>Escolha o Ano</option>
-                        <option *ngFor="let item of numeros" value="{{item}}">20{{item < 10 ? '0' +item : item}}</option>
+                        <option *ngFor="let item of numeros" value="{{item}}">20{{item < 10 ? '0' +item :
+                            item}}</option>
                       </select>
                     </div>
                   </div>
@@ -246,7 +249,8 @@
                         required maxlength="3">
                     </div>
                   </div>
-                  <button type="submit" (click)="scheduleToUser('Credit')" class="btn btn-primary mt-3">Efetuar Pagamento</button>
+                  <button type="submit" (click)="scheduleToUser('Credit')" class="btn btn-primary mt-3">Efetuar
+                    Pagamento</button>
                 </form>
               </div>
             </div>
