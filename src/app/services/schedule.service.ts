@@ -43,4 +43,8 @@ export class ScheduleService {
   endSchedule(request: FormData): Observable<boolean> {
     return this.http.post<boolean>(env.api + `schedule/end`, request);
   }
+
+  getQrCode(url: string, id: string): Observable<boolean> {
+    return this.http.get<boolean>(env.api + `schedule/QrCode?url=${url}&id=${id}`);
+  }
 }

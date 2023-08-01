@@ -182,7 +182,7 @@
             </select>
           </div>
           <div class="col-1 d-flex align-items-end">
-            <button (click)="scheduleToUser(creditoModal)" type="button" class="btn btn-success">
+            <button (click)="scheduleToUser(paymentType == 'Pix' ? pixModal :creditoModal)" type="button" class="btn btn-success">
               Agendar
             </button>
           </div>
@@ -255,6 +255,22 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #pixModal>
+    <div class="modal-header d-flex text-align-center align-items-center justify-content-center">
+      <h5 class="h5">Efetue o Pagamento do Pix</h5>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closePix()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center d-flex justify-content-center align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <img [src]="qrCodeSrc" alt="">
         </div>
       </div>
     </div>

@@ -36,6 +36,7 @@ export class SchedulesComponent {
 
   doctorImageSrc: string;
   stablishmentImageSrc: string;
+  qrCodeSrc: string;
 
 
   foundResult: boolean = false;
@@ -116,6 +117,7 @@ export class SchedulesComponent {
       },
       error: (error) => {
         console.error(error)
+        this.spinner = false;
       }
     })
   }
@@ -182,16 +184,35 @@ export class SchedulesComponent {
     var request = {
       AgendamentoId: parseInt(this.selectedHour.id),
       UsuarioId: parseInt(localStorage.getItem('User.Id')),
-      Pagamento: this.paymentType
+      Pagamento: this.paymentType,
+      StatusPagamento: this.paymentType == 'Credito' ? 'Pago' : 'Aguardando pagamento'
     }
 
     this.schedule.scheduleToUser(request).subscribe({
       next: (result) => {
-        window.location.reload;
-        this.stablishments = []
-        this.selectedHour = undefined;
-        this.modalRef?.hide();
-        this.toastr.success('Agendamento realizado com sucesso!', 'Sucesso!')
+        if (this.paymentType == 'Pix') {
+          this.schedule.getQrCode(env.api + `schedule/approve?id=${this.selectedHour.id}`, this.selectedHour.id).subscribe({
+            next: () => {
+              this.qrCodeSrc = env.api + `Resources/QrCode/schedule${this.selectedHour.id}QRCode.png`
+              this.modalRef = this.modalService.show(modal,
+                {
+                  class: 'modal-lg modal-dialog-centered',
+                  ignoreBackdropClick: true,
+                  keyboard: false
+                });
+            },
+            error: (error) => {
+              this.toastr.error(`Ocorreu um erro ao tentar agendar consulta: ${error.error}`)
+            }
+          })
+        } else {
+          this.toastr.success('Agendamento realizado com sucesso!', 'Sucesso!')
+          this.paymentType = ''
+          this.stablishments = []
+          this.selectedHour = undefined;
+          this.modalRef?.hide();
+        }
+
       }
     })
   }
@@ -205,5 +226,11 @@ export class SchedulesComponent {
         this.toastr.error(`Erro ao recuperar prescrições: ${error.error}`, 'Erro');
       }
     })
+  }
+  closePix() {
+    this.modalRef?.hide();
+    this.paymentType = ''
+    this.stablishments = []
+    this.selectedHour = undefined;
   }
 }
