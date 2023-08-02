@@ -243,13 +243,13 @@
             <h6>Forma de pagamento</h6>
             <p>{{ selectedSchedule.pagamento }}</p>
           </div>
-          <div class="col-md">
+          <div class="col-md" *ngIf="selectedSchedule.statusPagamento">
             <h6>Status do pagamento</h6>
-            <p>Aprovado</p>
+            <p>{{selectedSchedule.statusPagamento}}</p>
           </div>
-          <div class="col-md d-flex align-items-center" *ngIf="">
+          <div class="col-md " *ngIf="selectedSchedule.statusPagamento != null && selectedSchedule.statusPagamento != 'Pago' && func != 'getSchedulesByDoctorId'">
             <!-- ali no ngIf tem q adicionar uma condicional de se o status do pagamento for diferente de Aprovado -->
-            <button class="btn btn-default btn-success">Efetuar Pagamento</button>
+            <button (click)="openPixModal(pixModal)" class="btn btn-default btn-success">Efetuar Pagamento</button>
           </div>
         </div>
         <div class="row">
@@ -298,7 +298,7 @@
           </div>
         </div>
       </div>
-      <div class="details-section" *ngIf="func == 'getSchedulesByDoctorId'">
+      <div class="details-section" *ngIf="func == 'getSchedulesByDoctorId' && selectedSchedule.statusPagamento == 'Pago'">
         <div class="row" *ngIf="selectedSchedule.status != 'Cancelado'">
           <hr>
           <div class="col-md-6">
@@ -369,5 +369,21 @@
       </div>
     </div>
     <div class="modal-footer"></div>
+  </ng-template>
+
+  <ng-template #pixModal>
+    <div class="modal-header d-flex text-align-center align-items-center justify-content-center">
+      <h5 class="h5">Efetue o Pagamento do Pix</h5>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center d-flex justify-content-center align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <img [src]="qrCodeSrc" alt="">
+        </div>
+      </div>
+    </div>
   </ng-template>
 </div>

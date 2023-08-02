@@ -16,5 +16,6 @@ export class Schedule {
     especialidade: string
     valor: string
     pagamento: string
+    statusPagamento: string
     prescricoes: ArchiveDto[]
 }

@@ -27,6 +27,7 @@ export class DashboardComponent {
   confirmStatus: boolean = false;
   doctorList: User[] = []
   userType: string;
+  qrCodeSrc: string;
 
   public get api() {
     return env.api;
@@ -89,6 +90,9 @@ export class DashboardComponent {
 
   openModal(schedule: Schedule, template: TemplateRef<any>) {
     this.selectedSchedule = schedule;
+    if (this.selectedSchedule.statusPagamento == 'Aguardando pagamento') {
+      this.qrCodeSrc = env.api + `Resources/QrCode/schedule${this.selectedSchedule.id}QRCode.png`
+    }
     this.archives = [];
     this.archives.push(new ArchiveDto({
       medicoId: parseInt(localStorage.getItem('User.Id')),
@@ -264,5 +268,16 @@ export class DashboardComponent {
   }
   downloadFile(fileName: string) {
     return this.prescription.downloadFile(fileName);
+  }
+
+  openPixModal(pixModal: any) {
+    this.modalRef.hide();
+
+    this.modalRef = this.modalService.show(pixModal,
+      {
+        class: 'modal-sm modal-dialog-centered',
+        ignoreBackdropClick: true,
+        keyboard: false
+      });
   }
 }
