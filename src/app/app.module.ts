@@ -32,6 +32,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InterceptorModule } from './interceptors/interceptor.module';
 import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
 import { NewsComponent } from './components/shared/news/news.component';
+import { NewsCreationComponent } from './components/stablishment/news-creation/news-creation.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { NewsComponent } from './components/shared/news/news.component';
     PrescriptionsComponent,
     DashboardComponent,
     NewsComponent,
+    NewsCreationComponent,
   ],
   imports: [
     BrowserModule,

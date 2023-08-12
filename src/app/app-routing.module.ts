@@ -18,6 +18,7 @@ import { stablishmentGuard } from './guards/stablishment.guard';
 import { isNotAuthenticatedGuard } from './guards/is-not-authenticated.guard';
 import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
 import { NewsComponent } from './components/shared/news/news.component';
+import { NewsCreationComponent } from './components/stablishment/news-creation/news-creation.component';
 
 const routes: Routes = [
   {path: '', component: PresentationComponent},
@@ -40,6 +41,7 @@ const routes: Routes = [
   ]},
   {path: 'stablishment', canActivate: [stablishmentGuard], component: DoctorComponent, children: [
     {path: 'dashboard', component: DashboardComponent},
+    {path: 'news/creation', component: NewsCreationComponent}
   ]},
   {path:'404', component: PerfilComponent}
 ];
