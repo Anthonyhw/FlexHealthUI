@@ -17,10 +17,12 @@ import { doctorGuard } from './guards/doctor.guard';
 import { stablishmentGuard } from './guards/stablishment.guard';
 import { isNotAuthenticatedGuard } from './guards/is-not-authenticated.guard';
 import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
+import { NewsComponent } from './components/shared/news/news.component';
 
 const routes: Routes = [
   {path: '', component: PresentationComponent},
   {path:'login', canActivate: [isNotAuthenticatedGuard], component: LoginComponent},
+  {path: 'news', component: NewsComponent},
   {path:'register', canActivateChild:[registerGuard], component: RegisterComponent, children:[
     {path: 'patient', component: RegisterComponent},
     {path: 'stablishment', component: RegisterComponent},
@@ -30,14 +32,14 @@ const routes: Routes = [
   {path: 'user', canActivate: [userGuard], component: UserComponent, children: [
     {path: 'schedules', component: SchedulesComponent},
     {path: 'prescriptions', component: PrescriptionsComponent},
-    {path: 'dashboard', component: DashboardComponent}
+    {path: 'dashboard', component: DashboardComponent},
   ]},
   {path: 'doctor', canActivate: [doctorGuard], component: DoctorComponent, children: [
     {path: 'management', component: ManagementComponent},
-    {path: 'dashboard', component: DashboardComponent}
+    {path: 'dashboard', component: DashboardComponent},
   ]},
   {path: 'stablishment', canActivate: [stablishmentGuard], component: DoctorComponent, children: [
-    {path: 'dashboard', component: DashboardComponent}
+    {path: 'dashboard', component: DashboardComponent},
   ]},
   {path:'404', component: PerfilComponent}
 ];

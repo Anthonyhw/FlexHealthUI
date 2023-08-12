@@ -31,6 +31,7 @@ import { PrescriptionsComponent } from './components/user/prescriptions/prescrip
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InterceptorModule } from './interceptors/interceptor.module';
 import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
+import { NewsComponent } from './components/shared/news/news.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { DashboardComponent } from './components/shared/dashboard/dashboard.comp
     ManagementComponent,
     PrescriptionsComponent,
     DashboardComponent,
+    NewsComponent,
   ],
   imports: [
     BrowserModule,

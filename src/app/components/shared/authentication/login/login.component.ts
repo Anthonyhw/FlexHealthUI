@@ -48,7 +48,11 @@ export class LoginComponent {
           localStorage.setItem('Stablishment.Type', decodedToken.Tipo);
         }
 
-        location.pathname = '/perfil'
+        if (decodedToken.role == 'Paciente') {
+          location.pathname = '/news';
+        }else {
+          location.pathname = '/perfil'
+        }
       },
       error: (error) => {
         this.toastr.error(error.message, 'Erro!');
