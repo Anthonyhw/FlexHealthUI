@@ -176,7 +176,7 @@
         <div class="row mb-2">
           <div class="col-9">
             <label for="schedule">Forma de Pagamento</label>
-            <select [(ngModel)]="paymentType" class="form-select" aria-label="">
+            <select [(ngModel)]="paymentType" [disabled]="selectedHour.valor == 'R$ 0.00'" class="form-select" aria-label="">
               <option value="Credito">Cartão de Crédito</option>
               <option value="Pix">Pix</option>
             </select>

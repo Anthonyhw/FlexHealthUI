@@ -126,6 +126,7 @@ export class SchedulesComponent {
     this.stablishments.forEach(stablishment => {
       if (stablishment.agenda.find(stab => stab.id == id)) {
         this.selectedHour = stablishment.agenda.find(stab => stab.id == id)
+        this.paymentType = '';
       }
     });
 
@@ -149,6 +150,9 @@ export class SchedulesComponent {
   }
 
   scheduleToUser(modal: any) {
+    if (this.selectedHour.valor == 'R$ 0.00') {
+      this.paymentType = 'Gratuito'
+    }
 
     if (modal == 'Credit') {
       if ((<HTMLInputElement>document.getElementById('nomeTitular')).value == '' ||
@@ -167,7 +171,7 @@ export class SchedulesComponent {
         return
       }
     }
-    if (!this.paymentType) {
+    if (!this.paymentType || this.paymentType == '') {
       this.toastr.error('Escolha uma forma de pagamento!')
       return
     }
@@ -185,7 +189,7 @@ export class SchedulesComponent {
       AgendamentoId: parseInt(this.selectedHour.id),
       UsuarioId: parseInt(localStorage.getItem('User.Id')),
       Pagamento: this.paymentType,
-      StatusPagamento: this.paymentType == 'Credito' ? 'Pago' : 'Aguardando pagamento'
+      StatusPagamento: this.paymentType == 'Credito' || this.paymentType == 'Gratuito' ? 'Pago' : 'Aguardando pagamento'
     }
 
     this.schedule.scheduleToUser(request).subscribe({
