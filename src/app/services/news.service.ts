@@ -20,4 +20,7 @@ export class NewsService {
   createNew(form: FormData): Observable<any> {
     return this.http.post<any>(env.api + `news`, form)
   }
+  removeNews(id: number): Observable<any> {
+    return this.http.delete<any>(env.api + `news/${id}`)
+  }
 }

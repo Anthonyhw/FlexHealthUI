@@ -11,9 +11,10 @@ import { env } from 'src/environments/environment';
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent {
-  newsList: any;
+  newsList: any[];
   selectedNews: any;
   modalRef?: BsModalRef;
+  userId: string = localStorage.getItem('User.Id')
 
   get api() {
     return env.api
@@ -44,6 +45,15 @@ export class NewsComponent {
       },
       error: (error) => {
         this.toastr.error('Erro ao tentar recuperar notícias!');
+      }
+    })
+  }
+
+  removeNews(id: number) {
+    this.news.removeNews(id).subscribe({
+      next: () => {
+        this.modalRef?.hide();
+        this.newsList.splice(this.newsList.findIndex(n => n.Id == id), 1);
       }
     })
   }

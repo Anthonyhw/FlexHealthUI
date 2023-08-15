@@ -70,6 +70,7 @@ export class NewsCreationComponent {
     this.form.append('Titulo', this.title);
     this.form.append('Texto', this.text);
     this.form.append('DataCriacao', new Date().toDateString());
+    this.form.append('EstabelecimentoId', localStorage.getItem('User.Id'))
 
     this.news.createNew(this.form).subscribe({
       next: (result) => {
