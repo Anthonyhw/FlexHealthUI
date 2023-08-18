@@ -50,22 +50,6 @@
       <span class="d-flex justify-content-center my-3 h5">Selecione um tipo de Busca</span>
       <div class="row my-1">
         <div class="col-9">
-          <label for="schedule">Raio (em Km)</label>
-          <select class="form-select" aria-label="">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-        <div class="col-1 d-flex align-items-end">
-          <button (click)="scheduleToUser(null)" type="button" class="btn btn-success">
-            Buscar
-          </button>
-        </div>
-      </div>
-      <div class="row my-1">
-        <div class="col-9">
           <label for="data">Cidade</label>
           <input [(ngModel)]="city" (keydown.enter)="getSchedulesByCity(city)" type="text" class="form-control">
         </div>
