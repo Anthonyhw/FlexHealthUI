@@ -1,5 +1,5 @@
 <div class="container d-flex margem justify-content-center align-items-center vh-100">
-    <div class="container" *ngIf="newsList">
+    <div class="container" *ngIf="newsList && newsList.length > 0">
         <div class="container-fluid border rounded-top bg-light bg-gradient d-flex justify-content-center">
             <h2 class="h2">Últimas Notícias</h2>
         </div>
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <h3 class="h3 d-flex text-align-center text-center justify-content-center" *ngIf="!newsList">Não há notícias no momento!</h3>
+    <h3 class="h3 d-flex text-align-center text-center justify-content-center" *ngIf="!newsList || newsList.length <= 0">Não há notícias no momento!</h3>
 </div>
 
 <ng-template #modal>

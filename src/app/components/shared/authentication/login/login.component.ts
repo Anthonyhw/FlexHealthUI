@@ -27,6 +27,7 @@ export class LoginComponent {
   }
 
   login(user: string, password: string) {
+    debugger
     this.http.post(
       env.api + 'account/login', 
       JSON.stringify({username: user.includes('@') ? '' : user, email: user.includes('@') ? user : '', password: password}),
