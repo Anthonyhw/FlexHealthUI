@@ -18,7 +18,7 @@
                         [fit-to-page]="true"
                         style="width: 400px; height: 580px">
                     </pdf-viewer>
-                    <a href="{{api}}resources/prescriptions/{{prescription.url}}.pdf" target="_blank" download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}" class="h5">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
+                    <a href="{{api}}Resources/Prescriptions/{{prescription.url}}.pdf" target="_blank" download="{{prescription.url.substring(0, prescription.url.indexOf('_user'))}}" class="h5">{{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll('_', ' ').replaceAll('-', '/')}}</a>
                     <div class="form-check form-switch">
                         <input [(ngModel)]="prescription.visibilidade" [value]="prescription.visibilidade" class="form-check-input" (change)="changeVisibility(prescription.id ,prescription)" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Visível para médicos</label>
