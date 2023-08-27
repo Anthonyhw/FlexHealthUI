@@ -1,3 +1,3 @@
 export const env = {
-    api: 'https://localhost:44343/'
+    api: 'http://flexhealth.com.br:5073/'
 };
