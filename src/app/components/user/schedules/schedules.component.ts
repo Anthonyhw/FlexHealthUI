@@ -87,15 +87,15 @@ export class SchedulesComponent {
         this.stablishments.forEach((stablishment) => {
           var index = 0;
           while (index <= stablishment.agenda.length - 1) {
-            var formattedDate = this.date.toLocaleDateString()
-            if (!stablishment.agenda[index].dataConsulta.includes(formattedDate) || stablishment.agenda[index].tipo != this.scheduleType || stablishment.agenda[index].especialidade != this.specialty) {
+            var formattedDate = this.date.toLocaleDateString();
+            if (!new Date(stablishment.agenda[index].dataConsulta).toLocaleDateString().includes(formattedDate) || stablishment.agenda[index].tipo != this.scheduleType || stablishment.agenda[index].especialidade != this.specialty) {
               var start = stablishment.agenda.findIndex(h => h.id == stablishment.agenda[index].id);
               stablishment.agenda.splice(start, 1);
             } else index++;
           }
           stablishment.agenda.forEach((hour) => {
             var formattedDate = this.date.toLocaleDateString()
-            if (!hour.dataConsulta.includes(formattedDate) || hour.tipo != this.scheduleType || hour.especialidade != this.specialty) {
+            if (!new Date(hour.dataConsulta).toLocaleDateString().includes(formattedDate) || hour.tipo != this.scheduleType || hour.especialidade != this.specialty) {
               var start = stablishment.agenda.findIndex(h => h.id == hour.id);
               stablishment.agenda.splice(start, 1);
             }

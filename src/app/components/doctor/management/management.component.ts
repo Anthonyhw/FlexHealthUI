@@ -66,8 +66,8 @@ export class ManagementComponent implements OnInit {
     var firstDate = new Date(z[0])
     var lastDate = new Date(z[1])
     lastDate.setDate(lastDate.getDate() + 1)
-    var initial = firstDate.toLocaleDateString();
-    var end = lastDate.toLocaleDateString();
+    var initial = firstDate.toUTCString();
+    var end = lastDate.toUTCString();
     this.dates = [];
 
     const weekDaysString = this.weekDays.map(day => {
@@ -102,7 +102,7 @@ export class ManagementComponent implements OnInit {
 
       this.dates.push(new Day(new Date(firstDate)))
       firstDate.setDate(firstDate.getDate() + 1);
-      initial = firstDate.toLocaleDateString();
+      initial = firstDate.toUTCString();
     }
 
     this.currentDate = 0;

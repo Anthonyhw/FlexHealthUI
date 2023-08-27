@@ -96,7 +96,7 @@
                   <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
                     (click)="chooseHour(schedule.id)">
                     <td class="d-none d-md-table-cell"></td>
-                    <td>{{schedule.dataConsulta.substring(0, 10)}}</td>
+                    <td>{{schedule.dataConsulta.substring(3, 5)}}/{{schedule.dataConsulta.substring(0, 2)}}/{{schedule.dataConsulta.substring(6, 10)}}</td>
                     <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
                     <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
                       {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
@@ -149,7 +149,7 @@
             <br>
             <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
               ')[doctor.nome.split(' ').length-1]}}</div>
-            <div class="row information">Horário: {{selectedHour.dataConsulta}}</div>
+            <div class="row information">Horário: {{selectedHour.dataConsulta.substring(3, 5)}}/{{selectedHour.dataConsulta.substring(0, 2)}}/{{selectedHour.dataConsulta.substring(6, 10)}} {{selectedHour.dataConsulta.substring(11, 16)}}</div>
             <div class="row information">Valor da consulta: {{selectedHour.valor}}</div>
           </div>
           <div class="col d-flex align-items-center">
