@@ -41,6 +41,8 @@
         <div class="row">
             <img src="{{api+ 'Resources/NewsImages/' + selectedNews.imagemUrl}}" class="card-img-top p-2" alt="...">
         </div>
-        {{selectedNews.texto}}
+        <p *ngFor="let texto of selectedNews.texto">
+            {{texto}}
+        </p>
     </div>
   </ng-template>

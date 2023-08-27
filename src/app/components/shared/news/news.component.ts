@@ -42,6 +42,9 @@ export class NewsComponent {
     this.news.getNews().subscribe({
       next: (result) => {
         this.newsList = result
+        this.newsList.forEach(news => {
+          news.texto = news.texto.split('\n')
+        })
       },
       error: (error) => {
         this.toastr.error('Erro ao tentar recuperar notícias!');
