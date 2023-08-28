@@ -206,14 +206,17 @@ export class ManagementComponent implements OnInit {
       return
     }
     var hourIndex = this.date.horarios.findIndex(sch => sch.hora.getHours() == this.selectedHour.getHours() && sch.hora.getMinutes() == this.selectedHour.getMinutes());
+    var atualHour = this.date.horarios.find(sch => sch.hora.getHours() == this.selectedHour.getHours() && sch.hora.getMinutes() == this.selectedHour.getMinutes())
     if (hourIndex != -1) {
+      this.date.horarios.splice(hourIndex, 1)
       var newHour = new Appointment(new Date(hour), value);
 
       if (this.date.horarios.find(sch => sch.hora.getHours() == newHour.hora.getHours() && sch.hora.getMinutes() == newHour.hora.getMinutes())) {
         this.toastr.error('Este horário já existe na agenda!', 'Erro!');
+        this.date.horarios.push(atualHour);
+        this.date.horarios.sort((a, b) => a.hora.getHours() - b.hora.getHours() || a.hora.getMinutes() - b.hora.getMinutes());
         return
       } else {
-        this.date.horarios.splice(hourIndex, 1)
         this.date.horarios.push(newHour);
       }
 
