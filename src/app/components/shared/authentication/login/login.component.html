@@ -4,7 +4,7 @@
 			<i class="fa fa-user"></i>
 			<h1 class="h3 mb-3 font-weight-normal">Entrar com</h1>
 			<label for="username" (keyup.enter)="login(user, password)" class="sr-only">Usuário ou E-mail</label>
-			<input [(ngModel)]="user" type="text" id="username" class="form-control" placeholder="Usuário" name="username" required>
+			<input [(ngModel)]="user" type="text" id="username" class="form-control" placeholder="E-mail" name="username" required>
 			<label for="password" (keyup.enter)="login(user, password)" class="sr-only">Senha</label>
 			<input [(ngModel)]="password" type="password" id="password" class="form-control" placeholder="Senha" name="password" required>
 			<button (click)="login(user, password)" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
