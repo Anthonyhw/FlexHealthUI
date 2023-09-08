@@ -29,6 +29,8 @@ export class DashboardComponent {
   userType: string;
   qrCodeSrc: string;
 
+  today = new Date().toLocaleDateString();
+
   public get api() {
     return env.api;
   }

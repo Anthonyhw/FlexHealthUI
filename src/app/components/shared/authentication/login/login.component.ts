@@ -27,7 +27,6 @@ export class LoginComponent {
   }
 
   login(user: string, password: string) {
-    debugger
     this.http.post(
       env.api + 'account/login', 
       JSON.stringify({username: user.includes('@') ? '' : user, email: user.includes('@') ? user : '', password: password}),
@@ -56,7 +55,7 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        this.toastr.error(error.message, 'Erro!');
+        this.toastr.error(error.error, 'Erro!');
       }
     });
   }

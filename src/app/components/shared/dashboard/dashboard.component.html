@@ -359,7 +359,7 @@
             </ng-container>
           </div>
         </div>
-        <div *ngIf="selectedSchedule.status == 'Agendado'" class="row d-flex justify-content-end">
+        <div *ngIf="selectedSchedule.status == 'Agendado' && (selectedSchedule.dataConsulta.substring(3, 5) + '/' + selectedSchedule.dataConsulta.substring(0, 2) + '/' + selectedSchedule.dataConsulta.substring(6, 10)) == today" class="row d-flex justify-content-end">
           <div class="col-md-4 d-flex justify-content-end">
             <button [disabled]="confirmStatus" (click)="endSchedule()" class="btn btn-default btn-success me-3"><span
                 [ngStyle]="{'visibility': confirmStatus ? '' : 'hidden'}"

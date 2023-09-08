@@ -50,8 +50,8 @@
 							<label for="rg">Especialidade</label>
 							<select formControlName="tipo" class="form-select" aria-label=""
 								[ngClass]="{'is-invalid': f.tipo.errors && f.tipo.touched}">
-								<option value="Clinica">Consultas</option>
-								<option value="Consultorio">Exames</option>
+								<option value="Clinica">Exames</option>
+								<option value="Consultorio">Consultas</option>
 							</select>
 							<div *ngIf="f.tipo.errors?.required" class="invalid-feedback">
 								Especialidade é obrigatório.

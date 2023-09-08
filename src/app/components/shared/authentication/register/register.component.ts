@@ -137,7 +137,7 @@ export class RegisterComponent {
       next: () => {
         this.toastr.success('Usuário cadastrado com sucesso!', 'Conta criada');
         localStorage.setItem('registerRedirect', 'true');
-        if (this.userType == 'doctor') window.location.pathname = 'doctors';
+        if (this.userType == 'doctor') window.location.pathname = '/stablishment/dashboard';
         window.location.pathname = '/login'
       },
       error: (error) => {

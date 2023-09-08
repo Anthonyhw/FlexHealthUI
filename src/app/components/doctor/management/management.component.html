@@ -1,4 +1,4 @@
-<div class="container-fluid vh-100 d-flex margem align-items-center">
+<div class="container-fluid margem vh-100">
     <div class="">
         <div class="container-fluid p-2  ">
             <div class="row">
@@ -34,37 +34,48 @@
                                     <bs-daterangepicker-inline (bsValueChange)="changeValue($event)" [minDate]="today"
                                         [daysDisabled]="weekDays">
                                     </bs-daterangepicker-inline>
+
                                 </div>
-                                <h5 class="d-flex justify-content-center">Desabilitar dias da Semana</h5>
-                                <div class="btn-group px-5 pb-3" role="group"
-                                    aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" value="0"
-                                        [checked]="true" (change)="changeWeekDays($event, 0)">
-                                    <label class="btn btn-outline-primary border" for="btncheck1">Domingo</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
-                                        [checked]="true" value="1" (change)="changeWeekDays($event, 1)">
-                                    <label class="btn btn-outline-primary border" for="btncheck2">Segunda</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off"
-                                        [checked]="true" value="2" (change)="changeWeekDays($event, 2)">
-                                    <label class="btn btn-outline-primary border" for="btncheck3">Terça</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off"
-                                        [checked]="true" value="3" (change)="changeWeekDays($event, 3)">
-                                    <label class="btn btn-outline-primary border" for="btncheck4">Quarta</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off"
-                                        [checked]="true" value="4" (change)="changeWeekDays($event, 4)">
-                                    <label class="btn btn-outline-primary border" for="btncheck5">Quinta</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off"
-                                        [checked]="true" value="5" (change)="changeWeekDays($event, 5)">
-                                    <label class="btn btn-outline-primary border" for="btncheck6">Sexta</label>
-
-                                    <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off"
-                                        [checked]="true" value="6" (change)="changeWeekDays($event, 6)">
-                                    <label class="btn btn-outline-primary border" for="btncheck7">Sábado</label>
+                                <div class="row">
+                                    <h5 class="d-flex justify-content-center">Desabilitar dias da Semana</h5>
+                                    <div class="btn-group px-5 pb-3 col" role="group"
+                                        aria-label="Basic checkbox toggle button group">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
+                                                    value="0" [checked]="true" (change)="changeWeekDays($event, 0)">
+                                                <label class="btn btn-outline-primary border"
+                                                    for="btncheck1">Domingo</label>
+    
+                                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
+                                                    [checked]="true" value="1" (change)="changeWeekDays($event, 1)">
+                                                <label class="btn btn-outline-primary border"
+                                                    for="btncheck2">Segunda</label>
+    
+                                                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off"
+                                                    [checked]="true" value="2" (change)="changeWeekDays($event, 2)">
+                                                <label class="btn btn-outline-primary border" for="btncheck3">Terça</label>
+    
+                                                <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off"
+                                                    [checked]="true" value="3" (change)="changeWeekDays($event, 3)">
+                                                <label class="btn btn-outline-primary border" for="btncheck4">Quarta</label>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off"
+                                                [checked]="true" value="4" (change)="changeWeekDays($event, 4)">
+                                            <label class="btn btn-outline-primary border" for="btncheck5">Quinta</label>
+    
+                                            <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off"
+                                                [checked]="true" value="5" (change)="changeWeekDays($event, 5)">
+                                            <label class="btn btn-outline-primary border" for="btncheck6">Sexta</label>
+    
+                                            <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off"
+                                                [checked]="true" value="6" (change)="changeWeekDays($event, 6)">
+                                            <label class="btn btn-outline-primary border" for="btncheck7">Sábado</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,8 +129,9 @@
                                         </div>
                                         <div class="col-4">
                                             <label>Valor da Consulta</label>
-                                            <input type="text" spinners="false" (blur)="CurrencyFormat(rangeValue, 'range')"
-                                                [(ngModel)]="rangeValue" class="form-control ">
+                                            <input type="text" spinners="false"
+                                                (blur)="CurrencyFormat(rangeValue, 'range')" [(ngModel)]="rangeValue"
+                                                class="form-control ">
                                         </div>
                                         <div class="col d-flex align-items-end">
                                             <button (click)="AddHourRange(initialHour, finalHour, interval, rangeValue)"

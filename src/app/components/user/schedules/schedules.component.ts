@@ -134,7 +134,7 @@ export class SchedulesComponent {
       next: (result) => {
 
         this.doctor = result;
-        var stablishmentPhoto = this.stablishments.find(stab => stab.agenda[0].medicoId == parseInt(result.id)).estabelecimento.fotoPerfil
+        var stablishmentPhoto = this.stablishments.find( stab => stab.agenda.find(ag => ag.medicoId == parseInt(result.id))).estabelecimento.fotoPerfil
         if (stablishmentPhoto != "") this.stablishmentImageSrc = env.api + `Resources/Images/UserImages/` + stablishmentPhoto;
         else this.stablishmentImageSrc = '../../../../assets/nophoto.png'
 
