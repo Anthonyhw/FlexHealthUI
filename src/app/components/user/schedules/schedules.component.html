@@ -1,178 +1,197 @@
-<div class="container-fluid d-flex justify-content-center margem vh-100">
-  <div class="col-3 my-2 border d-flex align-items-center">
-    <div class="row">
-      <br>
+<div class="container-fluid d-flex margem vh-100">
+  <div class="row w-100">
+    <div class="col-sm-3  my-2 border d-flex align-items-center">
       <div class="row">
-        <span class="d-flex justify-content-center my-3 h5">Preencha os campos abaixo</span>
-      </div>
-      <br>
-      <div class="row d-flex justify-content-center">
-        <div class="col">
-          <label for="schedule">Agendamento</label>
-          <select [(ngModel)]="scheduleType" class="form-select" aria-label="">
-            <option value="Consulta">Consulta</option>
-            <option value="Exame">Exame</option>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="schedule">Tipo</label>
-          <select [(ngModel)]="specialty" class="form-select" aria-label="">
-            <ng-container *ngIf="scheduleType == 'Consulta'">
-              <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
-            </ng-container>
-            <ng-container *ngIf="scheduleType == 'Exame'">
-              <option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">{{tipo}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="row" *ngIf="scheduleType == 'Exame'">
-        <div class="col">
-          <label for="data">Pedido Médico</label>
-          <select [(ngModel)]="selectedPrescription" class="form-select" aria-label="">
-            <ng-container>
-              <option *ngFor="let prescription of prescriptions" value="{{prescription.tipoExame}}">
-                {{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll ('-', '/').replaceAll('_',
-                ' ')}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="data">Data</label>
-          <input type="text" [(ngModel)]="date" onkeyup="formatDate(this)" maxlength="8" class="form-control"
-            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly bsDatepicker [bsValue]="date">
-        </div>
-      </div>
-      <span class="d-flex justify-content-center my-3 h5">Selecione um tipo de Busca</span>
-      <div class="row my-1">
-        <div class="col-9">
-          <label for="data">Cidade</label>
-          <input [(ngModel)]="city" (keydown.enter)="getSchedulesByCity(city)" type="text" class="form-control">
-        </div>
-        <div class="col-1 d-flex align-items-end">
-          <button (click)="getSchedulesByCity(city)" type="button" class="btn btn-success">
-            Buscar
-          </button>
-        </div>
-      </div>
-      <br>
-    </div>
-  </div>
-  <div class="col-6 my-2 border d-flex align-items-center justify-content-center">
-
-    <div class="row d-flex justify-content-center" *ngIf="spinner">
-      <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-
-    <div *ngIf="foundResult" class="w-100">
-      <h3 class="h3 w-100 text-center">Nenhum resultado encontrado!</h3>
-    </div>
-
-    <div class="row w-100" *ngIf="stablishments">
-      <div class="container-fluid" >
+        <br>
         <div class="row">
-          <tabset>
-            <tab *ngFor="let stablishment of stablishments.slice((page == 1 ? 0 : 3 * (page-1)), (3 * page))"
-              heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
-              <table class="table table-striped table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <th class="d-none d-md-table-cell">
-                    </th>
-                    <th>Data</th>
-                    <th>Hora</th>
-                    <th class="d-none d-md-table-cell">Doutor</th>
-                    <th class="d-none d-md-table-cell">Especialidade</th>
-                    <th>Valor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
-                    (click)="chooseHour(schedule.id)">
-                    <td class="d-none d-md-table-cell"></td>
-                    <td>{{schedule.dataConsulta.substring(3, 5)}}/{{schedule.dataConsulta.substring(0, 2)}}/{{schedule.dataConsulta.substring(6, 10)}}</td>
-                    <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
-                    <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
-                      {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
-                    <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
-                    <td class="d-none d-md-table-cell">{{schedule.valor}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </tab>
-            <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
-            <pagination *ngIf="stablishments.length > 3" class="d-flex justify-content-center" [boundaryLinks]="true"
-              [totalItems]="stablishments.length" [itemsPerPage]="3" [(ngModel)]="page" pageBtnClass="btn"
-              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-            </pagination>
-          </tabset>
+          <span class="d-flex justify-content-center my-3 h5">Preencha os campos abaixo</span>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-3 my-2 border">
-    <div *ngIf="selectedHour">
-
-      <div>
         <br>
         <div class="row d-flex justify-content-center">
-          <img [src]="stablishmentImageSrc" width="230" height="300">
-        </div>
-        <br><br>
-        <div class="row">
-          <div class="col-7">
-            <div class="row information">
-              {{getStablishment().nome}}
-            </div>
-            <div class="row information">
-              {{getStablishment().endereco.split('\\')[1].split(' - ')[0]}} -
-              {{getStablishment().endereco.split('\\')[2]}}
-            </div>
-            <div class="row information">
-              {{getStablishment().endereco.split('\\')[0]}}
-            </div>
-            <div class="row information">
-              {{getStablishment().endereco.split('\\')[1].split(' - ')[1]}}
-            </div>
-            <div class="row information">
-              {{getStablishment().endereco.split('\\')[3]}} - {{getStablishment().endereco.split('\\')[4]}}
-            </div>
-            <div class="row information">
-              Telefone: {{getStablishment().phoneNumber}}
-            </div>
-            <br>
-            <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
-              ')[doctor.nome.split(' ').length-1]}}</div>
-            <div class="row information">Horário: {{selectedHour.dataConsulta.substring(3, 5)}}/{{selectedHour.dataConsulta.substring(0, 2)}}/{{selectedHour.dataConsulta.substring(6, 10)}} {{selectedHour.dataConsulta.substring(11, 16)}}</div>
-            <div class="row information">Valor da consulta: {{selectedHour.valor}}</div>
-          </div>
-          <div class="col d-flex align-items-center">
-            <img width="150" height="180" class="border border-black" [src]="doctorImageSrc" alt="">
-          </div>
-        </div>
-        <br>
-        <div class="row mb-2">
-          <div class="col-9">
-            <label for="schedule">Forma de Pagamento</label>
-            <select [(ngModel)]="paymentType" [disabled]="selectedHour.valor == 'R$ 0.00'" class="form-select" aria-label="">
-              <option value="Credito">Cartão de Crédito</option>
-              <option value="Pix">Pix</option>
+          <div class="col">
+            <label for="schedule">Agendamento</label>
+            <select [(ngModel)]="scheduleType" class="form-select" aria-label="">
+              <option value="Consulta">Consulta</option>
+              <option value="Exame">Exame</option>
             </select>
           </div>
-          <div class="col-1 d-flex align-items-end">
-            <button (click)="scheduleToUser(paymentType == 'Pix' ? pixModal :creditoModal)" type="button" class="btn btn-success">
-              Agendar
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="schedule">Tipo</label>
+            <select [(ngModel)]="specialty" class="form-select" aria-label="">
+              <ng-container *ngIf="scheduleType == 'Consulta'">
+                <option *ngFor="let tipo of tipoConsultas" value="{{tipo}}">{{tipo}}</option>
+              </ng-container>
+              <ng-container *ngIf="scheduleType == 'Exame'">
+                <option *ngFor="let tipo of tipoExames" value="{{tipo.replaceAll(' ', '_')}}">{{tipo}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="row" *ngIf="scheduleType == 'Exame'">
+          <div class="col">
+            <label for="data">Pedido Médico</label>
+            <select [(ngModel)]="selectedPrescription" class="form-select" aria-label="">
+              <ng-container>
+                <option *ngFor="let prescription of prescriptions" value="{{prescription.tipoExame}}">
+                  {{prescription.url.substring(0, prescription.url.indexOf('_user')).replaceAll ('-', '/').replaceAll('_',
+                  ' ')}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="data">Data</label>
+            <input type="text" [(ngModel)]="date" onkeyup="formatDate(this)" maxlength="8" class="form-control"
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly bsDatepicker [bsValue]="date">
+          </div>
+        </div>
+        <span class="d-flex justify-content-center my-3 h5">Selecione um tipo de Busca</span>
+        <div class="row my-1">
+          <div class="col-lg-9">
+            <label for="data">Cidade</label>
+            <input [(ngModel)]="city" (keydown.enter)="getSchedulesByCity(city)" type="text" class="form-control">
+          </div>
+          <div class="col-lg-3 d-flex align-items-end">
+            <button (click)="getSchedulesByCity(city)" type="button" class="btn btn-success">
+              Buscar
             </button>
           </div>
         </div>
+
+        <div class="row my-1">
+          <div class="col-lg-9">
+            <label for="data">Nome do Estabelecimento</label>
+            <input [(ngModel)]="stablishment" (keydown.enter)="getSchedulesByStablishment(stablishment)" type="text" class="form-control">
+          </div>
+          <div class="col-lg-3 d-flex align-items-end">
+            <button (click)="getSchedulesByStablishment(stablishment)" type="button" class="btn btn-success">
+              Buscar
+            </button>
+          </div>
+        </div>
+        <br>
       </div>
     </div>
+    <div class="col-sm-6 my-2 border d-flex align-items-center justify-content-center">
+  
+      <div class="row d-flex justify-content-center" *ngIf="spinner">
+        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+  
+      <div *ngIf="foundResult" class="w-100">
+        <h3 class="h3 w-100 text-center">Nenhum resultado encontrado!</h3>
+      </div>
+  
+      <div class="row w-100" *ngIf="stablishments">
+        <div class="container-fluid">
+          <div class="row">
+            <tabset>
+              <tab *ngFor="let stablishment of stablishments.slice((page == 1 ? 0 : 3 * (page-1)), (3 * page))"
+                heading="{{stablishment.estabelecimento.nome}} - {{stablishment.agenda[0].valor}} {{stablishment.agenda[stablishment.agenda.length-1].valor == stablishment.agenda[0].valor ? '' : ' - ' +stablishment.agenda[stablishment.agenda.length-1].valor }}">
+                <table class="table table-striped table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th class="d-none d-md-table-cell">
+                      </th>
+                      <th>Data</th>
+                      <th>Hora</th>
+                      <th class="d-none d-md-table-cell">Doutor</th>
+                      <th class="d-none d-md-table-cell">Especialidade</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let schedule of stablishment.agenda" style="cursor: pointer;"
+                      (click)="chooseHour(schedule.id)">
+                      <td class="d-none d-md-table-cell"></td>
+                      <td>{{schedule.dataConsulta.substring(3, 5)}}/{{schedule.dataConsulta.substring(0,
+                        2)}}/{{schedule.dataConsulta.substring(6, 10)}}</td>
+                      <td>{{schedule.dataConsulta.substring(11, 16)}}</td>
+                      <td class="d-none d-md-table-cell">{{schedule.medico.nome.split(' ')[0]}}
+                        {{schedule.medico.nome.split(' ')[schedule.medico.nome.split(' ').length-1]}}</td>
+                      <td class="d-none d-md-table-cell">{{schedule.especialidade}}</td>
+                      <td class="d-md-table-cell">{{schedule.valor}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tab>
+              <!-- fazer teste quando tiver várias clinicas/consultorios cadastrados para ajustar a troca de clinicas amostra -->
+              <pagination *ngIf="stablishments.length > 3" class="d-flex justify-content-center" [boundaryLinks]="true"
+                [totalItems]="stablishments.length" [itemsPerPage]="3" [(ngModel)]="page" pageBtnClass="btn"
+                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+              </pagination>
+            </tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 my-2 border">
+      <div *ngIf="selectedHour">
+  
+        <div>
+          <br>
+          <div class="row d-flex justify-content-center">
+            <img [src]="stablishmentImageSrc" width="230" height="300">
+          </div>
+          <br><br>
+          <div class="row">
+            <div class="col-7">
+              <div class="row information">
+                {{getStablishment().nome}}
+              </div>
+              <div class="row information">
+                {{getStablishment().endereco.split('\\')[1].split(' - ')[0]}} -
+                {{getStablishment().endereco.split('\\')[2]}}
+              </div>
+              <div class="row information">
+                {{getStablishment().endereco.split('\\')[0]}}
+              </div>
+              <div class="row information">
+                {{getStablishment().endereco.split('\\')[1].split(' - ')[1]}}
+              </div>
+              <div class="row information">
+                {{getStablishment().endereco.split('\\')[3]}} - {{getStablishment().endereco.split('\\')[4]}}
+              </div>
+              <div class="row information">
+                Telefone: {{getStablishment().phoneNumber}}
+              </div>
+              <br>
+              <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
+                ')[doctor.nome.split(' ').length-1]}}</div>
+              <div class="row information">Horário: {{selectedHour.dataConsulta.substring(3,
+                5)}}/{{selectedHour.dataConsulta.substring(0, 2)}}/{{selectedHour.dataConsulta.substring(6, 10)}}
+                {{selectedHour.dataConsulta.substring(11, 16)}}</div>
+              <div class="row information">Valor da consulta: {{selectedHour.valor}}</div>
+            </div>
+            <div class="col d-flex align-items-center">
+              <img width="150" height="180" class="border border-black" [src]="doctorImageSrc" alt="">
+            </div>
+          </div>
+          <br>
+          <div class="row mb-2">
+            <div class="col-9">
+              <label for="schedule">Forma de Pagamento</label>
+              <select [(ngModel)]="paymentType" [disabled]="selectedHour.valor == 'R$ 0.00'" class="form-select"
+                aria-label="">
+                <option value="Credito">Cartão de Crédito</option>
+                <option value="Pix">Pix</option>
+              </select>
+            </div>
+            <div class="col-1 d-flex align-items-end">
+              <button (click)="scheduleToUser(paymentType == 'Pix' ? pixModal :creditoModal)" type="button"
+                class="btn btn-success">
+                Agendar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
   </div>
 
   <ng-template #creditoModal>

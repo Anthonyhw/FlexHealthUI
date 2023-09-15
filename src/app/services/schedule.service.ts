@@ -27,6 +27,9 @@ export class ScheduleService {
   getSchedulesByCity(city: string): Observable<StablishmentAgenda[]> {
     return this.http.get<StablishmentAgenda[]>(env.api + `schedule/city?city=${city}`)
   }
+  getSchedulesByStablishment(stablishment: string): Observable<StablishmentAgenda[]> {
+    return this.http.get<StablishmentAgenda[]>(env.api + `schedule/stablishment-name?stablishment=${stablishment}`)
+  }
 
   scheduleToUser(request: any): Observable<any> {
     return this.http.put<any>(env.api + `schedule/user`, JSON.stringify(request));

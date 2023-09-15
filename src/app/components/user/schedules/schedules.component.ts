@@ -24,6 +24,7 @@ export class SchedulesComponent {
   stablishments: StablishmentAgenda[];
   specialty: string;
   city: string;
+  stablishment: string;
   scheduleType: string;
   paymentType: string;
   tipoConsultas = ['Cardiologia', 'Psicologia', 'Ginecologia', 'Pediatria', 'Oftalmologia', 'Psiquiatria']
@@ -80,6 +81,54 @@ export class SchedulesComponent {
     this.schedule.getSchedulesByCity(city).subscribe({
       next: (result: StablishmentAgenda[]) => {
 
+        this.spinner = false;
+        this.stablishments = undefined
+        this.page = 1
+        this.stablishments = result;
+        this.stablishments.forEach((stablishment) => {
+          var index = 0;
+          while (index <= stablishment.agenda.length - 1) {
+            var formattedDate = this.date.toLocaleDateString();
+            if (!new Date(stablishment.agenda[index].dataConsulta).toLocaleDateString().includes(formattedDate) || stablishment.agenda[index].tipo != this.scheduleType || stablishment.agenda[index].especialidade != this.specialty) {
+              var start = stablishment.agenda.findIndex(h => h.id == stablishment.agenda[index].id);
+              stablishment.agenda.splice(start, 1);
+            } else index++;
+          }
+          stablishment.agenda.forEach((hour) => {
+            var formattedDate = this.date.toLocaleDateString()
+            if (!new Date(hour.dataConsulta).toLocaleDateString().includes(formattedDate) || hour.tipo != this.scheduleType || hour.especialidade != this.specialty) {
+              var start = stablishment.agenda.findIndex(h => h.id == hour.id);
+              stablishment.agenda.splice(start, 1);
+            }
+          })
+          stablishment.agenda.sort((a, b) => parseInt(a.valor.split(' ')[1]) - parseInt(b.valor.split(' ')[1]))
+        })
+        var index = 0;
+        while (index <= this.stablishments.length - 1) {
+          if (this.stablishments[index].agenda.length == 0) {
+            this.stablishments.splice(this.stablishments.findIndex(h => h.estabelecimento.id == this.stablishments[index].estabelecimento.id), 1)
+          } else index++;
+        }
+        if (this.stablishments.length == 0) {
+          this.foundResult = true
+          this.stablishments = undefined
+        } else {
+          this.foundResult = false
+        }
+      },
+      error: (error) => {
+        console.error(error)
+        this.spinner = false;
+      }
+    })
+  }
+
+  getSchedulesByStablishment(stablishment: string) {
+    this.spinner = true;
+    this.foundResult = false;
+    this.stablishments = undefined;
+    this.schedule.getSchedulesByStablishment(stablishment).subscribe({
+      next: (result: StablishmentAgenda[]) => {
         this.spinner = false;
         this.stablishments = undefined
         this.page = 1
