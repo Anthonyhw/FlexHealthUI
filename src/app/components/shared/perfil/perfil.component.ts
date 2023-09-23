@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorField } from 'src/app/helpers/validatorField';
@@ -18,6 +19,7 @@ import { env } from 'src/environments/environment';
 })
 export class PerfilComponent {
 
+  originalUserName: string;
   form: FormGroup;
   password: FormGroup;
   showPassword: boolean = false;
@@ -43,6 +45,7 @@ export class PerfilComponent {
   }
 
   validation(user: User) {
+    this.originalUserName = user.userName;
     const formOptions: AbstractControlOptions = {
       validators: [ValidatorField.checkName('nome')]
     };
@@ -74,8 +77,8 @@ export class PerfilComponent {
       this.form.addControl('cnpj', new FormControl({ value: user.claims.find(c => c.type == 'CNPJ').value, disabled: this.disabledEdit }, [Validators.required, Validators.minLength(18)]))
       this.form.addControl('tipo', new FormControl({ value: user.claims.find(c => c.type == 'Tipo').value, disabled: this.disabledEdit }, Validators.required))
     } else {
-      this.form.addControl('crm', new FormControl({ value: localStorage.getItem('Doctor.Crm').substring(7, 13), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
-      this.form.addControl('uf', new FormControl({ value: localStorage.getItem('Doctor.Crm').substring(4, 6), disabled: this.disabledEdit }, Validators.required))
+      this.form.addControl('crm', new FormControl({ value: localStorage.getItem('Doctor.Crm'), disabled: this.disabledEdit }, [Validators.required, Validators.minLength(12)]))
+      this.form.addControl('uf', new FormControl({ value: localStorage.getItem('Doctor.Crm').split('-')[1].substring(0, 2), disabled: this.disabledEdit }, Validators.required))
       this.form.addControl('especialidade', new FormControl({ value: localStorage.getItem('Doctor.Specialty'), disabled: this.disabledEdit }, Validators.required))
       this.form.addControl('genero', new FormControl({ value: user.genero, disabled: this.disabledEdit }, Validators.required))
     }
@@ -94,7 +97,7 @@ export class PerfilComponent {
 
     this.updateStatus = true;
     const update = new UpdateUser({
-      userName: this.f.email.value,
+      userName: this.originalUserName,
       nome: this.f.nome.value,
       genero: this.f.genero?.value || '',
       nascimento: this.f.nascimento?.value || new Date(),
@@ -110,9 +113,12 @@ export class PerfilComponent {
       crm: ('CRM-' + this.f.uf?.value + '/' + this.f.crm?.value) || '',
     });
 
-    this.http.put(env.api + 'account/update', JSON.stringify(update)).subscribe({
-      next: () => {
+    this.http.put<any>(env.api + 'account/update', JSON.stringify(update)).subscribe({
+      next: (result) => {
         this.toastr.success('Usuário atualizado com sucesso!', 'Conta atualizada');
+        this.cookie.delete('Token', '/');
+        var decodedToken = jwtDecode<any>(result.token);
+        this.cookie.set('Token', result.token, new Date(decodedToken.exp*1000), '/');
       },
       error: (error) => {
         this.toastr.error('Não foi possível atualizar o usuário!', 'Erro');

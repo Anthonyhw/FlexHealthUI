@@ -87,8 +87,7 @@
 
 						<div class="form-group col-md-3">
 							<label for="nascimento">Data de Nascimento</label>
-							<input type="text" formControlName="nascimento" maxlength="8"
-								class="form-control"
+							<input type="text" formControlName="nascimento" maxlength="8" class="form-control"
 								[ngClass]="{'is-invalid': f.nascimento.errors && f.nascimento.touched}"
 								[bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly bsDatepicker>
 							<div *ngIf="f.nascimento.errors?.required" class="invalid-feedback">
@@ -112,9 +111,12 @@
 					<br>
 
 					<div class="row" *ngIf="userType == 'doctor'">
-						<div class="form-group col-md-3 mt-md-4">
-							<input disabled type="text" class="form-control text-align-center"
-								style="text-align: center;" value="CRM-">
+						<div class="form-group col-md-3">
+							<label for="cr">Tipo de Registro</label>
+							<select formControlName="cr" class="form-select"
+								[ngClass]="{'is-invalid': f.cr.errors && f.cr.touched}">
+								<option *ngFor="let cr of crs" value="{{cr}}">{{cr}}</option>
+							</select>
 						</div>
 
 						<div class="form-group col-md-2">
@@ -129,7 +131,7 @@
 						</div>
 
 						<div class="form-group col-md-3">
-							<label for="crm">CRM</label>
+							<label for="crm">N° Registro</label>
 							<input formControlName="crm" type="text" class="form-control" maxlength="6"
 								[ngClass]="{'is-invalid': f.crm.errors && f.crm.touched}" id="crm">
 							<div *ngIf="f.crm.errors?.required" class="invalid-feedback">
@@ -164,8 +166,7 @@
 							<label for="telefone">Telefone</label>
 							<input (keyup)="format.formatPhone(form, $event)" formControlName="telefone" type="text"
 								class="form-control" maxlength="15"
-								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone"
-								>
+								[ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}" id="telefone">
 							<div *ngIf="f.telefone.errors?.required" class="invalid-feedback">
 								Telefone é obrigatório.
 							</div>
@@ -211,8 +212,7 @@
 							<div class="row">
 								<input formControlName="cep" type="text" class="col ms-2 form-control"
 									[ngClass]="{'is-invalid': f.cep.errors && f.cep.touched}" id="cep"
-									(keyup.enter)="searchAddress(f.cep.value)"
-									(blur)="searchAddress(f.cep.value)">
+									(keyup.enter)="searchAddress(f.cep.value)" (blur)="searchAddress(f.cep.value)">
 								<span (click)="searchAddress(f.cep.value)" class="col-2 btn btn-success mx-2"><span
 										class="fa fa-search"></span></span>
 								<div *ngIf="f.cep.errors?.required" class="invalid-feedback">
@@ -265,7 +265,7 @@
 						<div class="form-check">
 							<input formControlName="termos" class="form-check-input " type="checkbox" id="gridCheck">
 							<span class="form-check-label" for="gridCheck">
-								Li e aceito os 
+								Li e aceito os
 							</span> <a class="a" role="button" (click)="openTerms(terms)">Termos de uso</a>
 							<div *ngIf="f.termos.errors?.required">
 								Você deve aceitar os termos de uso.
@@ -290,50 +290,59 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo, inventore earum, et adipisci sit ipsa in
-		blanditiis eos placeat facilis fuga tempore aspernatur dignissimos dolorum eum sequi cupiditate temporibus eius?
-		Nam ipsum velit eos, culpa impedit possimus? Unde animi illo dolore ex tempore id corporis iure sunt
-		voluptatibus voluptatem pariatur similique explicabo, nihil doloremque. Iusto ut culpa eligendi consequuntur
-		quo.
-		Ipsum placeat quos id ex pariatur obcaecati? Quaerat, minus! Fuga expedita ex repellendus dolores, libero
-		eveniet facere accusamus laudantium possimus, consequuntur atque magni accusantium quam alias. Voluptate maxime
-		nostrum commodi.
-		Laboriosam repudiandae a libero animi corporis voluptatibus unde autem atque? Accusamus quam numquam,
-		consequuntur enim laboriosam eum cum illo itaque tenetur ab deserunt laudantium tempore eligendi eaque
-		consequatur mollitia assumenda!
-		Quasi, culpa? Facilis impedit minima, excepturi necessitatibus provident corrupti maiores soluta architecto
-		repellat, consequuntur consequatur. Dolorem atque, placeat laudantium error recusandae aperiam tempora odio sint
-		maxime dolorum illum ea accusantium.
-		Debitis ullam optio totam consequuntur? Sapiente sint aut natus fugiat iure ut obcaecati voluptate sunt
-		recusandae animi maiores sequi ad velit corrupti repellendus aspernatur possimus tenetur a, rerum dignissimos
-		molestiae.
-		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae veritatis dolore ratione distinctio, modi
-		neque quibusdam doloremque magnam ducimus laboriosam, quam nisi eligendi nam unde, vitae ipsum natus
-		accusantium! Sit?
-		Assumenda dolores maxime ullam, asperiores, repellat optio tempora nisi esse rem excepturi quae autem
-		voluptatibus dicta, accusantium ipsam veritatis ut? Possimus sint, eveniet nesciunt non aliquid incidunt error
-		architecto laudantium.
-		Voluptas dolor tempora error hic ea consequuntur voluptatum explicabo qui, ut nisi iste dolore earum ullam odio
-		eius adipisci a. Quod similique illum at accusamus aspernatur in facilis cum amet.
-		Aut sequi quaerat eum nihil laboriosam fuga esse dolor ipsam, rem maiores soluta possimus exercitationem optio
-		cumque cum consequatur, dicta atque vel voluptate? Dolor repellat unde ducimus veniam magnam provident?
-		Obcaecati voluptate vitae dolorum, veritatis molestias facere earum in maiores optio quod quisquam. Quibusdam
-		quasi explicabo dolor sint, saepe architecto consequuntur! Provident fuga facilis natus iusto hic architecto
-		excepturi aliquid?
-		Odit itaque quam eligendi at dignissimos repellat corrupti, id autem? Consequatur, recusandae eos? Voluptatem
-		enim obcaecati corrupti laboriosam ullam architecto quos dolores autem odio, commodi totam cupiditate veniam
-		accusantium sequi!
-		Ratione mollitia consequatur ex nulla odio, facilis fugit? Perspiciatis cupiditate saepe minus, sed nobis libero
-		quibusdam ipsam magni corrupti consequuntur facilis veritatis dolorum reiciendis adipisci nesciunt fugit neque
-		optio laborum?
-		Iure aperiam culpa voluptatibus corporis, iste cum cupiditate ducimus distinctio, nisi dolorum nostrum illum
-		repudiandae officia, sint maiores corrupti. Quos cumque dignissimos voluptatum omnis libero minus natus dolorum
-		alias temporibus.
-		Quibusdam corporis tempora, cumque reprehenderit quo cupiditate aut, doloremque iure distinctio molestias esse
-		minus, earum blanditiis molestiae? Rem illum nesciunt exercitationem nam natus ullam ipsam cumque culpa
-		voluptate! Et, sint!
-		Mollitia ullam laboriosam voluptatibus maiores natus ex reiciendis rem ea quidem. Quaerat iste earum maxime, aut
-		corrupti nihil. Commodi voluptates expedita aperiam consectetur quos! Quaerat quos quibusdam ex veniam
-		voluptatibus!
+		<p>Estes Termos de Uso regem o uso do aplicativo de agendamento de consultas e exames FlexHealth. Ao utilizar o
+			Aplicativo, você concorda com estes Termos. Se você não concorda com esses Termos, não use o Aplicativo.</p>
+
+		<p>1. Uso do Aplicativo</p>
+
+		<p>1.1 Você deve ter pelo menos 18 anos de idade para usar o Aplicativo.</p>
+		<p></p>
+		<p>1.2 Você é responsável por manter a confidencialidade das suas informações de login e senha.</p>
+		<p></p>
+		<p>2. Agendamentos e Pagamentos</p>
+		<p></p>
+		<p>2.1 A Empresa não se responsabiliza por alterações ou cancelamentos de consultas ou exames feitos através do
+			Aplicativo.</p>
+		<p></p>
+		<p>2.2 O pagamento por consultas ou exames deve ser feito de acordo com as políticas da clínica ou laboratório.
+		</p>
+		<p></p>
+		<p>3. Responsabilidades da Empresa</p>
+		<p></p>
+		<p>3.1 A Empresa não garante a disponibilidade contínua do Aplicativo.</p>
+		<p></p>
+		<p>3.2 A Empresa não é responsável por erros ou omissões nas informações fornecidas pelo Aplicativo.</p>
+		<p></p>
+		<p>4. Privacidade e LGPD</p>
+		<p></p>
+		<p>4.1 A Empresa coleta e armazena informações pessoais de acordo com a sua Política de Privacidade, que está em
+			conformidade com a Lei Geral de Proteção de Dados (LGPD) do Brasil.</p>
+		<p></p>
+		<p>4.2 Você tem o direito de acessar, corrigir e excluir seus dados pessoais de acordo com os regulamentos da
+			LGPD.</p>
+		<p></p>
+		<p>5. Direitos Autorais</p>
+		<p></p>
+		<p>5.1 O conteúdo do Aplicativo, incluindo textos, imagens e marcas registradas, é de propriedade da Empresa e
+			está protegido por direitos autorais.</p>
+		<p></p>
+		<p>6. Rescisão</p>
+		<p></p>
+		<p>6.1 A Empresa pode rescindir sua conta e acesso ao Aplicativo a qualquer momento, por qualquer motivo, sem
+			aviso prévio.</p>
+		<p></p>
+		<p>7. Disposições Gerais</p>
+		<p></p>
+		<p>7.1 Estes Termos constituem o acordo integral entre você e a Empresa em relação ao Aplicativo.</p>
+		<p></p>
+		<p>7.2 Estes Termos podem ser alterados pela Empresa a qualquer momento, e você será notificado das alterações.
+		</p>
+		<p></p>
+		<p>7.3 Estes Termos serão regidos pelas leis do Brasil/São Paulo e quaisquer disputas serão resolvidas pelos
+			tribunais competentes.</p>
+		<p></p>
+		<p>Ao usar o Aplicativo, você concorda com estes Termos de Uso e com a conformidade com a LGPD. Se você tiver
+			alguma dúvida ou preocupação sobre a privacidade de seus dados, entre em contato conosco em:
+			contato@flexhealth.com.br.</p>
 	</div>
 </ng-template>

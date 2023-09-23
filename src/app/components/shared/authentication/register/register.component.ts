@@ -28,6 +28,7 @@ export class RegisterComponent {
   showConfirmPassword: boolean = false;
   checkname: boolean;
   ufs: string[] = ['AC', 'AM', 'RR', 'PA', 'AP', 'TO', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE', 'BA', 'MG', 'ES', 'RJ', 'SP', 'PR', 'SC', 'RS', 'MS', 'MT', 'GO', 'DF',]
+  crs: string[] = ['CRM', 'CRP', 'CRO', 'CREFITO', 'COFFITO']
   tipoConsultas = ['Cardiologia', 'Psicologia', 'Ginecologia', 'Pediatria', 'Oftalmologia', 'Psiquiatria']
   tipoExames = ['TSH e T4 livre', 'Transaminases', 'Glicemia', 'Fezes', 'Urina', 'Papanicolau', 'Ureia e Creatinina', 'Colesterol', 'Hemograma']
   specialty: string = localStorage.getItem('Stablishment.Type') || '';
@@ -83,6 +84,7 @@ export class RegisterComponent {
         this.form.addControl('tipo', new FormControl('', Validators.required))
         break;
       case 'doctor':
+        this.form.addControl('cr', new FormControl('CRM', [Validators.required]))
         this.form.addControl('crm', new FormControl('', [Validators.required, Validators.minLength(6)]))
         this.form.addControl('uf', new FormControl('', Validators.required))
         this.form.addControl('especialidade', new FormControl('', Validators.required))
@@ -128,7 +130,7 @@ export class RegisterComponent {
       fotoPerfil: '',
       cnpj: this.f.cnpj?.value || '',
       tipo: this.userType == 'stablishment' ? this.f.tipo?.value : this.userType == 'doctor' ? 'Medico' : '',
-      crm: ('CRM-' + this.f.uf?.value + '/' + this.f.crm?.value) || '',
+      crm: this.userType == 'doctor' ? (this.f.cr?.value + '-' + this.f.uf?.value + '/' + this.f.crm?.value) : '',
       especialidade: this.f.especialidade?.value || '',
       estabelecimentoId: decodedToken?.nameid || null
     });
@@ -148,7 +150,7 @@ export class RegisterComponent {
         else if (error.error.includes('RG'))
           this.toastr.error('Este Rg já foi utilizado para cadastro!', 'Erro!');
         else if (error.error.includes('CRM'))
-          this.toastr.error('Este CRM já foi utilizado para cadastro!', 'Erro!');
+          this.toastr.error('Documento médico já utilizado para cadastro!', 'Erro!');
       }
     })
   }

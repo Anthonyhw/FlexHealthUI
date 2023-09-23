@@ -102,9 +102,10 @@
                         </div>
 
                         <div class="row" *ngIf="userType == 'doctor'">
-                            <div class="form-group col-md-2 mt-md-4">
+                            <div class="form-group col-md-2">
+                                <label for="crm">Tipo de Registro</label>
                                 <input disabled type="text" class="form-control text-align-center"
-                                    style="text-align: center;" value="CRM-">
+                                    style="text-align: center;" value="{{f.crm.value.split('-')[0]}}">
                             </div>
 
                             <div class="form-group col-md-2">
@@ -119,8 +120,8 @@
                             </div>
 
                             <div class="form-group col-md-2">
-                                <label for="crm">CRM</label>
-                                <input formControlName="crm" type="text" class="form-control" maxlength="6"
+                                <label for="crm">N° Registro</label>
+                                <input type="text" disabled value="{{f.crm.value.split('/')[1]}}" class="form-control" maxlength="6"
                                     [ngClass]="{'is-invalid': f.crm.errors && f.crm.touched}" id="crm">
                                 <div *ngIf="f.crm.errors?.required" class="invalid-feedback">
                                     CRM é obrigatório.
