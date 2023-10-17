@@ -67,7 +67,7 @@
               <th>Hora</th>
               <th class="d-none d-md-table-cell">Especialidade</th>
               <th class="d-none d-md-table-cell">Tipo</th>
-              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}</th>
+              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Profissional'}}</th>
               <th>Valor</th>
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
@@ -118,7 +118,7 @@
               <th>Hora</th>
               <th class="d-none d-md-table-cell">Especialidade</th>
               <th class="d-none d-md-table-cell">Tipo</th>
-              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor'}}</th>
+              <th class="d-none d-md-table-cell">{{func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Profissional'}}</th>
               <th>Valor</th>
               <th class="d-none d-md-table-cell">Status</th>
             </tr>
@@ -259,7 +259,7 @@
       <div class="details-section">
         <div class="row">
           <div class="col-md-4">
-            <h6>Nome do {{ func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Doutor' }}</h6>
+            <h6>Nome do {{ func == 'getSchedulesByDoctorId' ? 'Paciente' : 'Profissional' }}</h6>
             <p>
               {{
               func == 'getSchedulesByDoctorId'
@@ -274,12 +274,17 @@
             <h6>Idade</h6>
             <p>{{ getAge(selectedSchedule.usuario.nascimento) }}</p>
           </div>
+          <div class="col-md-3" *ngIf="func == 'getSchedulesByDoctorId'">
+            <h6>Telefone para contato</h6>
+            <p>{{ selectedSchedule.usuario.phoneNumber }}</p>
+          </div>
           <div class="col-md-3" *ngIf="func != 'getSchedulesByDoctorId'">
             <h6>Estabelecimento</h6>
             <p>{{ selectedSchedule.estabelecimento.nome.split(' ')[0] + ' ' +
               selectedSchedule.estabelecimento.nome.split(' ')[selectedSchedule.estabelecimento.nome.split(' ').length -
               1] }}</p>
           </div>
+          
           <div class="col-md-5" *ngIf="func != 'getSchedulesByDoctorId'">
             <h6>Endereço</h6>
             <div class="row">

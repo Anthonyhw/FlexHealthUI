@@ -100,7 +100,7 @@
                       </th>
                       <th>Data</th>
                       <th>Hora</th>
-                      <th class="d-none d-md-table-cell">Doutor</th>
+                      <th class="d-none d-md-table-cell">Profissional</th>
                       <th class="d-none d-md-table-cell">Especialidade</th>
                       <th>Valor</th>
                     </tr>
@@ -161,7 +161,7 @@
                 Telefone: {{getStablishment().phoneNumber}}
               </div>
               <br>
-              <div *ngIf="doctor" class="row information">Médico: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
+              <div *ngIf="doctor" class="row information">Profissional: {{doctor.nome.split(' ')[0]}} {{doctor.nome.split('
                 ')[doctor.nome.split(' ').length-1]}}</div>
               <div class="row information">Horário: {{selectedHour.dataConsulta.substring(3,
                 5)}}/{{selectedHour.dataConsulta.substring(0, 2)}}/{{selectedHour.dataConsulta.substring(6, 10)}}
